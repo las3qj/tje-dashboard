@@ -22,6 +22,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
+// getAll routes
+
 app.get('/teachers', (req, res) => {
     getAll("teacher").then(resp => res.json(resp));
 })
@@ -38,12 +40,35 @@ app.get('/events', (req, res) => {
     getAll("event").then(resp => res.json(resp));
 })
 
-app.post('/teacher', (req, res) => {
+// post routes
+
+app.post('/teachers', (req, res) => {
     const firstName = req.query.firstName;
     const lastName = req.query.lastName;
     const classes = req.query.classes;
-    db.collection("teacher").add({firstName, lastName, classes})
-    postTeacher(firstName, lastName, classes).then(resp => res.sendStatus(200).end());
+    db.collection("teacher").add({firstName, lastName, classes}).then(resp => res.sendStatus(200).end());
+})
+
+app.post('/students', (req, res) => {
+    const firstName = req.query.firstName;
+    const lastName = req.query.lastName;
+    const classes = req.query.classes;
+    const birthday = req.query.birthday;
+    db.collection("student").add({firstName, lastName, classes, birthday}).then(resp => res.sendStatus(200).end());
+})
+
+app.post('/classes', (req, res) => {
+    const name = req.query.name;
+    const students = req.query.students;
+    const teacherID = req.query.teacherID;
+    db.collection("class").add({name, students, teacherID}).then(resp => res.sendStatus(200).end());
+})
+
+app.post('/events', (req, res) => {
+    const name = req.query.name;
+    const date = req.query.date;
+    const desc = req.query.desc;
+    db.collection("event").add({name, date, desc}).then(resp => res.sendStatus(200).end());
 })
 
 app.listen(port, () => {
