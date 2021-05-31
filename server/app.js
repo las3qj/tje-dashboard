@@ -6,44 +6,16 @@ app.use(express.json());
 app.use(cors({origin: true}));
 const port = 8000;
 
-const getAllTeachers = async () => {
-    const snapshot = await db.collection("teacher").get();
-    const teachers = [];
-    snapshot.forEach(doc => {
-        const teacher = {...doc.data(), id: doc.id};
-        teachers.push(teacher);
-    });
-    return teachers;
-}
+// getAll method
 
-const getAllClasses = async () => {
-    const snapshot = await db.collection("class").get();
-    const classes = [];
+const getAll = async (collection) => {
+    const snapshot = await db.collection(collection).get();
+    const all = []
     snapshot.forEach(doc => {
-        const c = {...doc.data(), id: doc.id};
-        classes.push(c);
+        const each = {...doc.data(), id: doc.id};
+        all.push(each);
     });
-    return classes;
-}
-
-const getAllStudents = async () => {
-    const snapshot = await db.collection("student").get();
-    const students = [];
-    snapshot.forEach(doc => {
-        const student = {...doc.data(), id: doc.id};
-        students.push(student);
-    });
-    return students;
-}
-
-const getAllEvents = async () => {
-    const snapshot = await db.collection("event").get();
-    const events = [];
-    snapshot.forEach(doc => {
-        const event = {...doc.data(), id: doc.id};
-        events.push(event);
-    });
-    return events;
+    return all;
 }
 
 app.get('/', (req, res) => {
@@ -51,19 +23,27 @@ app.get('/', (req, res) => {
 })
 
 app.get('/teachers', (req, res) => {
-    getAllTeachers().then(resp => res.json(resp));
+    getAll("teacher").then(resp => res.json(resp));
 })
 
 app.get('/students', (req, res) => {
-    getAllStudents().then(resp => res.json(resp));
+    getAll("student").then(resp => res.json(resp));
 })
 
 app.get('/classes', (req, res) => {
-    getAllClasses().then(resp => res.json(resp));
+    getAll("class").then(resp => res.json(resp));
 })
 
 app.get('/events', (req, res) => {
-    getAllEvents().then(resp => res.json(resp));
+    getAll("event").then(resp => res.json(resp));
+})
+
+app.post('/teacher', (req, res) => {
+    const firstName = req.query.firstName;
+    const lastName = req.query.lastName;
+    const classes = req.query.classes;
+    db.collection("teacher").add({firstName, lastName, classes})
+    postTeacher(firstName, lastName, classes).then(resp => res.sendStatus(200).end());
 })
 
 app.listen(port, () => {
