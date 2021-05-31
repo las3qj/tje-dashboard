@@ -18,6 +18,8 @@ const getAll = async (collection) => {
     return all;
 }
 
+// dummy home route
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 })
@@ -69,6 +71,28 @@ app.post('/events', (req, res) => {
     const date = req.query.date;
     const desc = req.query.desc;
     db.collection("event").add({name, date, desc}).then(resp => res.sendStatus(200).end());
+})
+
+// delete routes
+
+app.delete('/teachers', (req, res) => {
+    const id = req.query.id;
+    db.collection("teacher").doc(id).delete().then(resp => res.sendStatus(200).end());
+})
+
+app.delete('/students', (req, res) => {
+    const id = req.query.id;
+    db.collection("student").doc(id).delete().then(resp => res.sendStatus(200).end());
+})
+
+app.delete('/classes', (req, res) => {
+    const id = req.query.id;
+    db.collection("class").doc(id).delete().then(resp => res.sendStatus(200).end());
+})
+
+app.delete('/events', (req, res) => {
+    const id = req.query.id;
+    db.collection("event").doc(id).delete().then(resp => res.sendStatus(200).end());
 })
 
 app.listen(port, () => {
