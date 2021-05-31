@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const db = require('./firebase');
 app.use(express.json());
 app.use(cors({origin: true}));
 const port = 8000;
