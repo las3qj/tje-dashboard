@@ -1,4 +1,5 @@
-import {Card, Grid, TextField} from '@material-ui/core' 
+import {Card, Grid, TextField, IconButton} from '@material-ui/core' 
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React,{useEffect, useState} from 'react'
 function PersonCard({person,edit,save,setSave}){
 
@@ -19,6 +20,13 @@ function PersonCard({person,edit,save,setSave}){
       body: JSON.stringify({id,firstName,lastName,birthday,classes})
     })
 
+  })
+
+  const removePerson=(()=>{
+    fetch("http://localhost:8000/teachers?"+"id="+person.id, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    }).then(()=>{window.location.reload();})
   })
 
   useEffect(()=>{
@@ -79,8 +87,15 @@ function PersonCard({person,edit,save,setSave}){
         }} id="outlined-basic" label="Date of Birth" size="small" variant="outlined" defaultValue={dob}/>
             </div>):<p style={{textAlign:"center",fontSize:18}}>{dob}</p>}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={edit?5:6}>
             <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
+            </Grid>
+            <Grid item xs={1}>
+            <IconButton onClick={()=>{
+              removePerson();
+            }}>
+              <HighlightOffIcon/>
+            </IconButton>
             </Grid>
             </Grid>
             </Card>

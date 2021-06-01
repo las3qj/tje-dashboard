@@ -76,6 +76,7 @@ app.post('/events', (req, res) => {
 // delete routes
 
 app.delete('/teachers', (req, res) => {
+    
     const id = req.query.id;
     db.collection("teacher").doc(id).delete().then(resp => res.sendStatus(200).end());
 })
