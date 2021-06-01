@@ -16,6 +16,7 @@ function App() {
         <Route path="/calendar" component={CalendarPage} />
         <Route component={ErrorComponent} />
       </Switch>
+
     </div>
   );
 }
