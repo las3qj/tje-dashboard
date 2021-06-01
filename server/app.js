@@ -103,19 +103,20 @@ app.listen(port, () => {
 // put routes
 
 app.put('/teachers', (req, res) => {
-    const id = req.query.id;
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
-    db.collection("teacher").doc(id).set({firstName, lastName, classes}).then(resp => res.sendStatus(200).end());
+    const id = req.body.id;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
+    const birthday = req.body.birthday;
+    db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday}).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
-    const id = req.query.id;
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
-    const birthday = req.query.birthday;
+    const id = req.body.id;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
+    const birthday = req.body.birthday;
     db.collection("student").doc(id).set({firstName, lastName, classes, birthday}).then(resp => res.sendStatus(200).end());
 })
 

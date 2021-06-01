@@ -8,6 +8,7 @@ function TeacherDirectory(){
     const [edit,setEdit] = useState(false);
     const [save,setSave] = useState(false);
     console.log(teachers)
+    console.log(save);
 
     const getTeachers=(()=>{
         fetch("http://localhost:8000/teachers")
@@ -38,7 +39,7 @@ function TeacherDirectory(){
         <Grid container spacing={1} style={{justifyContent:"center"}}>
         {teachers.map((teacher)=>{
             return(
-                <PersonCard person={teacher} edit={edit} save={save}/>
+                <PersonCard person={teacher} edit={edit} save={save} setSave={setSave}/>
             )
         })}
         </Grid>
