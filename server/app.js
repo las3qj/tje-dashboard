@@ -18,6 +18,18 @@ const getAll = async (collection) => {
     return all;
 }
 
+//getMap method
+
+const getMap = async (collection) => {
+    const snapshot = await db.collection(collection).get();
+    const map = {};
+    snapshot.forEach(doc => {
+        const each = {...doc.data()};
+        map[doc.id] = each;
+    });
+    return map;
+}
+
 // dummy home route
 
 app.get('/', (req, res) => {
@@ -41,6 +53,25 @@ app.get('/classes', (req, res) => {
 app.get('/events', (req, res) => {
     getAll("event").then(resp => res.json(resp));
 })
+
+// getMap routes
+
+app.get('/teachers/map', (req, res) => {
+    getMap('teacher').then(resp => res.json(resp));
+})
+
+app.get('/students/map', (req, res) => {
+    getMap('student').then(resp => res.json(resp));
+})
+
+app.get('/classes/map', (req, res) => {
+    getMap('class').then(resp => res.json(resp));
+})
+
+app.get('/events/map', (req, res) => {
+    getMap('event').then(resp => res.json(resp));
+})
+
 
 // post routes
 
@@ -108,34 +139,41 @@ app.listen(port, () => {
 // put routes
 
 app.put('/teachers', (req, res) => {
-    const id = req.query.id;
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
+    const id = req.body.id;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
     db.collection("teacher").doc(id).set({ firstName, lastName, classes }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
-    const id = req.query.id;
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
-    const birthday = req.query.birthday;
+    const id = req.body.id;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
+    const birthday = req.body.birthday;
     db.collection("student").doc(id).set({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
-    const id = req.query.id;
-    const name = req.query.name;
-    const students = req.query.students;
-    const teacherID = req.query.teacherID;
+    const id = req.body.id;
+    const name = req.body.name;
+    const students = req.body.students;
+    const teacherID = req.body.teacherID;
     db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/events', (req, res) => {
-    const id = req.query.id;
-    const name = req.query.name;
-    const date = req.query.date;
-    const desc = req.query.desc;
+    const id = req.body.id;
+    const name = req.body.name;
+    const date = req.body.date;
+    const desc = req.body.desc;
     db.collection("event").doc(id).set({ name, date, desc }).then(resp => res.sendStatus(200).end());
+})
+
+// composite routes
+
+app.get('/class-dash', async (req, res) => {
+    const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
+    res.json({classes, studentMap, teacherMap});
 })

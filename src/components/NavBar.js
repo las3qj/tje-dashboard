@@ -12,8 +12,9 @@ export default function NavBar() {
             <AppBar position="static">
                 <div style={{ display: "flex" }}>
                     <Tab label="Home" value={0} onClick={() => { history.push("/") }} />
-                    <Tab label="Student Directory" value={1} onClick={() => { history.push("/student-directory") }} />
-                    <Tab label="Item Three" value={2} />
+                    <Tab label="Class Dashboard" value={1} onClick={() => history.push("/class-dashboard")} />
+                    <Tab label="Student Directory" value={2} onClick={() => { history.push("/student-directory") }} />
+                    <Tab label="Item Three" value={3} />
                 </div>
             </AppBar>
         </div>
