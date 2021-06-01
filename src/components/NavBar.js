@@ -17,7 +17,7 @@ export default function NavBar() {
                     <Tab label="Home" value={0} onClick={() => { history.push("/") }} />
                     <Tab label="Class Dashboard" value={1} onClick={() => history.push("/class-dashboard")} />
                     <Tab label="Student Directory" value={2} onClick={() => { history.push("/student-directory") }} />
-                    <Tab label="Calendar" onClick={() => history.push("/calendar")} />
+                    <Tab label="Calendar" value={3} onClick={() => history.push("/calendar")} />
                 </div>
             </AppBar>
         </div>
