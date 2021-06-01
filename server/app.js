@@ -24,7 +24,7 @@ const getMap = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const map = {};
     snapshot.forEach(doc => {
-        const each = {...doc.data()};
+        const each = { ...doc.data() };
         map[doc.id] = each;
     });
     return map;
@@ -175,5 +175,5 @@ app.put('/events', (req, res) => {
 
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
-    res.json({classes, studentMap, teacherMap});
+    res.json({ classes, studentMap, teacherMap });
 })

@@ -49,7 +49,7 @@ export default function AddPersonForm(props) {
         axios.post(url, {
             firstName,
             lastName,
-            classes: homeroom,
+            classes: [homeroom],
             birthday,
             address,
             phone
