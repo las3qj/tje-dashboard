@@ -49,7 +49,9 @@ app.post('/teachers', (req, res) => {
     const lastName = req.body.lastName;
     const classes = req.body.classes;
     const birthday = req.body.birthday;
-    db.collection("teacher").add({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
+    const address = req.body.address;
+    const phone = req.body.phone
+    db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/students', (req, res) => {
@@ -57,7 +59,9 @@ app.post('/students', (req, res) => {
     const lastName = req.body.lastName;
     const classes = req.body.classes;
     const birthday = req.body.birthday;
-    db.collection("student").add({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
+    const address = req.body.address;
+    const phone = req.body.phone
+    db.collection("student").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/classes', (req, res) => {

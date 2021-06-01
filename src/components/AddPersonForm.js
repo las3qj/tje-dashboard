@@ -41,7 +41,7 @@ export default function AddPersonForm(props) {
         const axios = require('axios');
         let url = ""
         if (props.personType == "student") {
-            url = 'http://localhost:8000/teachers'
+            url = 'http://localhost:8000/students'
         }
         else {
             url = 'http://localhost:8000/teachers'
