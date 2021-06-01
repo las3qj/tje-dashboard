@@ -11,14 +11,15 @@ const useStyles = makeStyles({
     },
   });
 
-function ClassItem ({myClass, teacherMap}) {
+function ClassItem ({myClass, teacherMap, user}) {
     const classes = useStyles();
     return(
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
                     {myClass.name}
-                    <Button className={classes.classPageButton} onClick={(e)=>e.stopPropagation()} variant="contained">Class Page</Button>
+                    <Button className={classes.classPageButton} disabled={!user.admin && user.teacherID!==myClass.teacherID}
+                        onClick={(e)=>e.stopPropagation()} variant="contained">Class Page</Button>
                 </Typography>
                 <Typography variant="h6" component="h3">
                     {teacherMap[myClass.teacherID].lastName}, {teacherMap[myClass.teacherID].firstName}
