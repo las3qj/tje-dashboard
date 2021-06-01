@@ -76,7 +76,7 @@ export default function AddPersonForm(props) {
                         &times;
                      </button>
                     <div className="header"> Add a {props.personType} </div>
-                    <div className="content">
+                    <div className="content" style={{ display: "flex" }}>
 
                         <TextField id="my-input" value={firstName} label="First Name" onChange={(e) => { setFirstName(e.target.value) }} />
                         <TextField id="my-input" value={lastName} label="Last Name" onChange={(e) => { setLastName(e.target.value) }} />
