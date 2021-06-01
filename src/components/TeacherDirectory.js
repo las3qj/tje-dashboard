@@ -29,7 +29,7 @@ function TeacherDirectory(){
     return (
         <div>
         <div style={{display:"flex",justifyContent:"center"}}>
-        <h1 style={{textAlign:"center"}}>Teacher Directory.</h1>
+        <h1 style={{textAlign:"center"}}>Welcome to the Teacher Directory.</h1>
         <AddPersonForm personType="teacher" style={{ width: "20%" }} />
         <Button onClick={()=>{
             setEdit(!edit);
