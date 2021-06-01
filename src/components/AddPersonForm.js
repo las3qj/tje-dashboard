@@ -41,7 +41,7 @@ export default function AddPersonForm(props) {
         const axios = require('axios');
         let url = ""
         if (props.personType == "student") {
-            url = 'http://localhost:8000/teachers'
+            url = 'http://localhost:8000/students'
         }
         else {
             url = 'http://localhost:8000/teachers'
@@ -65,7 +65,7 @@ export default function AddPersonForm(props) {
 
     return (
         <Popup
-            trigger={<button className="button"> Add a {props.personType} </button>}
+            trigger={<Button className="button"> Add a {props.personType} </Button>}
 
             modal
             nested
