@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PinDropSharp } from '@material-ui/icons';
 import Input from '@material-ui/core/Input';
 import { FormControl, InputLabel, FormHelperText, Button, TextField } from '@material-ui/core';
-import {Autocomplete} from '@material-ui/lab';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import '../App.css';
 
 
