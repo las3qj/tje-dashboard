@@ -175,5 +175,9 @@ app.put('/events', (req, res) => {
 
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
+
+
     res.json({ classes, studentMap, teacherMap });
+
+
 })
