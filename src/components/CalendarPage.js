@@ -65,7 +65,7 @@ function CalendarPage() {
           }}
         >
           {events.map((item) => (
-            <CalendarCard event={item} key={item.id} />
+            <CalendarCard event={item} key={item.id} setEvents={setEvents} />
           ))}
         </div>
       )}
