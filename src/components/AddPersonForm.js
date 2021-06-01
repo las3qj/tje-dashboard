@@ -65,7 +65,7 @@ export default function AddPersonForm(props) {
 
     return (
         <Popup
-            trigger={<button className="button"> Add a {props.personType} </button>}
+            trigger={<Button className="button"> Add a {props.personType} </Button>}
 
             modal
             nested

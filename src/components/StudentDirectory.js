@@ -46,8 +46,9 @@ export default function StudentDirectory() {
             <NavBar />
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ width: "20%" }}>
-                    <AddPersonForm personType="student" style={{ width: "20%" }} />
+
                     <h1 style={{ textAlign: "center" }}>Student Directory.</h1>
+                    <AddPersonForm personType="student" style={{ width: "20%" }} />
                     <Button onClick={() => {
                         setEdit(!edit);
                     }}>Edit</Button>
