@@ -13,9 +13,11 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (e.target.date.value === "") return false;
+
     const dateElements = e.target.date.value.split("-");
     const date =
       dateElements[1] + "/" + dateElements[2] + "/" + dateElements[0];
+
     await axios.post("http://localhost:8000/events", null, {
       params: {
         name: e.target.name.value,
@@ -23,9 +25,11 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
         date: date,
       },
     });
+
     getCalendarEvents(setEvents);
     setOpen(false);
   };
+
   return (
     <Dialog
       open={open}
@@ -34,6 +38,7 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
       disableEscapeKeyDown
     >
       <DialogTitle>Add Calendar Event</DialogTitle>
+
       <DialogContent>
         <form id="addEventForm" onSubmit={handleSubmit}>
           <TextField
@@ -61,6 +66,7 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
           />
         </form>
       </DialogContent>
+
       <DialogActions>
         <Button color="primary" onClick={() => setOpen(false)}>
           Cancel
@@ -70,7 +76,6 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
           variant="contained"
           type="submit"
           form="addEventForm"
-          // onClick={() => setOpen(false)}
         >
           Add
         </Button>

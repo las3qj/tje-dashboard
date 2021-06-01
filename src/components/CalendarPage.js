@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import CalendarCard from "./CalendarCard";
 import AddCalendarEventDialog from "./AddCalendarEventDialog";
 import { getCalendarEvents, convertDate } from "../utils/CalendarUtils";
+import CalendarView from "./CalendarView";
 
 function CalendarPage() {
   const [events, setEvents] = useState();
@@ -30,17 +31,16 @@ function CalendarPage() {
         setEvents={setEvents}
       />
 
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={() => setAddEventActive(true)}
-        style={{ marginRight: "1%" }}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          width: "50%",
+          gap: "2%",
+          margin: "auto",
+        }}
       >
-        Add Event
-      </Button>
-
-      {view === "list" && (
-        <>
+        {view === "list" && (
           <Button
             variant="outlined"
             color="primary"
@@ -48,42 +48,54 @@ function CalendarPage() {
           >
             View as Calendar
           </Button>
+        )}
+
+        {view === "calendar" && (
           <Button
             variant="outlined"
             color="primary"
-            style={{ marginLeft: "1%" }}
+            onClick={() => setView("list")}
+          >
+            View as List
+          </Button>
+        )}
+
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => setAddEventActive(true)}
+        >
+          Add Event
+        </Button>
+
+        {view === "list" && (
+          <Button
+            variant="outlined"
+            color="primary"
             onClick={() => setShowPastEvents((show) => !show)}
           >
             {showPastEvents ? "Hide Past Events" : "Show Past Events"}
           </Button>
-        </>
-      )}
+        )}
+      </div>
 
-      {view === "calendar" && (
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => setView("list")}
-        >
-          View as List
-        </Button>
-      )}
-
-      {view === "list" && events && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            marginTop: "2%",
-            gap: "1%",
-          }}
-        >
-          {displayedEvents.map((item) => (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          marginTop: "2%",
+          gap: "1%",
+        }}
+      >
+        {view === "list" &&
+          events &&
+          displayedEvents.map((item) => (
             <CalendarCard event={item} key={item.id} setEvents={setEvents} />
           ))}
-        </div>
-      )}
+
+        {view === "calendar" && events && <CalendarView events={events} />}
+      </div>
     </div>
   );
 }

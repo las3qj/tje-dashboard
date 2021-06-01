@@ -21,6 +21,7 @@ function CalendarCard({ event, setEvents }) {
       <p>{formatDate(convertDate(event.date))}</p>
       <p style={{ fontWeight: "bold" }}>{event.name}</p>
       <p>{event.desc}</p>
+
       <Button
         color="secondary"
         onClick={() => {
