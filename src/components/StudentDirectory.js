@@ -2,7 +2,7 @@ import NavBar from "./NavBar"
 import { useEffect, useState } from 'react';
 import AddPersonForm from "./AddPersonForm"
 import { makeStyles } from '@material-ui/core/styles';
-
+import '../App.css';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
