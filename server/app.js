@@ -18,6 +18,18 @@ const getAll = async (collection) => {
     return all;
 }
 
+//getMap method
+
+const getMap = async (collection) => {
+    const snapshot = await db.collection(collection).get();
+    const map = {};
+    snapshot.forEach(doc => {
+        const each = {...doc.data()};
+        map[doc.id] = each;
+    });
+    return map;
+}
+
 // dummy home route
 
 app.get('/', (req, res) => {
@@ -41,6 +53,25 @@ app.get('/classes', (req, res) => {
 app.get('/events', (req, res) => {
     getAll("event").then(resp => res.json(resp));
 })
+
+// getMap routes
+
+app.get('/teachers/map', (req, res) => {
+    getMap('teacher').then(resp => res.json(resp));
+})
+
+app.get('/students/map', (req, res) => {
+    getMap('student').then(resp => res.json(resp));
+})
+
+app.get('/classes/map', (req, res) => {
+    getMap('class').then(resp => res.json(resp));
+})
+
+app.get('/events/map', (req, res) => {
+    getMap('event').then(resp => res.json(resp));
+})
+
 
 // post routes
 
