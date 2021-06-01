@@ -20,7 +20,7 @@ export default function NavBar() {
                     centered
                 >
                     <Tab label="Home" onClick={() => { history.push("/") }} />
-                    <Tab label="Item Two" />
+                    <Tab label="Student Directory" onClick={() => { history.push("/student-directory") }} />
                     <Tab label="Item Three" />
                 </Tabs>
             </AppBar>
