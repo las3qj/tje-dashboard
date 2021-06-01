@@ -3,7 +3,7 @@ const cors = require('cors');
 const db = require('./firebase');
 const app = express();
 app.use(express.json());
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 const port = 8000;
 
 // getAll method
@@ -12,7 +12,7 @@ const getAll = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const all = []
     snapshot.forEach(doc => {
-        const each = {...doc.data(), id: doc.id};
+        const each = { ...doc.data(), id: doc.id };
         all.push(each);
     });
     return all;
@@ -45,32 +45,33 @@ app.get('/events', (req, res) => {
 // post routes
 
 app.post('/teachers', (req, res) => {
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
-    db.collection("teacher").add({firstName, lastName, classes}).then(resp => res.sendStatus(200).end());
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
+    const birthday = req.body.birthday;
+    db.collection("teacher").add({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/students', (req, res) => {
-    const firstName = req.query.firstName;
-    const lastName = req.query.lastName;
-    const classes = req.query.classes;
-    const birthday = req.query.birthday;
-    db.collection("student").add({firstName, lastName, classes, birthday}).then(resp => res.sendStatus(200).end());
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const classes = req.body.classes;
+    const birthday = req.body.birthday;
+    db.collection("student").add({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/classes', (req, res) => {
-    const name = req.query.name;
-    const students = req.query.students;
-    const teacherID = req.query.teacherID;
-    db.collection("class").add({name, students, teacherID}).then(resp => res.sendStatus(200).end());
+    const name = req.body.name;
+    const students = req.body.students;
+    const teacherID = req.body.teacherID;
+    db.collection("class").add({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/events', (req, res) => {
-    const name = req.query.name;
-    const date = req.query.date;
-    const desc = req.query.desc;
-    db.collection("event").add({name, date, desc}).then(resp => res.sendStatus(200).end());
+    const name = req.body.name;
+    const date = req.body.date;
+    const desc = req.body.desc;
+    db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
 
 // delete routes
@@ -107,7 +108,7 @@ app.put('/teachers', (req, res) => {
     const firstName = req.query.firstName;
     const lastName = req.query.lastName;
     const classes = req.query.classes;
-    db.collection("teacher").doc(id).set({firstName, lastName, classes}).then(resp => res.sendStatus(200).end());
+    db.collection("teacher").doc(id).set({ firstName, lastName, classes }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
@@ -116,7 +117,7 @@ app.put('/students', (req, res) => {
     const lastName = req.query.lastName;
     const classes = req.query.classes;
     const birthday = req.query.birthday;
-    db.collection("student").doc(id).set({firstName, lastName, classes, birthday}).then(resp => res.sendStatus(200).end());
+    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
@@ -124,7 +125,7 @@ app.put('/classes', (req, res) => {
     const name = req.query.name;
     const students = req.query.students;
     const teacherID = req.query.teacherID;
-    db.collection("class").doc(id).set({name, students, teacherID}).then(resp => res.sendStatus(200).end());
+    db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/events', (req, res) => {
@@ -132,5 +133,5 @@ app.put('/events', (req, res) => {
     const name = req.query.name;
     const date = req.query.date;
     const desc = req.query.desc;
-    db.collection("event").doc(id).set({name, date, desc}).then(resp => res.sendStatus(200).end());
+    db.collection("event").doc(id).set({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
