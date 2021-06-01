@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import ErrorComponent from "./components/ErrorComponent"
 import ClassDashboard from './components/ClassDashboard';
 import CalendarPage from "./components/CalendarPage";
+import ClassPage from './components/ClassPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/student-directory' component={StudentDirectory} />
         <Route path='/class-dashboard' component={ClassDashboard} />
         <Route path="/calendar" component={CalendarPage} />
+        <Route path="/class-page/:id" component={ClassPage}/>
         <Route component={ErrorComponent} />
       </Switch>
 

@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   }));
 
 function ClassDashboard () {
-    const [user, setUser] = useState({admin: false, teacherID: "TKEHXtc3UWtsQ2aHYJV0"});
+    const [user, setUser] = useState({admin: true, teacherID: "TKEHXtc3UWtsQ2aHYJV0"});
     const [classes, setClasses] = useState([]);
     const [selectedClass, setSelectedClass] = useState(undefined);
     const [studentMap, setStudentMap] = useState(undefined);
@@ -54,8 +54,8 @@ function ClassDashboard () {
                 setClasses(res.classes);
                 setStudentMap(res.studentMap);
                 setTeacherMap(res.teacherMap);
-                setChanges(false);
             });
+            setChanges(false);
         }
     }, [changes]);
 

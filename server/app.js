@@ -6,6 +6,19 @@ app.use(express.json());
 app.use(cors({ origin: true }));
 const port = 8000;
 
+
+//get method
+
+const get = async (collection, id) => {
+    const ref = db.collection(collection).doc(id);
+    const doc = await ref.get();
+    if(!doc.exists) {
+        console.log('no such doc');
+        return undefined;
+    }
+    return {...doc.data()};
+}
+
 // getAll method
 
 const getAll = async (collection) => {
@@ -176,5 +189,10 @@ app.put('/events', (req, res) => {
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
     res.json({classes, studentMap, teacherMap});
+})
 
+app.get('/class-page', async (req, res) => {
+    const id = req.query.id;
+    const [myClass, studentMap] = await Promise.all([get('class', id), getMap('student')]);
+    res.json({myClass, studentMap});
 })
