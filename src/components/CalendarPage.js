@@ -3,12 +3,17 @@ import { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import CalendarCard from "./CalendarCard";
 import AddCalendarEventDialog from "./AddCalendarEventDialog";
-import { getCalendarEvents } from "../utils/CalendarUtils";
+import { getCalendarEvents, convertDate } from "../utils/CalendarUtils";
 
 function CalendarPage() {
   const [events, setEvents] = useState();
   const [view, setView] = useState("list");
   const [addEventActive, setAddEventActive] = useState(false);
+  const [showPastEvents, setShowPastEvents] = useState(true);
+  const displayedEvents = showPastEvents
+    ? events
+    : events.filter((event) => convertDate(event.date) > Date.now());
+
   useEffect(() => {
     getCalendarEvents(setEvents);
   }, []);
@@ -35,13 +40,23 @@ function CalendarPage() {
       </Button>
 
       {view === "list" && (
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => setView("calendar")}
-        >
-          View as Calendar
-        </Button>
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => setView("calendar")}
+          >
+            View as Calendar
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{ marginLeft: "1%" }}
+            onClick={() => setShowPastEvents((show) => !show)}
+          >
+            {showPastEvents ? "Hide Past Events" : "Show Past Events"}
+          </Button>
+        </>
       )}
 
       {view === "calendar" && (
@@ -64,7 +79,7 @@ function CalendarPage() {
             gap: "1%",
           }}
         >
-          {events.map((item) => (
+          {displayedEvents.map((item) => (
             <CalendarCard event={item} key={item.id} setEvents={setEvents} />
           ))}
         </div>
