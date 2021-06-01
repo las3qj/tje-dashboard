@@ -4,7 +4,7 @@ import PersonCard from './PersonCard'
 import {Grid, Button} from '@material-ui/core' 
 import AddPersonForm from './AddPersonForm'
 function TeacherDirectory(){
-
+    const personType = "teacher";
     const [teachers,setTeachers] = useState([]);
     const [edit,setEdit] = useState(false);
     const [save,setSave] = useState(false);
@@ -41,7 +41,7 @@ function TeacherDirectory(){
         <Grid container spacing={1} style={{justifyContent:"center"}}>
         {teachers.map((teacher)=>{
             return(
-                <PersonCard person={teacher} edit={edit} save={save} setSave={setSave}/>
+                <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
             )
         })}
         </Grid>

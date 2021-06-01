@@ -1,7 +1,7 @@
 import {Card, Grid, TextField, IconButton} from '@material-ui/core' 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React,{useEffect, useState} from 'react'
-function PersonCard({person,edit,save,setSave}){
+function PersonCard({personType,person,edit,save,setSave}){
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
@@ -14,20 +14,37 @@ function PersonCard({person,edit,save,setSave}){
     const id=person.id;
     const classes = person.classes
 
-    fetch("http://localhost:8000/teachers", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({id,firstName,lastName,birthday,classes})
-    })
-
+    if(personType==="teacher"){
+      fetch("http://localhost:8000/teachers", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id,firstName,lastName,birthday,classes})
+      })
+    }
+    else{
+      fetch("http://localhost:8000/students", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id,firstName,lastName,birthday,classes})
+      })
+    }
   })
 
   const removePerson=(()=>{
-    fetch("http://localhost:8000/teachers?"+"id="+person.id, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    }).then(()=>{window.location.reload();})
+    if(personType==="teacher"){
+      fetch("http://localhost:8000/teachers?"+"id="+person.id, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }).then(()=>{window.location.reload();})
+    }
+    else{
+      fetch("http://localhost:8000/students?"+"id="+person.id, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }).then(()=>{window.location.reload();})
+    }
   })
+  
 
   useEffect(()=>{
       if(save===true){
@@ -54,7 +71,7 @@ function PersonCard({person,edit,save,setSave}){
           return result;
         }
         else{
-          return "No Classes Taught"
+          return "No Classes"
   
         }
         })
