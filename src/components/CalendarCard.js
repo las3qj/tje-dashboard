@@ -10,6 +10,7 @@ function CalendarCard({ event }) {
         display: "grid",
         gridTemplateColumns: "15em 1fr 2fr",
         textAlign: "left",
+        marginBottom: ".5%",
       }}
     >
       <p>{formatDate(convertDate(event.date))}</p>

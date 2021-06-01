@@ -12,6 +12,7 @@ import axios from "axios";
 function AddCalendarEventDialog({ open, setOpen, setEvents }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (e.target.date.value === "") return false;
     const dateElements = e.target.date.value.split("-");
     const date =
       dateElements[1] + "/" + dateElements[2] + "/" + dateElements[0];
@@ -23,6 +24,7 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
       },
     });
     getCalendarEvents(setEvents);
+    setOpen(false);
   };
   return (
     <Dialog
@@ -68,7 +70,7 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
           variant="contained"
           type="submit"
           form="addEventForm"
-          onClick={() => setOpen(false)}
+          // onClick={() => setOpen(false)}
         >
           Add
         </Button>
