@@ -56,6 +56,7 @@ export default function AddPersonForm(props) {
         })
             .then((response) => {
                 console.log(response);
+                props.refresh()
 
             }, (error) => {
                 console.log(error);
