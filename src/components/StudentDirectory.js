@@ -26,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
 export default function StudentDirectory() {
     const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
+    const [classList, setClassList] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/classes")
+        .then((res)=> res.json())
+        .then((res) => setClassList(res))
+    }, [])
 
     const classes = useStyles();
     useEffect(() => {
@@ -112,7 +119,7 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} key={student.id} reload={fetchStudents} />
+                                <PersonCard person={student} key={student.id} reload={fetchStudents} classList={classList} />
 
                             ))}
                     </Grid>

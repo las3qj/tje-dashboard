@@ -1,14 +1,14 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
 import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import React,{useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import axios from "axios"
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
-function PersonCard({personType,person,reload}){
+function PersonCard({personType,person,reload,classList}){
   const { role } = useContext(UserContext);
 
   const [fName,setFName] = useState(person.firstName);
@@ -16,7 +16,6 @@ function PersonCard({personType,person,reload}){
   const [dob,setDOB] = useState(person.birthday);
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
-  const [classList,setClassList] = useState([]);
   const [edit, setEdit] = useState(false);
 
   const saveChanges = (()=>{
@@ -52,16 +51,16 @@ function PersonCard({personType,person,reload}){
     }
   })
 
-  useEffect(()=>{
-    fetch("http://localhost:8000/classes")
-      .then((resp) => {
-          return resp.json();
-          })
-          .then((obj) => {
-              setClassList(obj);
-          })
+  // useEffect(()=>{
+  //   fetch("http://localhost:8000/classes")
+  //     .then((resp) => {
+  //         return resp.json();
+  //         })
+  //         .then((obj) => {
+  //             setClassList(obj);
+  //         })
 
-  },[])
+  // },[])
 
     const formatClasses = ((classes)=>{
             if(classes){

@@ -11,11 +11,14 @@ function TeacherDirectory(){
     const { role } = useContext(UserContext);
     const personType = "teacher";
     const [teachers,setTeachers] = useState([]);
-    // const [edit,setEdit] = useState(false);
-    // const [save,setSave] = useState(false);
     const [search, setSearch] = useState("")
+    const [classList, setClassList] = useState([]);
 
     const getTeachers=(()=>{
+        fetch("http://localhost:8000/classes")
+        .then((res)=> res.json())
+        .then((res) => setClassList(res))
+
         fetch("http://localhost:8000/teachers")
         .then((resp) => {
             return resp.json();
@@ -92,7 +95,7 @@ function TeacherDirectory(){
         <Grid container spacing={1} style={{justifyContent:"center"}}>
         {teachers.map((teacher, i)=>{
             return(
-                <PersonCard personType={personType} person={teacher} reload={getTeachers} key={i}/>
+                <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={i}/>
             )
         })}
         </Grid>

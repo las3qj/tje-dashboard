@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./firebase');
-const { ControlCameraOutlined } = require('@material-ui/icons');
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: true }));
@@ -53,19 +52,16 @@ app.get('/', (req, res) => {
 // getAll routes
 
 app.get('/teachers', (req, res) => {
-    console.log(1)
     getAll("teacher").then(resp => {
         res.json(resp)
     });
 })
 
 app.get('/students', (req, res) => {
-    console.log(2)
     getAll("student").then(resp => res.json(resp));
 })
 
 app.get('/classes', (req, res) => {
-    console.log(3)
     getAll("class").then(resp => res.json(resp));
 })
 
