@@ -7,6 +7,8 @@ import { Grid, Button, TextField } from '@material-ui/core'
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -22,7 +24,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function StudentDirectory() {
+    const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
+    const [classList, setClassList] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:8000/classes")
+        .then((res)=> res.json())
+        .then((res) => setClassList(res))
+    }, [])
 
     const classes = useStyles();
     useEffect(() => {
@@ -33,9 +43,6 @@ export default function StudentDirectory() {
 
     }, [search])
     const [students, setStudents] = useState([])
-    const [edit, setEdit] = useState(false);
-    const [save, setSave] = useState(false);
-
 
     const searchStudents = (fetchedStudents) => {
         var newStudents = [...fetchedStudents]
@@ -92,13 +99,7 @@ export default function StudentDirectory() {
                 <div style={{ width: "100%" }}>
 
                     <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                    <AddPersonForm refresh={fetchStudents} personType="student" style={{ width: "20%" }} />
-                    <Button onClick={() => {
-                        setEdit(!edit);
-                    }}>Edit</Button>
-                    <Button onClick={() => {
-                        setSave(true);
-                    }}>Save</Button>
+                    {role==="admin" && (<AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />)}
                     <Button
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
@@ -118,7 +119,7 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} edit={edit} save={save} key={student.id} setSave={setSave}/>
+                                <PersonCard person={student} key={student.id} reload={fetchStudents} classList={classList} />
 
                             ))}
                     </Grid>

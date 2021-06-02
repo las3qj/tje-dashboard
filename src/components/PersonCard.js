@@ -1,25 +1,22 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
+import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import React,{useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-function PersonCard({personType,person,edit,save,setSave}){
+import axios from "axios"
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
-  const [fName,setFName] = useState(null);
-  const [lName,setLName] = useState(null);
-  const [dob,setDOB] = useState(null);
-  const [addr,setAddr] = useState(null);
-  const [number,setNumber] = useState(null);
-  const [classList,setClassList] = useState([]);
+function PersonCard({personType,person,reload,classList}){
+  const { role } = useContext(UserContext);
 
-  useEffect(()=>{
-    setFName(person.firstName)
-    setLName(person.lastName)
-    setDOB(person.birthday)
-    setAddr(person.address)
-    setNumber(person.phone)
-  })
-
+  const [fName,setFName] = useState(person.firstName);
+  const [lName,setLName] = useState(person.lastName);
+  const [dob,setDOB] = useState(person.birthday);
+  const [addr,setAddr] = useState(person.address);
+  const [number,setNumber] = useState(person.phone);
+  const [edit, setEdit] = useState(false);
 
   const saveChanges = (()=>{
     const firstName = fName;
@@ -31,19 +28,12 @@ function PersonCard({personType,person,edit,save,setSave}){
     const phone = number;
 
     if(personType==="teacher"){
-      fetch("http://localhost:8000/teachers", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
-      })
+      axios.put("http://localhost:8000/teachers", {id,firstName,lastName,birthday,classes,address,phone})
     }
     else{
-      fetch("http://localhost:8000/students", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({id,firstName,lastName,birthday,classes})
-      })
+      axios.put("http://localhost:8000/students", {id,firstName,lastName,birthday,classes,address,phone})
     }
+    setEdit(false)
   })
 
   const removePerson=(()=>{
@@ -51,34 +41,26 @@ function PersonCard({personType,person,edit,save,setSave}){
       fetch("http://localhost:8000/teachers?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
     else{
       fetch("http://localhost:8000/students?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
   })
 
-  useEffect(()=>{
-    fetch("http://localhost:8000/classes")
-      .then((resp) => {
-          return resp.json();
-          })
-          .then((obj) => {
-              setClassList(obj);
-          })
+  // useEffect(()=>{
+  //   fetch("http://localhost:8000/classes")
+  //     .then((resp) => {
+  //         return resp.json();
+  //         })
+  //         .then((obj) => {
+  //             setClassList(obj);
+  //         })
 
-  },[])
-  
-
-  useEffect(()=>{
-      if(save===true){
-        saveChanges();
-        setSave(false);
-      }
-  })
+  // },[])
 
     const formatClasses = ((classes)=>{
             if(classes){
@@ -107,34 +89,45 @@ function PersonCard({personType,person,edit,save,setSave}){
       
             }
         })
-
-    return(<div style={{padding:2,justifyContent:"center"}}>
-            <Card elevation="2" style={{width: '90vw',height: '5vw'}}>
-            <Grid container item xs={12} spacing={1}>
+    return (
+      <div style={{ padding: 2, justifyContent: "center"}}>
+        <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
+          <Grid container item xs={12} spacing={1} style={{alignItems: "center", height: "100%" }}>
             <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField  onChange={(evt)=>{
-              setLName(evt.target.value)
-              }} 
-              id="outlined-basic" label="Last Name" size="small" variant="outlined" defaultValue={lName}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{lName}</p>}
+              {edit ? (
+                <div style={{ paddingTop: 12, paddingLeft: 10 }}>
+                  <TextField
+                    onChange={(evt) => {
+                      setLName(evt.target.value);
+                    }}
+                    id="outlined-basic"
+                    label="Last Name"
+                    size="small"
+                    variant="outlined"
+                    defaultValue={lName}
+                  />
+                </div>
+              ) : (
+                <p style={{ textAlign: "center", fontSize: 18 }}>{lName}</p>
+              )}
             </Grid>
             <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField onChange={(evt)=>{
-              setFName(evt.target.value)
-              }} id="outlined-basic" label="First Name" size="small" variant="outlined" defaultValue={fName}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{fName}</p>}
-            </Grid>
-            <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField onChange={(evt)=>{
-          setDOB(evt.target.value)
-          }} id="outlined-basic" label="Date of Birth" size="small" variant="outlined" defaultValue={dob}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{dob}</p>}
+              {edit ? (
+                <div style={{ paddingTop: 12, paddingLeft: 10 }}>
+                  <TextField
+                    onChange={(evt) => {
+                      setFName(evt.target.value);
+                    }}
+                    id="outlined-basic"
+                    label="First Name"
+                    size="small"
+                    variant="outlined"
+                    value={fName}
+                  />
+                </div>
+              ) : (
+                <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
+              )}
             </Grid>
             <Grid item xs={2}>
               <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
@@ -150,18 +143,34 @@ function PersonCard({personType,person,edit,save,setSave}){
                 </div>
               </Popup>
             </Grid>
-            <Grid item xs={edit?3:4}>
+            <Grid item xs={4}>
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
-            <Grid item xs={1}>
-              {edit&&<IconButton onClick={()=>{
-                removePerson();
-              }}>
-                <HighlightOffIcon/>
-              </IconButton>}
-            </Grid>
-            </Grid>
-            </Card>
-        </div>)
+
+            {role === "admin" && (
+              <>
+                <Grid item xs={1}>
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removePerson();
+                    }}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={1}>
+                  {edit ? (
+                    <Button onClick={() => saveChanges()}>Save</Button>
+                  ) : (
+                    <Button onClick={() => setEdit(true)}>Edit</Button>
+                  )}
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </Card>
+      </div>
+    );
 }
 export default PersonCard;

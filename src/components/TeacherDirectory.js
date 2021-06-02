@@ -4,17 +4,23 @@ import PersonCard from './PersonCard'
 import {Grid, Button,TextField} from '@material-ui/core' 
 import AddPersonForm from './AddPersonForm'
 import NavBar from "./NavBar";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 
 function TeacherDirectory(){
+    const { role } = useContext(UserContext);
     const personType = "teacher";
     const [teachers,setTeachers] = useState([]);
-    const [edit,setEdit] = useState(false);
-    const [save,setSave] = useState(false);
     const [search, setSearch] = useState("")
+    const [classList, setClassList] = useState([]);
 
     const getTeachers=(()=>{
+        fetch("http://localhost:8000/classes")
+        .then((res)=> res.json())
+        .then((res) => setClassList(res))
+
         fetch("http://localhost:8000/teachers")
         .then((resp) => {
             return resp.json();
@@ -70,8 +76,6 @@ function TeacherDirectory(){
         })
         setTeachers(newTeachers)
     }
-
-
     
     return (
         <div>
@@ -79,12 +83,7 @@ function TeacherDirectory(){
             <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
             <div style={{display:"flex",justifyContent:"center"}}>
             <AddPersonForm personType="teacher" style={{ width: "20%" }} />
-            <Button onClick={()=>{
-                setEdit(!edit);
-            }}>Edit</Button>
-            {edit&&<Button onClick={()=>{
-                setSave(true);
-            }}>Save</Button>}
+
             <Button
             onClick={sortNameDown}
             startIcon={<FiArrowDown />}
@@ -99,9 +98,9 @@ function TeacherDirectory(){
             }}placeholder={'search by last name'} />
             </div>
             <Grid container spacing={1} style={{justifyContent:"center"}}>
-            {teachers.map((teacher)=>{
+            {teachers.map((teacher, i)=>{
                 return(
-                    <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
+                    <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={i}/>
                 )
             })}
             </Grid>

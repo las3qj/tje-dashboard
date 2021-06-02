@@ -153,7 +153,12 @@ app.post('/teachers', (req, res) => {
     const birthday = req.body.birthday;
     const address = req.body.address;
     const phone = req.body.phone
-    db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.post('/students', (req, res) => {
@@ -230,7 +235,12 @@ app.put('/teachers', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/students', (req, res) => {
@@ -241,17 +251,25 @@ app.put('/students', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}, { merge: true }).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/classes', (req, res) => {
-    console.log(req.body);
     const id = req.body.id;
     const name = req.body.name;
     const students = req.body.students;
     const teacherID = req.body.teacherID;
-    console.log({id, name, students, teacherID});
-    db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("class").doc(id).set({ name, students, teacherID }, { merge: true }).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/events', (req, res) => {
