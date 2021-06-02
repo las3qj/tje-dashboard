@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         flex: 5,
-        backgroundColor: "black"
+        backgroundColor: "black",
+
     },
     contact: {
         flex: 1,
@@ -30,19 +31,20 @@ const useStyles = makeStyles((theme) => ({
 
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
-        opacity: 0.6,
+
 
 
     },
     mission: {
         flex: 1,
-        backgroundColor: "purple"
+
+        background: "linear-gradient(to top, #050f5c, #4853ab);"
     },
     card: {
         width: "90%",
         maxHeight: "30vh",
         marginBottom: 20
-    }
+    },
 
 
 }));
@@ -55,7 +57,8 @@ export default function HomePage() {
             <div className={classes.container}>
                 <div className={classes.main}>
                     <div className={classes.image}>
-
+                        <h1 style={{ fontSize: 68, color: "gold", }}>  Welcome to <br />Thomas Jefferson Elementary School</h1>
+                        <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
                         mission statement/ about us
