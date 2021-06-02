@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     mission: {
         flex: 1,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         background: "linear-gradient(to top, #050f5c, #4853ab);"
     },
     card: {
@@ -58,11 +58,14 @@ export default function HomePage() {
                         <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
-                        <div>
-                            values
+                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingLeft: 50, paddingRight: 50 }} >
+                            <h2 style={{ fontSize: 40, color: "gold" }}> Our Mission</h2>
+                           At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.
+
                          </div>
-                        <div>
-                            mission statement/ about us
+                        <div style={{ flex: 1, fontSize: 40, color: "gold" }}>
+                            <h2 style={{ fontSize: 40, color: "gold" }}> Our Values</h2>
+
                         </div>
                     </div>
                 </div>
