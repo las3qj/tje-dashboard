@@ -6,8 +6,15 @@ import ErrorComponent from "./components/ErrorComponent";
 import ClassDashboard from "./components/ClassDashboard";
 import CalendarPage from "./components/CalendarPage";
 import firebase from "./firebase/firebase";
-console.log(firebase);
+import { UserContext } from "./contexts/UserContext";
+import { useContext } from "react";
+import LoginPage from "./components/LoginPage";
+
 function App() {
+  const { setUser, user } = useContext(UserContext);
+  firebase.auth().onAuthStateChanged((user) => setUser(user));
+  console.log(user);
+
   return (
     <div className="App">
       <Switch>
@@ -15,6 +22,7 @@ function App() {
         <Route path="/student-directory" component={StudentDirectory} />
         <Route path="/class-dashboard" component={ClassDashboard} />
         <Route path="/calendar" component={CalendarPage} />
+        <Route path="/Login" component={LoginPage} />
         <Route component={ErrorComponent} />
       </Switch>
     </div>
