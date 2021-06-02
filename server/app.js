@@ -109,6 +109,27 @@ app.get("/user", async (req, res) => {
     }
 });
 
+app.get("/user/check", async (req, res) => {
+    try {
+        const accessCode = req.query.accessCode;
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+        const user = await db.collection("user").where('accessCode', '==', accessCode).get();
+        console.log(user.data())
+        console.log(admin.exists)
+
+        if (teacher.exists || admin.exists) {
+            res.json({success: true})
+        } else {
+            res.json({success: false, message: "Invalid access code."})
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
+})
+
 // post routes
 
 app.post('/teachers', (req, res) => {
@@ -145,12 +166,17 @@ app.post('/events', (req, res) => {
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
 
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
     const uid = req.body.uid;
     const email = req.body.email
     const accessCode = req.body.accessCode;
-    db.collection("user").doc(uid).set({accessCode, email})
-    .then((resp) => res.sendStatus(200).end())
+    try {
+        await db.collection("user").doc(uid).set({accessCode, email})
+        res.sendStatus(200).end()
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 // delete routes
