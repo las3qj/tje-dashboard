@@ -1,20 +1,13 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import { UserContext } from "../contexts/UserContext";
 import {Button, Dialog, DialogActions, DialogContent, InputLabel,
   DialogContentText, DialogTitle, TextField, makeStyles, Select, MenuItem} from '@material-ui/core';
 
-
-const useStyles = makeStyles(() => ({
-  root: {
-    minWidth: 300,
-  },
-}));
-
-function AddClassDialog({user, teacherMap, handlePost}) {
-  //const classes = useStyles();
+function AddClassDialog({teacherMap, handlePost}) {
   const [open, setOpen] = useState(false);
   const [className, setClassName] = useState("");
-  const [teacher, setTeacher] = useState(user.admin ? '' : user.teacherID);
-
+  const { role, id } = useContext(UserContext);
+  const [teacher, setTeacher] = useState(role==="teacher" ? id : '');
   const handleClose = () => setOpen(false);
 
   return (
@@ -43,7 +36,7 @@ function AddClassDialog({user, teacherMap, handlePost}) {
             labelId="teacher-label"
             id="teacher"
             value={teacher}
-            disabled={!user.admin}
+            disabled={role !== "admin"}
             onChange={e=>setTeacher(e.target.value)}
           >
             {Object.getOwnPropertyNames(teacherMap).map(id => 

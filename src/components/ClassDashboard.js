@@ -1,4 +1,5 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
+import { UserContext } from "../contexts/UserContext";
 import ClassItem from './ClassItem';
 import AddClassDialog from './AddClassDialog';
 import {List, ListItem, ListItemText, Grid, Divider, makeStyles} from '@material-ui/core';
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
   }));
 
 function ClassDashboard () {
-    const [user, setUser] = useState({admin: false, teacherID: "TKEHXtc3UWtsQ2aHYJV0"});
+    const { role, id } = useContext(UserContext);
     const [classes, setClasses] = useState([]);
     const [selectedClass, setSelectedClass] = useState(undefined);
     const [studentMap, setStudentMap] = useState(undefined);
@@ -54,8 +55,8 @@ function ClassDashboard () {
                 setClasses(res.classes);
                 setStudentMap(res.studentMap);
                 setTeacherMap(res.teacherMap);
-                setChanges(false);
             });
+            setChanges(false);
         }
     }, [changes]);
 
@@ -72,12 +73,12 @@ function ClassDashboard () {
                                 setSelectedClass(myClass);
                                 setStudents(myClass.students);
                             }}>
-                                <ClassItem myClass={myClass} teacherMap={teacherMap} user={user}/>
+                                <ClassItem myClass={myClass} teacherMap={teacherMap}/>
                             </ListItem>
                         );
                     })}                
                     {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) &&
-                    <AddClassDialog user={user} teacherMap={teacherMap} handlePost={handlePost}/>}
+                    <AddClassDialog teacherMap={teacherMap} handlePost={handlePost}/>}
                 </List>
                 <List className={styles.list}>
                     <h1> Student Roster </h1>
@@ -95,7 +96,9 @@ function ClassDashboard () {
                                         </div>
                                         <div className={styles.inlineDiv}>
                                             <h4 className={styles.grayText}>
-                                                {"Grade: "}{user.admin||selectedClass.teacherID===user.teacherID?grade:"Hidden"}</h4>
+                                                {"Grade: "}{role==="admin"||
+                                                    (role==="teacher" && selectedClass.teacherID===id)
+                                                    ?grade:"Hidden"}</h4>
                                         </div>
                                     </ListItemText>
                                 </ListItem>

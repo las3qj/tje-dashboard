@@ -32,6 +32,13 @@ export default function NavBar() {
               history.push("/student-directory");
             }}
           />
+        <Tab 
+           label="Teacher Directory" 
+            value={2} 
+            onClick={() => { 
+              history.push("/teacher-directory") 
+            }} 
+          />
           <Tab
             label="Calendar"
             value={3}

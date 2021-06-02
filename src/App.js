@@ -5,6 +5,8 @@ import { Route, Switch } from "react-router-dom";
 import ErrorComponent from "./components/ErrorComponent";
 import ClassDashboard from "./components/ClassDashboard";
 import CalendarPage from "./components/CalendarPage";
+import TeacherDirectory from "./components/TeacherDirectory"
+import ClassPage from './components/ClassPage';
 import firebase from "./firebase/firebase";
 import { UserContext } from "./contexts/UserContext";
 import { useContext } from "react";
@@ -20,9 +22,11 @@ function App() {
     <div className="App">
       <Switch>
         <Route path="/" component={HomePage} exact />
+        <Route path='/teacher-directory' component={TeacherDirectory} />
+        <Route path='/class-dashboard' component={ClassDashboard} />
         <Route path="/student-directory" component={StudentDirectory} />
-        <Route path="/class-dashboard" component={ClassDashboard} />
         <Route path="/calendar" component={CalendarPage} />
+        <Route path="/class-page/:classID" component={ClassPage}/>
         <Route path="/Login" component={LoginPage} />
         <Route component={ErrorComponent} />
       </Switch>
