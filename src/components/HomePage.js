@@ -53,7 +53,7 @@ export default function HomePage() {
             <div className={classes.container}>
                 <div className={classes.main}>
                     <div className={classes.image}>
-                        <h1 style={{ fontSize: 68, color: "gold", }}>  Welcome to <br />Thomas Jefferson Elementary School</h1>
+                        <h1 style={{ fontSize: 68, color: "gold", }}>  Thomas Jefferson Elementary School</h1>
                         <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
