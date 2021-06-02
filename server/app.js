@@ -129,14 +129,12 @@ app.get("/user/check", async (req, res) => {
         const accessCode = req.query.accessCode;
         const teacher = await db.collection("teacher").doc(accessCode).get();
         const admin = await db.collection("admin").doc(accessCode).get();
-        const user = await db.collection("user").where('accessCode', '==', accessCode).get();
-        console.log(user.data())
-        console.log(admin.exists)
 
         if (teacher.exists || admin.exists) {
-            res.json({success: true})
+            console.log("success")
+            res.send(true)
         } else {
-            res.json({success: false, message: "Invalid access code."})
+            res.send(false)
         }
     }
     catch (error) {
