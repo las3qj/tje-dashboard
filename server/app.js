@@ -109,6 +109,13 @@ app.post('/events', (req, res) => {
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
 
+app.post("/users", (req, res) => {
+    const uid = req.body.uid;
+    const accessCode = req.body.accessCode;
+    db.collection("user").doc(uid).set({accessCode})
+    .then((resp) => res.sendStatus(200).end())
+})
+
 // delete routes
 
 app.delete('/teachers', (req, res) => {
