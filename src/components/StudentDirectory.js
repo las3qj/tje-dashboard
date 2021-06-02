@@ -91,7 +91,7 @@ export default function StudentDirectory() {
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ width: "100%" }}>
 
-                    <h1 style={{ textAlign: "center" }}>Student Directory.</h1>
+                    <h1 style={{ textAlign: "center" }}>Student Directory</h1>
                     <AddPersonForm refresh={fetchStudents} personType="student" style={{ width: "20%" }} />
                     <Button onClick={() => {
                         setEdit(!edit);
