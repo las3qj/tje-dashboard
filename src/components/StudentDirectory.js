@@ -101,18 +101,12 @@ export default function StudentDirectory() {
                         setSave(true);
                     }}>Save</Button>
                     <Button
-                        variant="contained"
-                        color="default"
-                        className={classes.button}
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
                     >
                         Name
                     </Button>
                     <Button
-                        variant="contained"
-                        color="default"
-                        className={classes.button}
                         onClick={sortNameUp}
                         startIcon={<FiArrowUp />}
                     >
