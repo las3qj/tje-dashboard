@@ -72,6 +72,42 @@ app.get('/events/map', (req, res) => {
     getMap('event').then(resp => res.json(resp));
 })
 
+// get user permissions route
+
+app.get("/user", async (req, res) => {
+    const uid = req.query.uid;
+
+    const user = await db.collection("user").doc(uid).get();
+    if (!user.exists) {
+        res.send({ role: "none" }).end();
+    } else {
+        const accessCode = user.data().accessCode;
+
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+        if (admin.exists) {
+        res
+            .json({
+            role: "admin",
+            id: accessCode,
+            firstName: admin.data().firstName,
+            lastName: admin.data().lastName,
+            })
+            .end();
+        } else if (teacher.exists) {
+        res
+            .json({
+            role: "teacher",
+            id: accessCode,
+            firstName: teacher.data().firstName,
+            lastName: teacher.data().lastName,
+            })
+            .end();
+        } else {
+        res.send({ role: "none" }).end();
+        }
+    }
+});
 
 // post routes
 
@@ -107,6 +143,14 @@ app.post('/events', (req, res) => {
     const date = req.body.date;
     const desc = req.body.desc;
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
+})
+
+app.post("/users", (req, res) => {
+    const uid = req.body.uid;
+    const email = req.body.email
+    const accessCode = req.body.accessCode;
+    db.collection("user").doc(uid).set({accessCode, email})
+    .then((resp) => res.sendStatus(200).end())
 })
 
 // delete routes
