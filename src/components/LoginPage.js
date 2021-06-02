@@ -4,9 +4,12 @@ import NavBar from "./NavBar";
 import { TextField, Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 const LoginPage = () => {
   const history = useHistory();
+  const { setUser, forceUserReload } = useContext(UserContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [accessCode, setAccessCode] = useState();
@@ -16,26 +19,27 @@ const LoginPage = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => history.push("/"))
+      .then((user) => {
+        setUser(user);
+        history.push("/");
+      })
       .catch((error) => {
         alert("Incorrect username or password");
         console.log(error);
       });
   };
 
-  const createAccount = (e) => {
+  const createAccount = async (e) => {
     e.preventDefault();
-    firebase
+    const userCredential = await firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const uid = userCredential.user.uid;
-        axios.post("http://localhost:8000/users", { uid, accessCode });
-        history.push("/")
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .createUserWithEmailAndPassword(email, password);
+
+    const uid = userCredential.user.uid;
+    const userEmail = userCredential.user.email;
+    await axios.post("http://localhost:8000/users", { uid, accessCode, email: userEmail });
+    forceUserReload(true)
+    history.push("/");
   };
   return (
     <div>
@@ -65,7 +69,7 @@ const LoginPage = () => {
         />
         <br />
         <TextField
-          type="password"
+          type="text"
           onChange={({ target }) => setAccessCode(target.value)}
           placeholder="Access Code"
           style={{ width: "15em" }}

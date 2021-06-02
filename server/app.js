@@ -72,6 +72,42 @@ app.get('/events/map', (req, res) => {
     getMap('event').then(resp => res.json(resp));
 })
 
+// get user permissions route
+
+app.get("/user", async (req, res) => {
+    const uid = req.query.uid;
+
+    const user = await db.collection("user").doc(uid).get();
+    if (!user.exists) {
+        res.send({ role: "none" }).end();
+    } else {
+        const accessCode = user.data().accessCode;
+
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+        if (admin.exists) {
+        res
+            .send({
+            role: "admin",
+            adminID: accessCode,
+            firstName: admin.firstName,
+            lastName: admin.lastName,
+            })
+            .end();
+        } else if (teacher.exists) {
+        res
+            .json({
+            role: "teacher",
+            teacherID: accessCode,
+            firstName: teacher.firstName,
+            lastName: teacher.lastName,
+            })
+            .end();
+        } else {
+        res.send({ role: "none" }).end();
+        }
+    }
+});
 
 // post routes
 
@@ -111,8 +147,9 @@ app.post('/events', (req, res) => {
 
 app.post("/users", (req, res) => {
     const uid = req.body.uid;
+    const email = req.body.email
     const accessCode = req.body.accessCode;
-    db.collection("user").doc(uid).set({accessCode})
+    db.collection("user").doc(uid).set({accessCode, email})
     .then((resp) => res.sendStatus(200).end())
 })
 

@@ -11,9 +11,10 @@ import { useContext } from "react";
 import LoginPage from "./components/LoginPage";
 
 function App() {
-  const { setUser, user } = useContext(UserContext);
-  firebase.auth().onAuthStateChanged((user) => setUser(user));
-  console.log(user);
+  const { setUser } = useContext(UserContext);
+  firebase.auth().onAuthStateChanged((user) => {
+    setUser(user);
+  });
 
   return (
     <div className="App">
