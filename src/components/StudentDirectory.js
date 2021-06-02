@@ -27,18 +27,37 @@ export default function StudentDirectory() {
     const classes = useStyles();
     useEffect(() => {
         fetchStudents()
+
     }, [search])
+    // useEffect(() => {
+    //     searchStudents()
+    // }, [search])
     const [students, setStudents] = useState([])
     const [edit, setEdit] = useState(false);
     const [save, setSave] = useState(false);
 
+    const searchStudents = (fetchedStudents) => {
+        let newStudents = [...fetchedStudents]
+        newStudents = newStudents.filter((student) => {
+            const name = student.lastName.toUpperCase()
+            const searchWord = search.toUpperCase()
+            // console.log(name)
+            // console.log(searchWord)
+            //console.log(name.indexOf(searchWord) !== -1 || searchWord === "")
+            return (name.indexOf(searchWord) !== -1 || searchWord === "")
+
+        }
+        )
+        console.log("filtered list:", newStudents)
+        setStudents(newStudents)
+    }
     const fetchStudents = () => {
         const url = new URL("http://localhost:8000/students");
         const axios = require('axios');
         axios.get(url)
             .then(response => {
-                console.log(response.data);
-                setStudents(response.data)
+                console.log("fetched data", response.data);
+                searchStudents(response.data)
             }, error => {
                 console.log(error);
             });
@@ -99,7 +118,7 @@ export default function StudentDirectory() {
                     >
                         Name
                      </Button>
-
+                    <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} placeholder={'search by last name'} />
                 </div>
                 <div className={classes.studentList} >
                     <Grid container spacing={1} style={{ justifyContent: "center" }}>
