@@ -6,6 +6,19 @@ app.use(express.json());
 app.use(cors({ origin: true }));
 const port = 8000;
 
+
+//get method
+
+const get = async (collection, id) => {
+    const ref = db.collection(collection).doc(id);
+    const doc = await ref.get();
+    if(!doc.exists) {
+        console.log('no such doc');
+        return undefined;
+    }
+    return {...doc.data()};
+}
+
 // getAll method
 
 const getAll = async (collection) => {
@@ -74,6 +87,42 @@ app.get('/events/map', (req, res) => {
     getMap('event').then(resp => res.json(resp));
 })
 
+// get user permissions route
+
+app.get("/user", async (req, res) => {
+    const uid = req.query.uid;
+
+    const user = await db.collection("user").doc(uid).get();
+    if (!user.exists) {
+        res.send({ role: "none" }).end();
+    } else {
+        const accessCode = user.data().accessCode;
+
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+        if (admin.exists) {
+        res
+            .json({
+            role: "admin",
+            id: accessCode,
+            firstName: admin.data().firstName,
+            lastName: admin.data().lastName,
+            })
+            .end();
+        } else if (teacher.exists) {
+        res
+            .json({
+            role: "teacher",
+            id: accessCode,
+            firstName: teacher.data().firstName,
+            lastName: teacher.data().lastName,
+            })
+            .end();
+        } else {
+        res.send({ role: "none" }).end();
+        }
+    }
+});
 
 // post routes
 
@@ -110,6 +159,14 @@ app.post('/events', (req, res) => {
     const date = req.body.date;
     const desc = req.body.desc;
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
+})
+
+app.post("/users", (req, res) => {
+    const uid = req.body.uid;
+    const email = req.body.email
+    const accessCode = req.body.accessCode;
+    db.collection("user").doc(uid).set({accessCode, email})
+    .then((resp) => res.sendStatus(200).end())
 })
 
 // delete routes
@@ -164,10 +221,12 @@ app.put('/students', (req, res) => {
 })
 
 app.put('/classes', (req, res) => {
+    console.log(req.body);
     const id = req.body.id;
     const name = req.body.name;
     const students = req.body.students;
     const teacherID = req.body.teacherID;
+    console.log({id, name, students, teacherID});
     db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
@@ -185,4 +244,52 @@ app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
     res.json({classes, studentMap, teacherMap});
 
+})
+
+app.get('/class-page', async (req, res) => {
+    const id = req.query.id;
+    const [myClass, studentMap] = await Promise.all([get('class', id), getMap('student')]);
+    res.json({myClass, studentMap});
+})
+
+app.put('/class-page/add-student', async (req, res) => {
+    const id = req.body.id; 
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    newClass.students.push(student);
+
+    const newStudent = await get('student', student.studentID);
+    newStudent.classes.push(id);
+
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
+        db.collection('student').doc(student.studentID).set(newStudent)]);
+    res.sendStatus(200).end();
+})
+
+app.put('/class-page/delete-student', async (req, res) => {
+    const id = req.body.id;
+    const studentID = req.body.studentID;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === studentID);
+    newClass.students.splice(index, 1);
+    db.collection('class').doc(id).set(newClass).then(resp => res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-student-grade', async (req, res) => {
+    const id = req.body.id;
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === student.studentID);
+    newClass.students[index].grade = student.grade;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-class-info', async (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const teacherID = req.body.teacherID;
+    const newClass = await get('class', id);
+    newClass.name = name;
+    newClass.teacherID = teacherID;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
 })

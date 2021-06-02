@@ -2,15 +2,7 @@ import {useState} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, InputLabel,
   DialogContentText, DialogTitle, TextField, makeStyles, Select, MenuItem} from '@material-ui/core';
 
-
-const useStyles = makeStyles(() => ({
-  root: {
-    minWidth: 300,
-  },
-}));
-
 function AddClassDialog({user, teacherMap, handlePost}) {
-  //const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [className, setClassName] = useState("");
   const [teacher, setTeacher] = useState(user.admin ? '' : user.teacherID);

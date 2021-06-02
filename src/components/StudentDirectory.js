@@ -119,6 +119,7 @@ export default function StudentDirectory() {
                         {
                             students.map((student) => (
                                 <PersonCard person={student} edit={edit} save={save} key={student.id} setSave={setSave}/>
+
                             ))}
                     </Grid>
                 </div>
