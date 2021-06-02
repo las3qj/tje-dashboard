@@ -40,7 +40,7 @@ export default function AddPersonForm(props) {
         console.log("form submitted")
         const axios = require('axios');
         let url = ""
-        if (props.personType == "student") {
+        if (props.personType === "student") {
             url = 'http://localhost:8000/students'
         }
         else {
@@ -56,7 +56,8 @@ export default function AddPersonForm(props) {
         })
             .then((response) => {
                 console.log(response);
-                window.location.reload();
+                props.reload();
+                // window.location.reload();
 
             }, (error) => {
                 console.log(error);
@@ -98,7 +99,8 @@ export default function AddPersonForm(props) {
                         />
                         <Button
                             className="button"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 handleSubmit()
                                 close();
                             }}

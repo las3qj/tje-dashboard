@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./firebase');
+const { ControlCameraOutlined } = require('@material-ui/icons');
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: true }));
@@ -52,20 +53,24 @@ app.get('/', (req, res) => {
 // getAll routes
 
 app.get('/teachers', (req, res) => {
+    console.log(1)
     getAll("teacher").then(resp => {
         res.json(resp)
     });
 })
 
 app.get('/students', (req, res) => {
+    console.log(2)
     getAll("student").then(resp => res.json(resp));
 })
 
 app.get('/classes', (req, res) => {
+    console.log(3)
     getAll("class").then(resp => res.json(resp));
 })
 
 app.get('/events', (req, res) => {
+    console.log(3)
     getAll("event").then(resp => res.json(resp));
 })
 
@@ -153,7 +158,12 @@ app.post('/teachers', (req, res) => {
     const birthday = req.body.birthday;
     const address = req.body.address;
     const phone = req.body.phone
-    db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.post('/students', (req, res) => {
@@ -230,7 +240,12 @@ app.put('/teachers', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/students', (req, res) => {
@@ -241,7 +256,12 @@ app.put('/students', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/classes', (req, res) => {
@@ -251,7 +271,12 @@ app.put('/classes', (req, res) => {
     const students = req.body.students;
     const teacherID = req.body.teacherID;
     console.log({id, name, students, teacherID});
-    db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
+    try {
+        db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 app.put('/events', (req, res) => {

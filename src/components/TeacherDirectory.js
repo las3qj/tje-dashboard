@@ -69,16 +69,16 @@ function TeacherDirectory(){
         setTeachers(newTeachers)
     }
 
-
+    console.log("EDIT: ", edit)
     
     return (
         <div>
         <NavBar/>
         <h1 style={{textAlign:"center"}}>Teacher Directory.</h1>
         <div style={{display:"flex",justifyContent:"center"}}>
-        <AddPersonForm personType="teacher" style={{ width: "20%" }} />
+        <AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />
         <Button onClick={()=>{
-            setEdit(!edit);
+            setEdit(true);
         }}>Edit</Button>
         {edit&&<Button onClick={()=>{
             setSave(true);
@@ -94,9 +94,9 @@ function TeacherDirectory(){
         }}placeholder={'search by last name'} />
         </div>
         <Grid container spacing={1} style={{justifyContent:"center"}}>
-        {teachers.map((teacher)=>{
+        {teachers.map((teacher, i)=>{
             return(
-                <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
+                <PersonCard personType={personType} person={teacher} edit={edit} save={save} reload={getTeachers} setEdit={setEdit} setSave={setSave} key={i}/>
             )
         })}
         </Grid>

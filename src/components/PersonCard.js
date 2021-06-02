@@ -1,9 +1,10 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
+import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React,{useEffect, useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-function PersonCard({personType,person,edit,save,setSave}){
+function PersonCard({personType,person,edit,save,setEdit,setSave,reload}){
 
   const [fName,setFName] = useState(null);
   const [lName,setLName] = useState(null);
@@ -44,6 +45,7 @@ function PersonCard({personType,person,edit,save,setSave}){
         body: JSON.stringify({id,firstName,lastName,birthday,classes})
       })
     }
+    return true;
   })
 
   const removePerson=(()=>{
@@ -51,13 +53,13 @@ function PersonCard({personType,person,edit,save,setSave}){
       fetch("http://localhost:8000/teachers?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
     else{
       fetch("http://localhost:8000/students?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
   })
 
@@ -75,8 +77,12 @@ function PersonCard({personType,person,edit,save,setSave}){
 
   useEffect(()=>{
       if(save===true){
+        console.log("here")
         saveChanges();
+        console.log("here2")
+        setEdit(false);
         setSave(false);
+        console.log("here3")
       }
   })
 
@@ -154,7 +160,8 @@ function PersonCard({personType,person,edit,save,setSave}){
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
             <Grid item xs={1}>
-              <IconButton onClick={()=>{
+              <IconButton onClick={(e)=>{
+                e.preventDefault();
                 removePerson();
               }}>
                 <HighlightOffIcon/>

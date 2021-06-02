@@ -92,7 +92,7 @@ export default function StudentDirectory() {
                 <div style={{ width: "100%" }}>
 
                     <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                    <AddPersonForm refresh={fetchStudents} personType="student" style={{ width: "20%" }} />
+                    <AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />
                     <Button onClick={() => {
                         setEdit(!edit);
                     }}>Edit</Button>
@@ -118,7 +118,7 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} edit={edit} save={save} key={student.id} setSave={setSave}/>
+                                <PersonCard person={student} edit={edit} save={save} key={student.id} reload={fetchStudents} setSave={setSave}/>
 
                             ))}
                     </Grid>
