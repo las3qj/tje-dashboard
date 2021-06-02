@@ -1,10 +1,12 @@
 import NavBar from "./NavBar"
 import { makeStyles } from '@material-ui/core/styles';
 import background from './background.png'
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import CardContent from '@material-ui/core/CardContent';
-import slug from "./slug.png"
+import respect from "./homePageIcons/respect.png"
+import positivity from "./homePageIcons/positivity.png"
+import diversity from "./homePageIcons/diversity.png"
+import education from "./homePageIcons/education.png"
+import comradery from "./homePageIcons/comradery.png"
+
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -18,12 +20,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "black",
 
     },
-    contact: {
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "lightgrey",
-        alignItems: "center",
+    icon: {
+        width: 57,
+        paddingLeft: 75,
+        paddingRight: 20,
+
     },
     image: {
         flex: 1.3,
@@ -34,14 +35,13 @@ const useStyles = makeStyles((theme) => ({
     mission: {
         flex: 1,
         display: "flex",
-        flexDirection: "row",
-        background: "linear-gradient(to top, #050f5c, #4853ab);"
+        flexDirection: "column",
+        background: "linear-gradient(to top, #172136, #505f7d);"
     },
-    card: {
-        width: "90%",
-        maxHeight: "30vh",
-        marginBottom: 20
-    },
+    value: {
+        display: "flex"
+    }
+
 
 
 }));
@@ -58,15 +58,29 @@ export default function HomePage() {
                         <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
-                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingLeft: 50, paddingRight: 50 }} >
-                            <h2 style={{ fontSize: 40, color: "gold" }}> Our Mission</h2>
+
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, fontSize: 40, color: "gold" }}>
+
+                            <h2 style={{ fontSize: 30, color: "white" }}> Our Values</h2>
+                            <div className={classes.value}>
+                                <img className={classes.icon} src={positivity} />
+                                     Positivity
+                                <img className={classes.icon} src={respect} />
+                                     Respect
+                                <img className={classes.icon} src={diversity} />
+                                     Diversity
+                                <img className={classes.icon} src={education} />
+                                     Education
+                                <img className={classes.icon} src={comradery} />
+                                     Comradery
+
+                            </div>
+                        </div>
+                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingBottom: 35, paddingLeft: 50, paddingRight: 50 }} >
+                            <h2 style={{ fontSize: 30, color: "white" }}> Our Mission</h2>
                            At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.
 
                          </div>
-                        <div style={{ flex: 1, fontSize: 40, color: "gold" }}>
-                            <h2 style={{ fontSize: 40, color: "gold" }}> Our Values</h2>
-
-                        </div>
                     </div>
                 </div>
 
