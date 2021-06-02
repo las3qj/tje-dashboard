@@ -1,5 +1,6 @@
 import {Grid, makeStyles, Divider, Button, TextField, Select, InputLabel, MenuItem} from '@material-ui/core';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
+import { UserContext } from "../contexts/UserContext";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -33,11 +34,12 @@ const computeAverage = students => {
     return (total / students.length);
 }
 
-function ClassInfoPanel({myClass, handlePut, user}) {
+function ClassInfoPanel({myClass, handlePut}) {
     const [teacherMap, setTeacherMap] = useState(undefined);
     const [editing, setEditing] = useState(false);
     const [className, setClassName] = useState(myClass.name);
     const [teacherID, setTeacherID] = useState(myClass.teacherID);
+    const {id, role} = useContext(UserContext);
     const styles = useStyles();
 
     useEffect(() => {
@@ -76,7 +78,7 @@ function ClassInfoPanel({myClass, handlePut, user}) {
                             id="teacher"
                             value={teacherID}
                             SelectDisplayProps={{style: {fontSize: 20}}}
-                            disabled={!user.admin}
+                            disabled={role !== "admin"}
                             onChange={e=>setTeacherID(e.target.value)}
                         >
                             {Object.getOwnPropertyNames(teacherMap).map(id => 
