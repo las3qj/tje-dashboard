@@ -78,7 +78,7 @@ function TeacherDirectory(){
         <div style={{display:"flex",justifyContent:"center"}}>
         <AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />
         <Button onClick={()=>{
-            setEdit(true);
+           setEdit(!edit);
         }}>Edit</Button>
         {edit&&<Button onClick={()=>{
             setSave(true);

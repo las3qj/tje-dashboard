@@ -118,7 +118,7 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} edit={edit} save={save} key={student.id} reload={fetchStudents} setSave={setSave}/>
+                                <PersonCard person={student} edit={edit} save={save} key={student.id} reload={fetchStudents} setEdit={setEdit} setSave={setSave}/>
 
                             ))}
                     </Grid>
