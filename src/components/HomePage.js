@@ -4,6 +4,7 @@ import background from './background.png'
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
+import slug from "./slug.png"
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -23,16 +24,11 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         backgroundColor: "lightgrey",
         alignItems: "center",
-
-
     },
     image: {
         flex: 1.5,
-
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
-
-
 
     },
     mission: {
@@ -65,6 +61,7 @@ export default function HomePage() {
                     </div>
                 </div>
                 <div className={classes.contact}>
+                    <img src={slug} style={{ width: 150 }} />
                     <h1> Contact Us</h1>
                     <Card className={classes.card}>
                         <CardContent>
