@@ -5,7 +5,10 @@ const UserContext = createContext();
 const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [role, setRole] = useState("none");
-  const [userReload, forceUserReload] = useState("false")
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [id, setID] = useState();
+  const [userReload, forceUserReload] = useState("false");
   useEffect(() => {
     if (!user) {
       setRole("none");
@@ -14,14 +17,28 @@ const UserContextProvider = ({ children }) => {
         .then((res) => res.json())
         .then((res) => {
           setRole(res.role);
-          forceUserReload(false)
+          setFirstName(res.firstName);
+          setLastName(res.lastName);
+          setID(res.id);
+          forceUserReload(false);
         });
     }
-  }, [user, setRole, userReload]);
+  }, [user, userReload]);
 
   const isLoggedIn = user ? true : false;
   return (
-    <UserContext.Provider value={{ user, setUser, isLoggedIn, role, forceUserReload }}>
+    <UserContext.Provider
+      value={{
+        user,
+        isLoggedIn,
+        role,
+        id,
+        firstName,
+        lastName,
+        forceUserReload,
+        setUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

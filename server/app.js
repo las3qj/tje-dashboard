@@ -87,20 +87,20 @@ app.get("/user", async (req, res) => {
         const admin = await db.collection("admin").doc(accessCode).get();
         if (admin.exists) {
         res
-            .send({
+            .json({
             role: "admin",
-            adminID: accessCode,
-            firstName: admin.firstName,
-            lastName: admin.lastName,
+            id: accessCode,
+            firstName: admin.data().firstName,
+            lastName: admin.data().lastName,
             })
             .end();
         } else if (teacher.exists) {
         res
             .json({
             role: "teacher",
-            teacherID: accessCode,
-            firstName: teacher.firstName,
-            lastName: teacher.lastName,
+            id: accessCode,
+            firstName: teacher.data().firstName,
+            lastName: teacher.data().lastName,
             })
             .end();
         } else {

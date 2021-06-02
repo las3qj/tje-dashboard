@@ -37,8 +37,12 @@ const LoginPage = () => {
 
     const uid = userCredential.user.uid;
     const userEmail = userCredential.user.email;
-    await axios.post("http://localhost:8000/users", { uid, accessCode, email: userEmail });
-    forceUserReload(true)
+    await axios.post("http://localhost:8000/users", {
+      uid,
+      accessCode,
+      email: userEmail,
+    });
+    forceUserReload(true);
     history.push("/");
   };
   return (
