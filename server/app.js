@@ -312,9 +312,15 @@ app.put('/class-page/delete-student', async (req, res) => {
     const id = req.body.id;
     const studentID = req.body.studentID;
     const newClass = await get('class', id);
-    const index = newClass.students.findIndex(stu => stu.studentID === studentID);
-    newClass.students.splice(index, 1);
-    db.collection('class').doc(id).set(newClass).then(resp => res.sendStatus(200).end());
+    const index1 = newClass.students.findIndex(stu => stu.studentID === studentID);
+    newClass.students.splice(index1, 1);
+
+    const newStudent = await get('student', studentID);
+    const index2 = newStudent.classes.findIndex(cID => cID === id);
+    newStudent.classes.splice(index2, 1);
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
+        db.collection('student').doc(studentID).set(newStudent)]);
+    res.sendStatus(200).end();
 })
 
 app.put('/class-page/change-student-grade', async (req, res) => {
