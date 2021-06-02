@@ -12,19 +12,9 @@ function PersonCard({personType,person,save,setSave,reload}){
   const [lName,setLName] = useState(person.lastName);
   const [dob,setDOB] = useState(person.birthday);
   const [addr,setAddr] = useState(person.address);
-  const [number,setNumber] = useState(person.number);
+  const [number,setNumber] = useState(person.phone);
   const [classList,setClassList] = useState([]);
   const [edit, setEdit] = useState(false);
-  // const edit = edit
-
-  // useEffect(()=>{
-  //   setFName(person.firstName)
-  //   setLName(person.lastName)
-  //   setDOB(person.birthday)
-  //   setAddr(person.address)
-  //   setNumber(person.phone)
-  // }, [])
-
 
   const saveChanges = (()=>{
     const firstName = fName;
@@ -69,15 +59,6 @@ function PersonCard({personType,person,save,setSave,reload}){
           })
 
   },[])
-  
-
-  // useEffect(()=>{
-  //     if(save===true){
-  //       saveChanges();
-  //       setEdit(false);
-  //       setSave(false);
-  //     }
-  // })
 
     const formatClasses = ((classes)=>{
             if(classes){

@@ -8,8 +8,8 @@ import NavBar from "./NavBar";
 function TeacherDirectory(){
     const personType = "teacher";
     const [teachers,setTeachers] = useState([]);
-    const [edit,setEdit] = useState(false);
-    const [save,setSave] = useState(false);
+    // const [edit,setEdit] = useState(false);
+    // const [save,setSave] = useState(false);
     const [search, setSearch] = useState("")
 
     const getTeachers=(()=>{
@@ -68,8 +68,6 @@ function TeacherDirectory(){
         })
         setTeachers(newTeachers)
     }
-
-    console.log("EDIT: ", edit)
     
     return (
         <div>
@@ -77,12 +75,12 @@ function TeacherDirectory(){
         <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
         <div style={{display:"flex",justifyContent:"center"}}>
         <AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />
-        <Button onClick={()=>{
+        {/* <Button onClick={()=>{
            setEdit(!edit);
         }}>Edit</Button>
         {edit&&<Button onClick={()=>{
             setSave(true);
-        }}>Save</Button>}
+        }}>Save</Button>} */}
         <Button onClick={()=>{
             sortNameUp();
         }}>Sort (Name A-Z)</Button>
@@ -96,7 +94,7 @@ function TeacherDirectory(){
         <Grid container spacing={1} style={{justifyContent:"center"}}>
         {teachers.map((teacher, i)=>{
             return(
-                <PersonCard personType={personType} person={teacher} edit={edit} save={save} reload={getTeachers} setEdit={setEdit} setSave={setSave} key={i}/>
+                <PersonCard personType={personType} person={teacher} reload={getTeachers} key={i}/>
             )
         })}
         </Grid>

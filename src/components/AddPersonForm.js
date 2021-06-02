@@ -55,9 +55,7 @@ export default function AddPersonForm(props) {
             phone
         })
             .then((response) => {
-                console.log(response);
                 props.reload();
-                // window.location.reload();
 
             }, (error) => {
                 console.log(error);

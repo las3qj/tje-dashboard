@@ -33,9 +33,6 @@ export default function StudentDirectory() {
 
     }, [search])
     const [students, setStudents] = useState([])
-    const [edit, setEdit] = useState(false);
-    const [save, setSave] = useState(false);
-
 
     const searchStudents = (fetchedStudents) => {
         var newStudents = [...fetchedStudents]
@@ -93,12 +90,12 @@ export default function StudentDirectory() {
 
                     <h1 style={{ textAlign: "center" }}>Student Directory</h1>
                     <AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />
-                    <Button onClick={() => {
+                    {/* <Button onClick={() => {
                         setEdit(!edit);
                     }}>Edit</Button>
                     <Button onClick={() => {
                         setSave(true);
-                    }}>Save</Button>
+                    }}>Save</Button> */}
                     <Button
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
@@ -118,7 +115,7 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} edit={edit} save={save} key={student.id} reload={fetchStudents} setEdit={setEdit} setSave={setSave}/>
+                                <PersonCard person={student} key={student.id} reload={fetchStudents} />
 
                             ))}
                     </Grid>
