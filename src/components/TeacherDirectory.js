@@ -74,7 +74,7 @@ function TeacherDirectory(){
     return (
         <div>
         <NavBar/>
-        <h1 style={{textAlign:"center"}}>Teacher Directory.</h1>
+        <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
         <div style={{display:"flex",justifyContent:"center"}}>
         <AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />
         <Button onClick={()=>{
