@@ -6,6 +6,19 @@ app.use(express.json());
 app.use(cors({ origin: true }));
 const port = 8000;
 
+
+//get method
+
+const get = async (collection, id) => {
+    const ref = db.collection(collection).doc(id);
+    const doc = await ref.get();
+    if(!doc.exists) {
+        console.log('no such doc');
+        return undefined;
+    }
+    return {...doc.data()};
+}
+
 // getAll method
 
 const getAll = async (collection) => {
@@ -24,7 +37,7 @@ const getMap = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const map = {};
     snapshot.forEach(doc => {
-        const each = { ...doc.data() };
+        const each = {...doc.data()};
         map[doc.id] = each;
     });
     return map;
@@ -39,7 +52,9 @@ app.get('/', (req, res) => {
 // getAll routes
 
 app.get('/teachers', (req, res) => {
-    getAll("teacher").then(resp => res.json(resp));
+    getAll("teacher").then(resp => {
+        res.json(resp)
+    });
 })
 
 app.get('/students', (req, res) => {
@@ -109,9 +124,29 @@ app.get("/user", async (req, res) => {
     }
 });
 
+app.get("/user/check", async (req, res) => {
+    try {
+        const accessCode = req.query.accessCode;
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+
+        if (teacher.exists || admin.exists) {
+            console.log("success")
+            res.send(true)
+        } else {
+            res.send(false)
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
+})
+
 // post routes
 
 app.post('/teachers', (req, res) => {
+    console.log(req.body)
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
@@ -145,12 +180,17 @@ app.post('/events', (req, res) => {
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
 
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
     const uid = req.body.uid;
     const email = req.body.email
     const accessCode = req.body.accessCode;
-    db.collection("user").doc(uid).set({accessCode, email})
-    .then((resp) => res.sendStatus(200).end())
+    try {
+        await db.collection("user").doc(uid).set({accessCode, email})
+        res.sendStatus(200).end()
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500).end()
+    }
 })
 
 // delete routes
@@ -190,7 +230,7 @@ app.put('/teachers', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("teacher").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
@@ -201,14 +241,16 @@ app.put('/students', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
+    console.log(req.body);
     const id = req.body.id;
     const name = req.body.name;
     const students = req.body.students;
     const teacherID = req.body.teacherID;
+    console.log({id, name, students, teacherID});
     db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
@@ -224,9 +266,54 @@ app.put('/events', (req, res) => {
 
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
+    res.json({classes, studentMap, teacherMap});
 
+})
 
-    res.json({ classes, studentMap, teacherMap });
+app.get('/class-page', async (req, res) => {
+    const id = req.query.id;
+    const [myClass, studentMap] = await Promise.all([get('class', id), getMap('student')]);
+    res.json({myClass, studentMap});
+})
 
+app.put('/class-page/add-student', async (req, res) => {
+    const id = req.body.id; 
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    newClass.students.push(student);
 
+    const newStudent = await get('student', student.studentID);
+    newStudent.classes.push(id);
+
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
+        db.collection('student').doc(student.studentID).set(newStudent)]);
+    res.sendStatus(200).end();
+})
+
+app.put('/class-page/delete-student', async (req, res) => {
+    const id = req.body.id;
+    const studentID = req.body.studentID;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === studentID);
+    newClass.students.splice(index, 1);
+    db.collection('class').doc(id).set(newClass).then(resp => res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-student-grade', async (req, res) => {
+    const id = req.body.id;
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === student.studentID);
+    newClass.students[index].grade = student.grade;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-class-info', async (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const teacherID = req.body.teacherID;
+    const newClass = await get('class', id);
+    newClass.name = name;
+    newClass.teacherID = teacherID;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
 })
