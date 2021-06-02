@@ -37,7 +37,7 @@ const getMap = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const map = {};
     snapshot.forEach(doc => {
-        const each = { ...doc.data() };
+        const each = {...doc.data()};
         map[doc.id] = each;
     });
     return map;
@@ -52,7 +52,9 @@ app.get('/', (req, res) => {
 // getAll routes
 
 app.get('/teachers', (req, res) => {
-    getAll("teacher").then(resp => res.json(resp));
+    getAll("teacher").then(resp => {
+        res.json(resp)
+    });
 })
 
 app.get('/students', (req, res) => {
@@ -125,6 +127,7 @@ app.get("/user", async (req, res) => {
 // post routes
 
 app.post('/teachers', (req, res) => {
+    console.log(req.body)
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
@@ -203,7 +206,7 @@ app.put('/teachers', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("teacher").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
@@ -214,7 +217,7 @@ app.put('/students', (req, res) => {
     const address = req.body.address;
     const birthday = req.body.birthday;
     const phone = req.body.phone;
-    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
@@ -240,6 +243,7 @@ app.put('/events', (req, res) => {
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
     res.json({classes, studentMap, teacherMap});
+
 })
 
 app.get('/class-page', async (req, res) => {

@@ -56,7 +56,7 @@ export default function AddPersonForm(props) {
         })
             .then((response) => {
                 console.log(response);
-                props.refresh()
+                window.location.reload();
 
             }, (error) => {
                 console.log(error);
@@ -67,6 +67,7 @@ export default function AddPersonForm(props) {
     return (
         <Popup
             trigger={<Button className="button"> Add a {props.personType} </Button>}
+            contentStyle={{height: "20%",width: "80%"}}
 
             modal
             nested
