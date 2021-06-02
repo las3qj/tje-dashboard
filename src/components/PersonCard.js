@@ -129,81 +129,24 @@ function PersonCard({personType,person,reload,classList}){
                 <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
               )}
             </Grid>
-            <Grid item xs={1}>
-              {edit ? (
-                <div style={{ paddingTop: 12, paddingLeft: 10 }}>
-                  <TextField
-                    onChange={(evt) => {
-                      setDOB(evt.target.value);
-                    }}
-                    id="outlined-basic"
-                    label="Date of Birth"
-                    size="small"
-                    variant="outlined"
-                    defaultValue={dob}
-                  />
-                </div>
-              ) : (
-                <p style={{ textAlign: "center", fontSize: 18 }}>{dob}</p>
-              )}
-            </Grid>
-            <Grid item xs={1}>
-              <Popup
-                contentStyle={
-                  edit
-                    ? { height: "17%", width: "30%" }
-                    : { height: "15%", width: "30%" }
-                }
-                trigger={<Button>Contact Info</Button>}
-                position="right center"
-              >
-                <div style={{ padding: 5 }}>
-                  {edit ? (
-                    <TextField
-                      onChange={(evt) => {
-                        setNumber(evt.target.value);
-                      }}
-                      id="outlined-basic"
-                      label="Phone Number"
-                      size="small"
-                      variant="outlined"
-                      defaultValue={number}
-                    />
-                  ) : (
-                    <p>
-                      {person.phone === undefined
-                        ? "Phone Number Unavailable"
-                        : "Phone Number: " + number}
-                    </p>
-                  )}
-                  {edit && <br />}
-                  {edit && <br />}
-                  {edit ? (
-                    <TextField
-                      onChange={(evt) => {
-                        setAddr(evt.target.value);
-                      }}
-                      id="outlined-basic"
-                      label="Address"
-                      size="small"
-                      variant="outlined"
-                      defaultValue={addr}
-                    />
-                  ) : (
-                    <p>
-                      {person.address === undefined
-                        ? "Address Unavailable"
-                        : "Address: " + addr}
-                    </p>
-                  )}
+            <Grid item xs={2}>
+              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
+                <div style={{padding:5}}>
+          {edit?(<TextField onChange={(evt)=>{
+          setNumber(evt.target.value)
+          }} id="outlined-basic" label="Phone Number" size="small" variant="outlined" defaultValue={number}/>):<p>{person.phone===undefined?"Phone Number Unavailable":("Phone Number: "+number)}</p>}
+          {edit&&<br/>}
+          {edit&&<br/>}
+          {edit?(<TextField onChange={(evt)=>{
+          setAddr(evt.target.value)
+          }} id="outlined-basic" label="Address" size="small" variant="outlined" defaultValue={addr}/>):<p>{person.address===undefined?"Address Unavailable":("Address: "+addr)}</p>}
                 </div>
               </Popup>
             </Grid>
             <Grid item xs={4}>
-              <p style={{ textAlign: "center", fontSize: 18 }}>
-                {formatClasses(person.classes)}
-              </p>
+              <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
+
             {role === "admin" && (
               <>
                 <Grid item xs={1}>

@@ -106,7 +106,7 @@ export default function StudentDirectory() {
                     >
                         Name
                     </Button>
-                    <Button
+                    <Button style={{paddingRight:20}}
                         onClick={sortNameUp}
                         startIcon={<FiArrowUp />}
                     >
