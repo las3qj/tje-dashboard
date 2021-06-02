@@ -5,12 +5,15 @@ import CalendarCard from "./CalendarCard";
 import AddCalendarEventDialog from "./AddCalendarEventDialog";
 import { getCalendarEvents, convertDate } from "../utils/CalendarUtils";
 import CalendarView from "./CalendarView";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 function CalendarPage() {
   const [events, setEvents] = useState();
   const [view, setView] = useState("list");
   const [addEventActive, setAddEventActive] = useState(false);
   const [showPastEvents, setShowPastEvents] = useState(true);
+  const { isLoggedIn } = useContext(UserContext);
   const displayedEvents = showPastEvents
     ? events
     : events.filter((event) => convertDate(event.date) > Date.now());
@@ -60,13 +63,17 @@ function CalendarPage() {
           </Button>
         )}
 
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => setAddEventActive(true)}
-        >
-          Add Event
-        </Button>
+        {isLoggedIn ? (
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => setAddEventActive(true)}
+          >
+            Add Event
+          </Button>
+        ) : (
+          <div></div>
+        )}
 
         {view === "list" && (
           <Button
