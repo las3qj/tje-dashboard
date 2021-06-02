@@ -24,7 +24,7 @@ function App() {
         <Route path="/student-directory" component={StudentDirectory} />
         <Route path="/class-dashboard" component={ClassDashboard} />
         <Route path="/calendar" component={CalendarPage} />
-        <Route path="/class-page/:id" component={ClassPage}/>
+        <Route path="/class-page/:classID" component={ClassPage}/>
         <Route path="/Login" component={LoginPage} />
         <Route component={ErrorComponent} />
       </Switch>

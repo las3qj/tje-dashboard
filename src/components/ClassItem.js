@@ -1,5 +1,7 @@
 import {Card, CardContent, Button, Typography, makeStyles} from '@material-ui/core';
 import { useHistory } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from "../contexts/UserContext";
 
 const useStyles = makeStyles({
     root: {
@@ -12,15 +14,17 @@ const useStyles = makeStyles({
     },
   });
 
-function ClassItem ({myClass, teacherMap, user}) {
+function ClassItem ({myClass, teacherMap}) {
     const history = useHistory();
     const classes = useStyles();
+    const { role, id } = useContext(UserContext);
+
     return(
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
                     {myClass.name}
-                    <Button className={classes.classPageButton} disabled={!user.admin && user.teacherID!==myClass.teacherID}
+                    <Button className={classes.classPageButton} disabled={role !== "admin" && id!==myClass.teacherID}
                         onClick={(e)=>{
                             history.push("/class-page/"+myClass.id);
                             e.stopPropagation();
