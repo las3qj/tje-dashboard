@@ -72,7 +72,7 @@ function ClassInfoPanel({myClass, handlePut}) {
                 <Grid item className={styles.names}>
                     {editing?
                     <div className={styles.teacherSelect}>
-                        <InputLabel id="teacher-label">Teacher</InputLabel>
+                        <InputLabel id="teacher-label">Taught by</InputLabel>
                         <Select
                             labelId="teacher-label"
                             id="teacher"
