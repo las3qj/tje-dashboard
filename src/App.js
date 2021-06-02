@@ -26,6 +26,7 @@ function App() {
         <Route path="/Login" component={LoginPage} />
         <Route component={ErrorComponent} />
       </Switch>
+
     </div>
   );
 }
