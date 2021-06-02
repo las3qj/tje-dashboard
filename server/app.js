@@ -143,7 +143,10 @@ app.put('/teachers', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
-    db.collection("teacher").doc(id).set({ firstName, lastName, classes }).then(resp => res.sendStatus(200).end());
+    const address = req.body.address;
+    const birthday = req.body.birthday;
+    const phone = req.body.phone;
+    db.collection("teacher").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
@@ -151,8 +154,10 @@ app.put('/students', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
+    const address = req.body.address;
     const birthday = req.body.birthday;
-    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
+    const phone = req.body.phone;
+    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
