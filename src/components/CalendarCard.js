@@ -5,8 +5,12 @@ import {
   getCalendarEvents,
 } from "../utils/CalendarUtils";
 import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
+import ClearIcon from "@material-ui/icons/Clear";
 
 function CalendarCard({ event, setEvents }) {
+  const { isLoggedIn } = useContext(UserContext);
   return (
     <Paper
       style={{
@@ -22,18 +26,20 @@ function CalendarCard({ event, setEvents }) {
       <p style={{ fontWeight: "bold" }}>{event.name}</p>
       <p>{event.desc}</p>
 
-      <Button
-        color="secondary"
-        onClick={() => {
-          axios
-            .delete("http://localhost:8000/events", {
-              params: { id: event.id },
-            })
-            .then(() => getCalendarEvents(setEvents));
-        }}
-      >
-        X
-      </Button>
+      {isLoggedIn && (
+        <Button
+          color="secondary"
+          onClick={() => {
+            axios
+              .delete("http://localhost:8000/events", {
+                params: { id: event.id },
+              })
+              .then(() => getCalendarEvents(setEvents));
+          }}
+        >
+          <ClearIcon />
+        </Button>
+      )}
     </Paper>
   );
 }
