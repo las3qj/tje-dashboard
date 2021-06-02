@@ -5,13 +5,21 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 function PersonCard({personType,person,edit,save,setSave}){
 
-  const [fName,setFName] = useState(person.firstName);
-  const [lName,setLName] = useState(person.lastName);
-  const [dob,setDOB] = useState(person.birthday);
-  const [addr,setAddr] = useState(person.address);
-  const [number,setNumber] = useState(person.phone);
+  const [fName,setFName] = useState(null);
+  const [lName,setLName] = useState(null);
+  const [dob,setDOB] = useState(null);
+  const [addr,setAddr] = useState(null);
+  const [number,setNumber] = useState(null);
   const [classList,setClassList] = useState([]);
-  
+
+  useEffect(()=>{
+    setFName(person.firstName)
+    setLName(person.lastName)
+    setDOB(person.birthday)
+    setAddr(person.address)
+    setNumber(person.phone)
+  })
+
 
   const saveChanges = (()=>{
     const firstName = fName;
@@ -92,7 +100,6 @@ function PersonCard({personType,person,edit,save,setSave}){
                   }
                 }
               }
-              console.log(result)
               return result;
             }
             else{
@@ -130,8 +137,8 @@ function PersonCard({personType,person,edit,save,setSave}){
               </div>):<p style={{textAlign:"center",fontSize:18}}>{dob}</p>}
             </Grid>
             <Grid item xs={1}>
-              <Popup contentStyle={{height: "100px",width: "300px"}} trigger={<Button>Contact Info</Button>} position="right center">
-                <div>
+              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
+                <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
           setNumber(evt.target.value)
           }} id="outlined-basic" label="Phone Number" size="small" variant="outlined" defaultValue={number}/>):<p>{person.phone===undefined?"Phone Number Unavailable":("Phone Number: "+number)}</p>}
@@ -139,7 +146,7 @@ function PersonCard({personType,person,edit,save,setSave}){
           {edit&&<br/>}
           {edit?(<TextField onChange={(evt)=>{
           setAddr(evt.target.value)
-          }} id="outlined-basic" label="Addressr" size="small" variant="outlined" defaultValue={addr}/>):<p>{person.address===undefined?"Address Unavailable":("Address: "+addr)}</p>}
+          }} id="outlined-basic" label="Address" size="small" variant="outlined" defaultValue={addr}/>):<p>{person.address===undefined?"Address Unavailable":("Address: "+addr)}</p>}
                 </div>
               </Popup>
             </Grid>

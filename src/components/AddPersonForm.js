@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PinDropSharp } from '@material-ui/icons';
 import Input from '@material-ui/core/Input';
 import { FormControl, InputLabel, FormHelperText, Button, TextField } from '@material-ui/core';
-import {Autocomplete} from '@material-ui/lab';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import '../App.css';
 
 
@@ -49,13 +49,14 @@ export default function AddPersonForm(props) {
         axios.post(url, {
             firstName,
             lastName,
-            classes: homeroom,
+            classes: [homeroom],
             birthday,
             address,
             phone
         })
             .then((response) => {
                 console.log(response);
+                window.location.reload();
 
             }, (error) => {
                 console.log(error);
@@ -66,6 +67,7 @@ export default function AddPersonForm(props) {
     return (
         <Popup
             trigger={<Button className="button"> Add a {props.personType} </Button>}
+            contentStyle={{height: "20%",width: "80%"}}
 
             modal
             nested

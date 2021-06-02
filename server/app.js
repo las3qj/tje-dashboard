@@ -41,7 +41,6 @@ app.get('/', (req, res) => {
 app.get('/teachers', (req, res) => {
     getAll("teacher").then(resp => {
         res.json(resp)
-        console.log(resp)
     });
 })
 
@@ -79,6 +78,7 @@ app.get('/events/map', (req, res) => {
 // post routes
 
 app.post('/teachers', (req, res) => {
+    console.log(req.body)
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
@@ -157,8 +157,8 @@ app.put('/students', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
-    const birthday = req.body.birthday;
     const address = req.body.address;
+    const birthday = req.body.birthday;
     const phone = req.body.phone;
     db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
 })
