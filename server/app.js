@@ -169,10 +169,12 @@ app.put('/students', (req, res) => {
 })
 
 app.put('/classes', (req, res) => {
+    console.log(req.body);
     const id = req.body.id;
     const name = req.body.name;
     const students = req.body.students;
     const teacherID = req.body.teacherID;
+    console.log({id, name, students, teacherID});
     db.collection("class").doc(id).set({ name, students, teacherID }).then(resp => res.sendStatus(200).end());
 })
 
@@ -195,4 +197,46 @@ app.get('/class-page', async (req, res) => {
     const id = req.query.id;
     const [myClass, studentMap] = await Promise.all([get('class', id), getMap('student')]);
     res.json({myClass, studentMap});
+})
+
+app.put('/class-page/add-student', async (req, res) => {
+    const id = req.body.id; 
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    newClass.students.push(student);
+
+    const newStudent = await get('student', student.studentID);
+    newStudent.classes.push(id);
+
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
+        db.collection('student').doc(student.studentID).set(newStudent)]);
+    res.sendStatus(200).end();
+})
+
+app.put('/class-page/delete-student', async (req, res) => {
+    const id = req.body.id;
+    const studentID = req.body.studentID;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === studentID);
+    newClass.students.splice(index, 1);
+    db.collection('class').doc(id).set(newClass).then(resp => res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-student-grade', async (req, res) => {
+    const id = req.body.id;
+    const student = req.body.student;
+    const newClass = await get('class', id);
+    const index = newClass.students.findIndex(stu => stu.studentID === student.studentID);
+    newClass.students[index].grade = student.grade;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
+})
+
+app.put('/class-page/change-class-info', async (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const teacherID = req.body.teacherID;
+    const newClass = await get('class', id);
+    newClass.name = name;
+    newClass.teacherID = teacherID;
+    db.collection('class').doc(id).set(newClass).then(res.sendStatus(200).end());
 })

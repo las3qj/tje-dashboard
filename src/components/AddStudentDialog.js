@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, InputLabel,
     DialogTitle, Select, MenuItem} from '@material-ui/core';
 
-function AddStudentDialog({studentMap, currentStudents, handlePost}) {
+function AddStudentDialog({studentMap, currentStudents, handlePut}) {
   const [open, setOpen] = useState(false);
   const [student, setStudent] = useState('');
   const [availableStudents, setAvailableStudents] = useState([]);
@@ -21,7 +21,7 @@ function AddStudentDialog({studentMap, currentStudents, handlePost}) {
   return (
     <div>
       <Button variant="contained" onClick={() => setOpen(true)}>
-        Add student to class
+        Enroll student in class
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle id="form-dialog-title">Add student to class</DialogTitle>
@@ -45,7 +45,7 @@ function AddStudentDialog({studentMap, currentStudents, handlePost}) {
             Cancel
           </Button>
           <Button onClick={()=> {
-            handlePost(student);
+            handlePut(student);
             handleClose();
           }} color="primary">
             Add

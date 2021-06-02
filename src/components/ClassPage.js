@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
-import {Button, List, ListItem, ListItemText, Grid, Divider, makeStyles} from '@material-ui/core';
+import {Button, List, ListItem, ListItemText, Grid, Divider, makeStyles, TextField} from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import NavBar from './NavBar';
+import StudentItem from './StudentItem';
+import ClassInfoPanel from './ClassInfoPanel';
 import AddStudentDialog from './AddStudentDialog';
 
 const useStyles = makeStyles(() => ({
@@ -9,8 +11,13 @@ const useStyles = makeStyles(() => ({
         width: '100%',
         alignItems: "flex-start"
     },
-    list: {
-      width: '50%',
+    mainItem: {
+        width: '60%',
+        padding: 15,
+    },
+    sidePanel: {
+        width: '40%',
+        padding: 25,
     },
     inlineDiv: {
         display: 'inline-block',
@@ -28,6 +35,7 @@ function ClassPage() {
     const [changes, setChanges] = useState(true);
     const [myClass, setMyClass] = useState(undefined);
     const [studentMap, setStudentMap] = useState(undefined);
+    const axios = require('axios');
 
     useEffect(() => {
         if(changes) {
@@ -43,36 +51,74 @@ function ClassPage() {
         }
     }, [changes]);
 
+    const handlePutNewStudent = (studentID) => {
+        const newClass = {...myClass};
+        newClass.students.push({studentID, grade: 100});
+        const url = "http://localhost:8000/class-page/add-student";
+        axios.put(url, {id, student: {studentID, grade: 100}}).then(resp => {
+            setChanges(true);
+        })
+        setMyClass(newClass);
+    }
+
+    const handlePutStudentGrade = (student) => {
+        const url = "http://localhost:8000/class-page/change-student-grade";
+        axios.put(url, {id, student}).then(resp => {
+            setChanges(true);
+        });
+        const newClass = {...myClass};
+        const index = newClass.students.findIndex(stu => stu.studentID === student.studentID);
+        newClass.students[index] = student;
+        setMyClass(newClass);
+    }
+
+    const handleDeleteStudent = (studentID) => {
+        const url = "http://localhost:8000/class-page/delete-student";
+        axios.put(url, {id, studentID}).then(resp => {
+            setChanges(true);
+        });
+        const newClass = {...myClass};
+        const index = newClass.students.findIndex(stu => stu.studentID === studentID);
+        newClass.students.splice(index, 1);
+        setMyClass(newClass);
+    }
+
+    const handlePutClassInfo = ({name, teacherID}) => {
+        const url = "http://localhost:8000/class-page/change-class-info";
+        axios.put(url, {id, name, teacherID}).then(resp => {
+            setChanges(true);
+        });
+        const newClass = {...myClass, name, teacherID};
+        setMyClass(newClass);
+    }
+
     return(
         <div>
             <NavBar/>
             <Grid className={styles.root} container fluid direction="row" justify="center" alignItems="center" >
-                <List className={styles.list}>
-                    {myClass!==undefined && <h2>{myClass.name}</h2>}
-                    {(myClass!==undefined && studentMap!==undefined) && 
-                    myClass.students.map(({studentID, grade}, index) => {
-                        const student = studentMap[studentID];
-                        return(
-                            <div>
-                                {index===0 && <Divider/>}
-                                <ListItem>
-                                    <ListItemText>
-                                        <div className={styles.inlineDiv}>
-                                            <h3>{student.lastName+", "+student.firstName}</h3>
-                                        </div>
-                                        <div className={styles.inlineDiv}>
-                                            <h4 className={styles.grayText}>{"Grade: "+grade}</h4>
-                                        </div>
-                                        <Button variant="contained">Edit</Button>
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider/>
-                            </div>
-                        )
-                    })}
-                    {(myClass!==undefined && studentMap!==undefined) && <AddStudentDialog studentMap={studentMap} 
-                        currentStudents={myClass.students} handlePost={()=>console.log("success!")}/>}
-                </List>
+                <Grid item className={styles.mainItem}>
+                    <List>
+                        <h2>Student Roster</h2>
+                        {(myClass!==undefined && studentMap!==undefined) && 
+                        myClass.students.map(({studentID, grade}, index) => {
+                            const student = studentMap[studentID];
+                            return(
+                                <div>
+                                    {index===0 && <Divider/>}
+                                    <StudentItem student={student} grade={grade} studentID={studentID} 
+                                        handlePut={handlePutStudentGrade} handleDelete={handleDeleteStudent}/>
+                                    <Divider/>
+                                </div>
+                            )
+                        })}
+                        {(myClass!==undefined && studentMap!==undefined) && <AddStudentDialog studentMap={studentMap} 
+                            currentStudents={myClass.students} handlePut={handlePutNewStudent}/>}
+                    </List>
+                </Grid>
+                <Grid item className={styles.sidePanel}>
+                    {myClass!==undefined && <ClassInfoPanel user={{admin: true, teacherID: undefined}} 
+                        myClass={myClass} handlePut={handlePutClassInfo}/>}
+                </Grid>
             </Grid>
         </div>
     );
