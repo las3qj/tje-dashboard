@@ -37,7 +37,7 @@ const getMap = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const map = {};
     snapshot.forEach(doc => {
-        const each = {...doc.data()};
+        const each = { ...doc.data() };
         map[doc.id] = each;
     });
     return map;
@@ -85,6 +85,42 @@ app.get('/events/map', (req, res) => {
     getMap('event').then(resp => res.json(resp));
 })
 
+// get user permissions route
+
+app.get("/user", async (req, res) => {
+    const uid = req.query.uid;
+
+    const user = await db.collection("user").doc(uid).get();
+    if (!user.exists) {
+        res.send({ role: "none" }).end();
+    } else {
+        const accessCode = user.data().accessCode;
+
+        const teacher = await db.collection("teacher").doc(accessCode).get();
+        const admin = await db.collection("admin").doc(accessCode).get();
+        if (admin.exists) {
+        res
+            .json({
+            role: "admin",
+            id: accessCode,
+            firstName: admin.data().firstName,
+            lastName: admin.data().lastName,
+            })
+            .end();
+        } else if (teacher.exists) {
+        res
+            .json({
+            role: "teacher",
+            id: accessCode,
+            firstName: teacher.data().firstName,
+            lastName: teacher.data().lastName,
+            })
+            .end();
+        } else {
+        res.send({ role: "none" }).end();
+        }
+    }
+});
 
 // post routes
 
@@ -122,6 +158,14 @@ app.post('/events', (req, res) => {
     db.collection("event").add({ name, date, desc }).then(resp => res.sendStatus(200).end());
 })
 
+app.post("/users", (req, res) => {
+    const uid = req.body.uid;
+    const email = req.body.email
+    const accessCode = req.body.accessCode;
+    db.collection("user").doc(uid).set({accessCode, email})
+    .then((resp) => res.sendStatus(200).end())
+})
+
 // delete routes
 
 app.delete('/teachers', (req, res) => {
@@ -156,7 +200,10 @@ app.put('/teachers', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
-    db.collection("teacher").doc(id).set({ firstName, lastName, classes }).then(resp => res.sendStatus(200).end());
+    const address = req.body.address;
+    const birthday = req.body.birthday;
+    const phone = req.body.phone;
+    db.collection("teacher").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/students', (req, res) => {
@@ -164,8 +211,10 @@ app.put('/students', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
+    const address = req.body.address;
     const birthday = req.body.birthday;
-    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday }).then(resp => res.sendStatus(200).end());
+    const phone = req.body.phone;
+    db.collection("student").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.put('/classes', (req, res) => {
