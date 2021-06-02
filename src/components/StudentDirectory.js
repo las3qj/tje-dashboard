@@ -26,24 +26,22 @@ export default function StudentDirectory() {
 
     const classes = useStyles();
     useEffect(() => {
-        fetchStudents()
+        const delayDebounceFn = setTimeout(() => {
+            fetchStudents()
+        }, 550)
+        return () => clearTimeout(delayDebounceFn)
 
     }, [search])
-    // useEffect(() => {
-    //     searchStudents()
-    // }, [search])
     const [students, setStudents] = useState([])
     const [edit, setEdit] = useState(false);
     const [save, setSave] = useState(false);
 
+
     const searchStudents = (fetchedStudents) => {
-        let newStudents = [...fetchedStudents]
+        var newStudents = [...fetchedStudents]
         newStudents = newStudents.filter((student) => {
             const name = student.lastName.toUpperCase()
             const searchWord = search.toUpperCase()
-            // console.log(name)
-            // console.log(searchWord)
-            //console.log(name.indexOf(searchWord) !== -1 || searchWord === "")
             return (name.indexOf(searchWord) !== -1 || searchWord === "")
 
         }
@@ -51,6 +49,7 @@ export default function StudentDirectory() {
         console.log("filtered list:", newStudents)
         setStudents(newStudents)
     }
+
     const fetchStudents = () => {
         const url = new URL("http://localhost:8000/students");
         const axios = require('axios');
@@ -116,9 +115,11 @@ export default function StudentDirectory() {
                 </div>
                 <div className={classes.studentList} >
                     <Grid container spacing={1} style={{ justifyContent: "center" }}>
-                        {students.map((student, index) => (
-                            <PersonCard person={student} edit={edit} save={save} />
-                        ))}
+                        {console.log(students)}
+                        {
+                            students.map((student) => (
+                                <PersonCard person={student} edit={edit} save={save} key={student.id} />
+                            ))}
                     </Grid>
                 </div>
             </div>
