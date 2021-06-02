@@ -5,8 +5,11 @@ import React,{useEffect, useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import axios from "axios"
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
-function PersonCard({personType,person,save,setSave,reload}){
+function PersonCard({personType,person,reload}){
+  const { role } = useContext(UserContext);
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
@@ -91,7 +94,7 @@ function PersonCard({personType,person,save,setSave,reload}){
       <div style={{ padding: 2, justifyContent: "center" }}>
         <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
           <Grid container item xs={12} spacing={1}>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               {edit ? (
                 <div style={{ paddingTop: 12, paddingLeft: 10 }}>
                   <TextField
@@ -109,7 +112,7 @@ function PersonCard({personType,person,save,setSave,reload}){
                 <p style={{ textAlign: "center", fontSize: 18 }}>{lName}</p>
               )}
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               {edit ? (
                 <div style={{ paddingTop: 12, paddingLeft: 10 }}>
                   <TextField
@@ -127,7 +130,7 @@ function PersonCard({personType,person,save,setSave,reload}){
                 <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
               )}
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               {edit ? (
                 <div style={{ paddingTop: 12, paddingLeft: 10 }}>
                   <TextField
@@ -197,28 +200,32 @@ function PersonCard({personType,person,save,setSave,reload}){
                 </div>
               </Popup>
             </Grid>
-            <Grid item xs={edit ? 4 : 5}>
+            <Grid item xs={4}>
               <p style={{ textAlign: "center", fontSize: 18 }}>
                 {formatClasses(person.classes)}
               </p>
             </Grid>
-            <Grid item xs={1}>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  removePerson();
-                }}
-              >
-                <HighlightOffIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              {edit ? (
-                <Button onClick={() => saveChanges()}>Save</Button>
-              ) : (
-                <Button onClick={() => setEdit(true)}>Edit</Button>
-              )}
-            </Grid>
+            {role === "admin" && (
+              <>
+                <Grid item xs={1}>
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removePerson();
+                    }}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={1}>
+                  {edit ? (
+                    <Button onClick={() => saveChanges()}>Save</Button>
+                  ) : (
+                    <Button onClick={() => setEdit(true)}>Edit</Button>
+                  )}
+                </Grid>
+              </>
+            )}
           </Grid>
         </Card>
       </div>
