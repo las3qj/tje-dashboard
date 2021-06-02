@@ -4,8 +4,11 @@ import PersonCard from './PersonCard'
 import {Grid, Button,TextField} from '@material-ui/core' 
 import AddPersonForm from './AddPersonForm'
 import NavBar from "./NavBar";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 function TeacherDirectory(){
+    const { role } = useContext(UserContext);
     const personType = "teacher";
     const [teachers,setTeachers] = useState([]);
     // const [edit,setEdit] = useState(false);
@@ -74,13 +77,8 @@ function TeacherDirectory(){
         <NavBar/>
         <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
         <div style={{display:"flex",justifyContent:"center"}}>
-        <AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />
-        {/* <Button onClick={()=>{
-           setEdit(!edit);
-        }}>Edit</Button>
-        {edit&&<Button onClick={()=>{
-            setSave(true);
-        }}>Save</Button>} */}
+        {role==="admin" && (<AddPersonForm personType="teacher" reload={getTeachers} style={{ width: "20%" }} />)}
+
         <Button onClick={()=>{
             sortNameUp();
         }}>Sort (Name A-Z)</Button>

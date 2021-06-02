@@ -91,9 +91,9 @@ function PersonCard({personType,person,reload}){
             }
         })
     return (
-      <div style={{ padding: 2, justifyContent: "center" }}>
+      <div style={{ padding: 2, justifyContent: "center"}}>
         <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
-          <Grid container item xs={12} spacing={1}>
+          <Grid container item xs={12} spacing={1} style={{alignItems: "center", height: "100%" }}>
             <Grid item xs={2}>
               {edit ? (
                 <div style={{ paddingTop: 12, paddingLeft: 10 }}>

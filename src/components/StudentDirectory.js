@@ -7,6 +7,8 @@ import { Grid, Button, TextField } from '@material-ui/core'
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function StudentDirectory() {
+    const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
 
     const classes = useStyles();
@@ -89,13 +92,7 @@ export default function StudentDirectory() {
                 <div style={{ width: "100%" }}>
 
                     <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                    <AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />
-                    {/* <Button onClick={() => {
-                        setEdit(!edit);
-                    }}>Edit</Button>
-                    <Button onClick={() => {
-                        setSave(true);
-                    }}>Save</Button> */}
+                    {role==="admin" && (<AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />)}
                     <Button
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
