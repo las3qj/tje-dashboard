@@ -26,14 +26,15 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
     },
     image: {
-        flex: 1.5,
+        flex: 1.3,
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
 
     },
     mission: {
         flex: 1,
-
+        display: "flex",
+        flexDirection: "column",
         background: "linear-gradient(to top, #050f5c, #4853ab);"
     },
     card: {
@@ -57,49 +58,15 @@ export default function HomePage() {
                         <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
-                        mission statement/ about us
+                        <div>
+                            values
+                         </div>
+                        <div>
+                            mission statement/ about us
+                        </div>
                     </div>
                 </div>
-                <div className={classes.contact}>
-                    <img src={slug} style={{ width: 150 }} />
-                    <h1> Contact Us</h1>
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                Location
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                Thomas Jefferson Elementary School <br />
-                                1234 Thomas Jefferson Drive <br />
-                                Charlottesville, VA 22901 <br />
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                Principal
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                Camille Cooper <br />
-                                camille@joinforge.co <br />
-                                555-555-5555 <br />
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                Main Office
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                John Smith <br />
-                                john@joinforge.co <br />
-                                555-555-5555 <br />
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </div>
+
             </div>
         </div>
     )
