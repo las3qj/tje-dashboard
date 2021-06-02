@@ -4,6 +4,8 @@ import PersonCard from './PersonCard'
 import {Grid, Button,TextField} from '@material-ui/core' 
 import AddPersonForm from './AddPersonForm'
 import NavBar from "./NavBar";
+import { FiArrowDown } from "react-icons/fi";
+import { FiArrowUp } from "react-icons/fi";
 
 function TeacherDirectory(){
     const personType = "teacher";
@@ -73,33 +75,36 @@ function TeacherDirectory(){
     
     return (
         <div>
-        <NavBar/>
-        <h1 style={{textAlign:"center"}}>Teacher Directory.</h1>
-        <div style={{display:"flex",justifyContent:"center"}}>
-        <AddPersonForm personType="teacher" style={{ width: "20%" }} />
-        <Button onClick={()=>{
-            setEdit(!edit);
-        }}>Edit</Button>
-        {edit&&<Button onClick={()=>{
-            setSave(true);
-        }}>Save</Button>}
-        <Button onClick={()=>{
-            sortNameUp();
-        }}>Sort (Name A-Z)</Button>
-        <Button onClick={()=>{
-            sortNameDown();
-        }}>Sort (Name Z-A)</Button>
-        <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt)=>{
-            searchTeachers();
-        }}placeholder={'search by last name'} />
-        </div>
-        <Grid container spacing={1} style={{justifyContent:"center"}}>
-        {teachers.map((teacher)=>{
-            return(
-                <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
-            )
-        })}
-        </Grid>
+            <NavBar/>
+            <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
+            <div style={{display:"flex",justifyContent:"center"}}>
+            <AddPersonForm personType="teacher" style={{ width: "20%" }} />
+            <Button onClick={()=>{
+                setEdit(!edit);
+            }}>Edit</Button>
+            {edit&&<Button onClick={()=>{
+                setSave(true);
+            }}>Save</Button>}
+            <Button
+            onClick={sortNameDown}
+            startIcon={<FiArrowDown />}
+            >Name
+            </Button>
+            <Button style={{paddingRight:20}}
+            onClick={sortNameUp}
+            startIcon={<FiArrowUp />}
+            >Name</Button>
+            <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt)=>{
+                searchTeachers();
+            }}placeholder={'search by last name'} />
+            </div>
+            <Grid container spacing={1} style={{justifyContent:"center"}}>
+            {teachers.map((teacher)=>{
+                return(
+                    <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
+                )
+            })}
+            </Grid>
         </div>
     )
 }

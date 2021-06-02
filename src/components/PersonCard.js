@@ -136,7 +136,7 @@ function PersonCard({personType,person,edit,save,setSave}){
           }} id="outlined-basic" label="Date of Birth" size="small" variant="outlined" defaultValue={dob}/>
               </div>):<p style={{textAlign:"center",fontSize:18}}>{dob}</p>}
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
@@ -150,15 +150,15 @@ function PersonCard({personType,person,edit,save,setSave}){
                 </div>
               </Popup>
             </Grid>
-            <Grid item xs={edit?4:5}>
+            <Grid item xs={edit?3:4}>
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
             <Grid item xs={1}>
-              <IconButton onClick={()=>{
+              {edit&&<IconButton onClick={()=>{
                 removePerson();
               }}>
                 <HighlightOffIcon/>
-              </IconButton>
+              </IconButton>}
             </Grid>
             </Grid>
             </Card>
