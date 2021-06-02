@@ -10,6 +10,7 @@ function PersonCard({personType,person,edit,save,setSave}){
   const [dob,setDOB] = useState(person.birthday);
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
+  const [classList,setClassList] = useState([]);
   
 
   const saveChanges = (()=>{
@@ -20,7 +21,6 @@ function PersonCard({personType,person,edit,save,setSave}){
     const classes = person.classes;
     const address = addr;
     const phone = number;
-    console.log(JSON.stringify({id,firstName,lastName,birthday,classes,address,phone}))
 
     if(personType==="teacher"){
       fetch("http://localhost:8000/teachers", {
@@ -52,6 +52,17 @@ function PersonCard({personType,person,edit,save,setSave}){
       }).then(()=>{window.location.reload();})
     }
   })
+
+  useEffect(()=>{
+    fetch("http://localhost:8000/classes")
+      .then((resp) => {
+          return resp.json();
+          })
+          .then((obj) => {
+              setClassList(obj);
+          })
+
+  },[])
   
 
   useEffect(()=>{
@@ -61,52 +72,33 @@ function PersonCard({personType,person,edit,save,setSave}){
       }
   })
 
-
-
-
     const formatClasses = ((classes)=>{
-      fetch("http://localhost:8000/classes")
-        .then((resp) => {
-            return resp.json();
-            })
-            .then((obj) => {
-              console.log(obj)
-                const classList = obj;
-                if(classes){
-                  let result = "";
-                  let x = 0;
-                  for(x=0;x<classes.length;x++){
-                    console.log(result)
-                    if(x===0){
-                      for(let y=0;y<classList.length;y++){
-                        if(classList[y].id===classes[x]){
-                          result=classList[y].name
-                          break;
-                        }  
-                        if(y=classList.length-1){
-                          result=classes[x];
-                        }
-                      }
-                    }
-                    else{
-                      for(let y=0;y<classList.length;y++){
-                        if(classList[y].id===classes[x]){
-                          result = result+", "+classList[y].name;
-                          break;
-                        }  
-                        if(y=classList.length-1){
-                          result = result+", "+classes[x];
-                        }
-                      }
-                    }
+            if(classes){
+              let result = "";
+              let x = 0;
+              for(x=0;x<classes.length;x++){
+                if(x===0){
+                  for(let y=0;y<classList.length;y++){
+                    if(classList[y].id===classes[x]){
+                      result=classList[y].name
+                    }  
                   }
-                  return result;
                 }
                 else{
-                  return "No Classes"
-          
+                  for(let y=0;y<classList.length;y++){
+                    if(classList[y].id===classes[x]){
+                      result = result+", "+classList[y].name;
+                    }  
+                  }
                 }
-            })
+              }
+              console.log(result)
+              return result;
+            }
+            else{
+              return "No Classes"
+      
+            }
         })
 
     return(<div style={{padding:2,justifyContent:"center"}}>
