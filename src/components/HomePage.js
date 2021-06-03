@@ -13,37 +13,43 @@ import comradery from "./homePageIcons/comradery.png"
 const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
-        minHeight: "95vh"
+        minHeight: "135vh",
+        maxWidth:"100vw"
     },
     main: {
         display: "flex",
         flexDirection: "column",
-        flex: 5,
+        flex: 6,
         backgroundColor: "black",
+        maxWidth:"100vw"
 
     },
     icon: {
         width: 57,
-        paddingLeft: 75,
+        paddingLeft: 50,
         paddingRight: 20,
+        maxWidth:"100vw"
 
     },
     image: {
         flex: 1.3,
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
+        maxWidth:"100vw"
 
     },
     mission: {
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        background: "linear-gradient(to top, #172136, #505f7d);"
+        background: "linear-gradient(to top, #2E3B55, #6c7fa6);",
+        maxWidth:"100vw"
 
 
     },
     value: {
-        display: "flex"
+        display: "flex",
+        maxWidth:"100vw"
     }
 
 
@@ -51,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function HomePage() {
+    document.body.style='background:#2E3B55;';
     const classes = useStyles();
     return (
         <div>
@@ -58,14 +65,15 @@ export default function HomePage() {
             <div className={classes.container}>
                 <div className={classes.main}>
                     <div className={classes.image}>
-                        <h1 style={{ fontSize: 68, color: "gold", fontStyle: "italic", }}>  Thomas Jefferson Elementary School</h1>
-                        <h2 style={{ fontSize: 30, color: "white", fontStyle: "italic", }}> Home of the Banana Slugs</h2>
+                        <h1 style={{ fontSize: 68, color: "#FDFD96", fontStyle: "italic", marginBottom:"-20px" }}>  Thomas Jefferson Elementary School</h1>
+                        <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
+                        <br/>
 
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, fontSize: 40, color: "gold" }}>
+                        <div style={{ display: "flex", flexDirection: "column", flex: 1, margin:"auto ",alignItems:"center",fontSize: "1.8vw", color: "#FDFD96"}}>
 
-                            <h2 style={{ fontSize: 30, color: "white" }}> Our Values</h2>
+                            <h2 style={{ fontSize: "3vw", color: "white",textAlign:"center",fontWeight:"300"}}>These Are Our Values.</h2>
                             <div className={classes.value}>
                                 <img className={classes.icon} src={positivity} />
                                      Positivity
@@ -80,10 +88,9 @@ export default function HomePage() {
 
                             </div>
                         </div>
-                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingLeft: 50, paddingRight: 50, fontStyle: "italic", }} >
-                            <h2 style={{ fontSize: 30, color: "white", fontStyle: "normal", }}> Our Mission</h2>
-                           At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.
-
+                        <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center" }} >
+                            <h2 style={{ fontSize: "3vw", color: "white", fontStyle: "normal", textAlign:"center", fontWeight:"300"}}>We're on a Mission.</h2>
+                           "At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic."
                          </div>
 
                     </div>

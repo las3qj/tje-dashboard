@@ -37,6 +37,8 @@ function ClassDashboard () {
     const [changes, setChanges] = useState(true);
     const styles = useStyles();
 
+    document.body.style='background:"white";';
+
     const handlePost = (name, teacherID) => {
         const axios = require('axios');
         let url = "http://localhost:8000/classes";

@@ -8,6 +8,8 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
 const LoginPage = () => {
+  document.body.style='background:"white";';
+
   const history = useHistory();
   const { setUser, forceUserReload } = useContext(UserContext);
   const [email, setEmail] = useState("");
