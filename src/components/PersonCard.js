@@ -8,27 +8,15 @@ import axios from "axios"
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
-function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
+function PersonCard({personType,person,reload,classList}){
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
   const [dob,setDOB] = useState(person.birthday);
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
-  const [classList,setClassList] = useState([]);
   const { role } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
-
-  useEffect(()=>{
-    if(sort===true){
-    setFName(person.firstName)
-    setLName(person.lastName)
-    setDOB(person.birthday)
-    setAddr(person.address)
-    setNumber(person.phone)
-    setSort(false)
-    }
-  })
 
   const saveChanges = (()=>{
     const firstName = fName;
@@ -45,7 +33,7 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
-      .then(()=>{window.location.reload()})
+      .then(()=>{reload()})
     }
     else{
       fetch("http://localhost:8000/students", {
@@ -53,7 +41,7 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
-      .then(()=>{window.location.reload()})
+      .then(()=>{reload()})
     }
     setEdit(false)
   })

@@ -39,10 +39,11 @@ export default function StudentDirectory() {
         return () => clearTimeout(delayDebounceFn)
 
     }, [search])
-    const [students, setStudents] = useState([])
+    // const [students, setStudents] = useState([])
     const [edit, setEdit] = useState(false);
     const [save, setSave] = useState(false);
     const [sort,setSort]=useState(false);
+    useEffect(() =>{
         fetch("http://localhost:8000/classes")
         .then((res)=> res.json())
         .then((res) => setClassList(res))
