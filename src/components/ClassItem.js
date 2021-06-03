@@ -24,7 +24,8 @@ function ClassItem ({myClass, teacherMap}) {
             <CardContent>
                 <Typography variant="h5" component="h2">
                     {myClass.name}
-                    <Button className={classes.classPageButton} disabled={role !== "admin" && id!==myClass.teacherID}
+                    <Button className={classes.classPageButton} 
+                        disabled={role === "none" || (role !== "admin" && id!==myClass.teacherID)}
                         onClick={(e)=>{
                             history.push("/class-page/"+myClass.id);
                             e.stopPropagation();
