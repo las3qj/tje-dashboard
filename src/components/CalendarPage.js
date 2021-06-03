@@ -82,7 +82,6 @@ function CalendarPage() {
             <Button
               color="secondary"
               variant="contained"
-              // style={{backgroundColor:"#FDFD96"}}
               onClick={() => setAddEventActive(true)}
             >
               Add Event
@@ -106,8 +105,10 @@ function CalendarPage() {
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
+            margin: "auto",
             marginTop: "2%",
             gap: "1%",
+            width: "89%"
           }}
         >
           {view === "list" &&
