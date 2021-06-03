@@ -163,5 +163,6 @@ export default function StudentDirectory() {
         </div>
         <Footer/>
       </div>
+    </div>
     );
 }
