@@ -11,11 +11,12 @@ import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
     root: {
-        width: '100%',
-        alignItems: "flex-start"
+        width: '90vw',
+        alignItems: "flex-start",
+        margin: "auto"
     },
     list: {
-      width: '50%',
+      width: '45vw',
     },
     inlineDiv: {
         display: 'inline-block',

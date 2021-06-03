@@ -14,7 +14,8 @@ function CalendarCard({ event, setEvents }) {
   return (
     <Paper
       style={{
-        width: "80%",
+        width: "100%",
+        maxWidth: "90vw",
         padding: "1%",
         display: "grid",
         gridTemplateColumns: "15em 1fr 2fr 5em",
