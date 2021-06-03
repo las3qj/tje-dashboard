@@ -153,6 +153,7 @@ export default function StudentDirectory() {
             {studentsToDisplay.length === 0 && students.length !== 0 && ("No results found")}
           </div>
         </div>
+        <Footer/>
       </div>
     );
 }
