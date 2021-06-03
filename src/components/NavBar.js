@@ -82,13 +82,12 @@ export default function NavBar() {
           {isLoggedIn && (
               <div style={{paddingTop:"15%"}}>
             <Button
-            style={{right:"0%"}}
+            style={{backgroundColor:"#FDFD96"}}
             size="small"
-            color="secondary"
               label="Log Out"
               value={6}
-              onClick={() => firebase.auth().signOut()}
-            >Log Out</Button>
+              onClick={() => history.push("/account")}
+            >My Account</Button>
             </div>
           )}
           </Grid>
