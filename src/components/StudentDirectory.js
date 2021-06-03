@@ -92,7 +92,7 @@ export default function StudentDirectory() {
     const studentsToDisplay = searchStudents();
 
     return (
-
+        <div>
             <NavBar />
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ width: "100%", marginBottom: "1%" }}>
