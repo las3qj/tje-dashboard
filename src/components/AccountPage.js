@@ -26,6 +26,13 @@ function AccountPage() {
       });
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Delete Account?")) return null;
+    await user.delete()
+    await axios.delete("http://localhost:8000/users", {data: {user: user.uid}})
+    history.push("/")
+  }
+
   if (!isLoggedIn) history.push("/login");
   return (
     <div>
@@ -86,6 +93,19 @@ function AccountPage() {
         }}
       >
         Log Out
+      </Button>
+
+      <br />
+      <br />
+
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          handleDelete()
+        }}
+      >
+        Delete Account
       </Button>
 
       <Footer />
