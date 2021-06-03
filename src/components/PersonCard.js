@@ -1,10 +1,8 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
-import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React, { useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import axios from "axios"
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
@@ -12,7 +10,7 @@ function PersonCard({personType,person,reload,classList}){
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
-  const [dob,setDOB] = useState(person.birthday);
+  const dob = person.birthday;
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
   const { role } = useContext(UserContext);
@@ -34,8 +32,7 @@ function PersonCard({personType,person,reload,classList}){
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
       .then(()=>{reload()})
-    }
-    else{
+    } else{
       fetch("http://localhost:8000/students", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -48,46 +45,44 @@ function PersonCard({personType,person,reload,classList}){
 
   const removePerson=(()=>{
     if(personType==="teacher"){
-      fetch("http://localhost:8000/teachers?"+"id="+person.id, {
+      fetch("http://localhost:8000/teachers?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})
     }
     else{
-      fetch("http://localhost:8000/students?"+"id="+person.id, {
+      fetch("http://localhost:8000/students?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})
     }
   })
 
-    const formatClasses = ((classes)=>{
-            if(classes){
-              let result = "";
-              let x = 0;
-              for(x=0;x<classes.length;x++){
-                if(x===0){
-                  for(let y=0;y<classList.length;y++){
-                    if(classList[y].id===classes[x]){
-                      result=classList[y].name
-                    }  
-                  }
-                }
-                else{
-                  for(let y=0;y<classList.length;y++){
-                    if(classList[y].id===classes[x]){
-                      result = result+", "+classList[y].name;
-                    }  
-                  }
-                }
+    const formatClasses = (classes) => {
+      if (classes) {
+        let result = "";
+        let x = 0;
+        for (x = 0; x < classes.length; x++) {
+          if (x === 0) {
+            for (let y = 0; y < classList.length; y++) {
+              if (classList[y].id === classes[x]) {
+                result = classList[y].name;
               }
-              return result;
             }
-            else{
-              return "No Classes"
-      
+          } else {
+            for (let y = 0; y < classList.length; y++) {
+              if (classList[y].id === classes[x]) {
+                result = result + ", " + classList[y].name;
+              }
             }
-        })
+          }
+        }
+        return result;
+      } else {
+        return "No Classes";
+      }
+    };
+    
     return (
       <div style={{ padding: 2, justifyContent: "center"}}>
         <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
