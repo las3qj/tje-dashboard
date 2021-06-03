@@ -9,6 +9,8 @@ import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -27,22 +29,25 @@ export default function StudentDirectory() {
     const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+    const [students, setStudents] = useState([])
 
     useEffect(() => {
         fetch("http://localhost:8000/classes")
-        .then((res)=> res.json())
-        .then((res) => setClassList(res))
+            .then((res) => res.json())
+            .then((res) => setClassList(res))
     }, [])
 
     const classes = useStyles();
     useEffect(() => {
+        setIsLoading(true)
         const delayDebounceFn = setTimeout(() => {
             fetchStudents()
         }, 550)
         return () => clearTimeout(delayDebounceFn)
 
     }, [search])
-    const [students, setStudents] = useState([])
+
 
     const searchStudents = (fetchedStudents) => {
         var newStudents = [...fetchedStudents]
@@ -64,6 +69,7 @@ export default function StudentDirectory() {
             .then(response => {
                 console.log("fetched data", response.data);
                 searchStudents(response.data)
+                setIsLoading(false)
             }, error => {
                 console.log(error);
             });
@@ -92,6 +98,17 @@ export default function StudentDirectory() {
         })
         setStudents(newStudents)
     }
+    if (isLoading) {
+        return (
+            <div>
+                <NavBar />
+                <h1 style={{ textAlign: "center" }}>Student Directory</h1>
+                <CircularProgress />
+
+            </div>
+        )
+    }
+
     return (
         <div>
             <NavBar />
@@ -99,14 +116,14 @@ export default function StudentDirectory() {
                 <div style={{ width: "100%" }}>
 
                     <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                    {role==="admin" && (<AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />)}
+                    {role === "admin" && (<AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />)}
                     <Button
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
                     >
                         Name
                     </Button>
-                    <Button style={{paddingRight:20}}
+                    <Button style={{ paddingRight: 20 }}
                         onClick={sortNameUp}
                         startIcon={<FiArrowUp />}
                     >
