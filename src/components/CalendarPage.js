@@ -19,6 +19,8 @@ function CalendarPage() {
     ? events
     : events.filter((event) => convertDate(event.date) > Date.now());
 
+    document.body.style='background:"white";';
+
   useEffect(() => {
     getCalendarEvents(setEvents);
   }, []);

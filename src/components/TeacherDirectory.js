@@ -12,6 +12,8 @@ import Footer from "./Footer"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
 function TeacherDirectory() {
+    document.body.style='background:"white";';
+
     const { role } = useContext(UserContext);
     const [teachers, setTeachers] = useState("loading");
     const [search, setSearch] = useState("")

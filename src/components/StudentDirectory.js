@@ -32,6 +32,8 @@ export default function StudentDirectory() {
     const [students, setStudents] = useState([]);
     const [sort, setSort] = useState(false);
 
+    document.body.style='background:"white";';
+
     useEffect(() => {
         fetch("http://localhost:8000/classes")
             .then((res) => res.json())
