@@ -1,5 +1,8 @@
 import {useState} from 'react';
-import {ListItem, ListItemText, Button, TextField, makeStyles} from '@material-ui/core';
+import {ListItem, ListItemText, Button, Select, MenuItem, InputLabel, makeStyles} from '@material-ui/core';
+import {ReactComponent as HappyLogo} from './gradeIcons/happy.svg';
+import {ReactComponent as ConfusedLogo} from './gradeIcons/confused.svg';
+import {ReactComponent as SadLogo} from './gradeIcons/sad.svg';
 
 const useStyles = makeStyles(() => ({
     inlineDiv: {
@@ -12,16 +15,19 @@ const useStyles = makeStyles(() => ({
     },
     secondButton: {
         margin: "0 15px",
+    },
+    gradeLabel: {
+        margin: "25px 0 18px 0",
     }
 }));
   
 function StudentItem({student, grade, studentID, handlePut, handleDelete}) {
     const styles = useStyles();
-    const [editing, setEditing] = useState(false);
+    const [changes, setChanges] = useState(false);
     const [myGrade, setMyGrade] = useState(grade);
     const handleSave = () => {
         handlePut({studentID, grade: myGrade});
-        setEditing(false);
+        setChanges(false);
     }
     return (
         <ListItem>
@@ -29,23 +35,29 @@ function StudentItem({student, grade, studentID, handlePut, handleDelete}) {
                 <div className={styles.inlineDiv}>
                     <h3>{student.lastName+", "+student.firstName}</h3>
                 </div>
+
                 <div className={styles.inlineDiv}>
-                    {editing ? 
-                    <TextField
-                        label="Grade:"
+                    <InputLabel id="grade-label" className={styles.gradeLabel}><b>Grade:</b></InputLabel>
+                    <Select
+                        labelId="grade-label"
+                        id="grade"
                         value={myGrade}
-                        onChange={e => setMyGrade(e.target.value)}
-                        onKeyDown={e => {
-                            if(e.key==="Enter") {
-                                handleSave();
+                        SelectDisplayProps={{style: {fontSize: 20}}}
+                        onChange={e=>{
+                            if(e.target.value !== myGrade) {
+                                setChanges(true);
+                                setMyGrade(e.target.value);
                             }
                         }}
-                    />
-                        : <h4 className={styles.grayText}>{"Grade: "+myGrade}</h4>}
+                    >
+                        <MenuItem value={"Outstanding"}><HappyLogo width={25} height={25}/></MenuItem>
+                        <MenuItem value={"Satisfactory"}><ConfusedLogo width={25} height={25}/></MenuItem>
+                        <MenuItem value={"Needs Improvement"}><SadLogo width={25} height={25}/></MenuItem>
+                    </Select>
                 </div>
-                {editing ? <Button variant="contained" color="primary" onClick={() => handleSave()}>
+                <Button variant="contained" color="primary" onClick={() => handleSave()} disabled={!changes}>
                     Save
-                </Button> : <Button variant="contained" onClick={() => setEditing(true)}>Edit</Button>}
+                </Button>
                 <Button variant="contained" color="secondary" className={styles.secondButton} 
                     onClick={()=>handleDelete(studentID)}>Unenroll</Button>
             </ListItemText>
