@@ -1,5 +1,4 @@
 import NavBar from "./NavBar"
-import AppBar from '@material-ui/core/AppBar';
 import Footer from "./Footer.js"
 import { makeStyles } from '@material-ui/core/styles';
 import background from './background.png'
@@ -73,17 +72,16 @@ export default function HomePage() {
 
                             <h2 style={{ fontSize: "3vw", color: "white",textAlign:"center",fontWeight:"300"}}>These Are Our Values.</h2>
                             <div className={classes.value}>
-                                <img className={classes.icon} src={positivity} />
-                                     Positivity
-                                <img className={classes.icon} src={respect} />
-                                     Respect
-                                <img className={classes.icon} src={diversity} />
-                                     Diversity
-                                <img className={classes.icon} src={education} />
-                                     Education
-                                <img className={classes.icon} src={comradery} />
-                                     Comradery
-
+                               <img className={classes.icon} src={positivity} alt="Positivity" />
+                                Positivity
+                                <img className={classes.icon} src={respect} alt="Respect" />
+                                Respect
+                                <img className={classes.icon} src={diversity} alt="Diversity"/>
+                                Diversity
+                                <img className={classes.icon} src={education} alt="Education"/>
+                                Education
+                                <img className={classes.icon} src={comradery} alt="Comradery"/>
+                                Comradery
                             </div>
                         </div>
                         <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center" }} >
@@ -92,13 +90,17 @@ export default function HomePage() {
                          </div>
                          <br/>
                          <h1 style={{marginBottom:"-100px",color:"white",fontFamily:"Times New Roman"}}>. . .</h1>
-
                     </div>
                 </div>
-
+                <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center" }} >
+                    <h2 style={{ fontSize: "3vw", color: "white", fontStyle: "normal", textAlign:"center", fontWeight:"300"}}>We're on a Mission.</h2>
+                    "At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic."
+                </div>
+                <br/>
+                <h1 style={{marginBottom:"-100px",color:"white",fontFamily:"Times New Roman"}}>. . .</h1>
             </div>
             <Footer />
         </div>
-    )
-
+    </div>
+    );
 }
