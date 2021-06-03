@@ -15,14 +15,11 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-
-
     },
     studentList: {
         display: "flex",
         flexDirection: "column"
     }
-
 }));
 
 
@@ -30,19 +27,9 @@ export default function StudentDirectory() {
     const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
-    const [students, setStudents] = useState([])
-
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            fetchStudents()
-        }, 550)
-        return () => clearTimeout(delayDebounceFn)
-
-    }, [search])
-    // const [students, setStudents] = useState([])
-    const [edit, setEdit] = useState(false);
-    const [save, setSave] = useState(false);
+    const [students, setStudents] = useState([]);
     const [sort,setSort]=useState(false);
+
     useEffect(() =>{
         fetch("http://localhost:8000/classes")
         .then((res)=> res.json())
