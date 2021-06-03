@@ -131,7 +131,6 @@ app.get("/user/check", async (req, res) => {
         const admin = await db.collection("admin").doc(accessCode).get();
 
         if (teacher.exists || admin.exists) {
-            console.log("success")
             res.send(true)
         } else {
             res.send(false)
@@ -146,7 +145,6 @@ app.get("/user/check", async (req, res) => {
 // post routes
 
 app.post('/teachers', (req, res) => {
-    console.log(req.body)
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const classes = req.body.classes;
@@ -228,7 +226,6 @@ app.listen(port, () => {
 // put routes
 
 app.put('/teachers', (req, res) => {
-    console.log(req.body)
     const id = req.body.id;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -245,7 +242,6 @@ app.put('/teachers', (req, res) => {
 })
 
 app.put('/students', (req, res) => {
-    console.log(req.body)
     const id = req.body.id;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;

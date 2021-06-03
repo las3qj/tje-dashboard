@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        background: "linear-gradient(to top, #172136, #505f7d);"
+        //background: "linear-gradient(to top, #172136, #505f7d);"
+
+
     },
     value: {
         display: "flex"
@@ -78,11 +80,12 @@ export default function HomePage() {
 
                             </div>
                         </div>
-                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingBottom: 35, paddingLeft: 50, paddingRight: 50, fontStyle: "italic", }} >
+                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingLeft: 50, paddingRight: 50, fontStyle: "italic", }} >
                             <h2 style={{ fontSize: 30, color: "white", fontStyle: "normal", }}> Our Mission</h2>
                            At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.
 
                          </div>
+
                     </div>
                 </div>
 

@@ -15,8 +15,6 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-
-
     },
     studentList: {
         display: "flex",
@@ -24,27 +22,16 @@ const useStyles = makeStyles((theme) => ({
         minHeight: "40vh"
 
     }
-
 }));
 
 
 export default function StudentDirectory() {
-    const { role } = useContext(UserContext);
+    const { role, isLoggedIn } = useContext(UserContext);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
-    const [students, setStudents] = useState([])
-
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            fetchStudents()
-        }, 550)
-        return () => clearTimeout(delayDebounceFn)
-
-    }, [search])
-    // const [students, setStudents] = useState([])
-    const [edit, setEdit] = useState(false);
-    const [save, setSave] = useState(false);
+    const [students, setStudents] = useState([]);
     const [sort, setSort] = useState(false);
+
     useEffect(() => {
         fetch("http://localhost:8000/classes")
             .then((res) => res.json())
@@ -137,7 +124,7 @@ export default function StudentDirectory() {
                         placeholder={"search by last name"}
                     />
                 </div>
-                <div className={classes.studentList} style={{ margin: "auto" }}>
+                {isLoggedIn ? (<div className={classes.studentList} style={{ margin: "auto" }}>
                     <Grid container spacing={1} style={{ justifyContent: "center" }}>
                         {studentsToDisplay.map((student) => (
                             <PersonCard
@@ -153,10 +140,11 @@ export default function StudentDirectory() {
                     </Grid>
                     {students.length === 0 && <CircularProgress />}
                     {studentsToDisplay.length === 0 && students.length !== 0 && ("No results found")}
-                </div>
-                <Footer />
+                </div>) : (
+                    <p>Please log in to view students.</p>
+                )}
             </div>
-
+            <Footer />
         </div>
     );
 }
