@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        //background: "linear-gradient(to top, #172136, #505f7d);"
+        background: "linear-gradient(to top, #172136, #505f7d);"
 
 
     },
