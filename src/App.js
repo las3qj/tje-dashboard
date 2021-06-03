@@ -11,6 +11,7 @@ import firebase from "./firebase/firebase";
 import { UserContext } from "./contexts/UserContext";
 import { useContext } from "react";
 import LoginPage from "./components/LoginPage";
+import AccountPage from "./components/AccountPage"
 
 function App() {
   const { setUser } = useContext(UserContext);
@@ -28,6 +29,7 @@ function App() {
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/class-page/:classID" component={ClassPage}/>
         <Route path="/Login" component={LoginPage} />
+        <Route path="/account" component={AccountPage} />
         <Route component={ErrorComponent} />
       </Switch>
 
