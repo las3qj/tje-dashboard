@@ -17,6 +17,8 @@ const useStyles = makeStyles(() => ({
     },
     list: {
       width: '45vw',
+      overflowY: "scroll",
+      height: "65vh"
     },
     inlineDiv: {
         display: 'inline-block',
@@ -25,6 +27,11 @@ const useStyles = makeStyles(() => ({
     },
     grayText: {
         color: 'gray',
+    },
+    classCard: {
+        width: "auto", 
+        padding: 0, 
+        margin: "1%"
     }
   }));
 
@@ -69,56 +76,62 @@ function ClassDashboard () {
         <div>
             <NavBar/>
             <Grid container fluid direction="row" justify="center" alignItems="center" className={styles.root}>
-                <List className={styles.list}>
+                <div>
                     <h1> Class List </h1>
-                    {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) && 
-                    classes.map((myClass, index) => {
-                        return(
-                            <ListItem button onClick={e => {
-                                if(role === "admin" || role === "teacher") {
-                                    setSelectedClass(myClass);
-                                    setStudents(myClass.students);
-                                }
-                            }}>
-                                <ClassItem myClass={myClass} teacherMap={teacherMap}/>
-                            </ListItem>
-                        );
-                    })}                
-                    {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) &&
-                    <AddClassDialog teacherMap={teacherMap} handlePost={handlePost}/>}
-                </List>
-                <List className={styles.list}>
-                    <h1> Student Roster </h1>
-                    {role === "none" ? <h2 className={styles.grayText}>Roster available only for staff and administration</h2> : 
-                    selectedClass===undefined ? <h2 className={styles.grayText}>No class selected</h2> :
-                    students.length===0? <h2 className={styles.grayText}>No students in this class</h2> :
-                    students.map(({studentID, grade}, index) => {
-                        const student = studentMap[studentID];
-                        return(
-                            <div>
-                                {index===0 && <Divider/>}
-                                <ListItem>
-                                    <ListItemText>
-                                        <div className={styles.inlineDiv}>
-                                            <h3>{student.lastName+", "+student.firstName}</h3>
-                                        </div>
-                                        <div className={styles.inlineDiv}>
-                                            <h4 className={styles.grayText}>
-                                                {"Grade: "}{role==="admin"||
-                                                    (role==="teacher" && selectedClass.teacherID===id)
-                                                    ?(grade==="Outstanding"?<HappyLogo width={25} height={25}/>:
-                                                     (grade==="Satisfactory"?<ConfusedLogo width={25} height={25}/>:
-                                                     <SadLogo width={25} height={25}/>))
-                                                    :"Hidden"}
-                                            </h4>
-                                        </div>
-                                    </ListItemText>
+                    <List className={styles.list}>
+                        
+                        {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) && 
+                        classes.map((myClass, index) => {
+                            return(
+                                <ListItem button className={styles.classCard} onClick={e => {
+                                    if(role === "admin" || role === "teacher") {
+                                        setSelectedClass(myClass);
+                                        setStudents(myClass.students);
+                                    }
+                                }}>
+                                    <ClassItem myClass={myClass} teacherMap={teacherMap}/>
                                 </ListItem>
-                                <Divider/>
-                            </div>
-                        )
-                    })}
-                </List>
+                            );
+                        })}                
+                    </List>
+                    <br />
+                    {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) &&
+                        <AddClassDialog teacherMap={teacherMap} handlePost={handlePost}/>}
+                </div>
+                <div>
+                    <h1> Student Roster </h1>
+                    <List className={styles.list} style={{paddingLeft: "2%", paddingRight: "2%"}}>
+                        {role === "none" ? <h2 className={styles.grayText}>Roster available only for staff and administration</h2> : 
+                        selectedClass===undefined ? <h2 className={styles.grayText}>No class selected</h2> :
+                        students.length===0? <h2 className={styles.grayText}>No students in this class</h2> :
+                        students.map(({studentID, grade}, index) => {
+                            const student = studentMap[studentID];
+                            return(
+                                <div>
+                                    {index===0 && <Divider/>}
+                                    <ListItem>
+                                        <ListItemText>
+                                            <div className={styles.inlineDiv}>
+                                                <h3>{student.lastName+", "+student.firstName}</h3>
+                                            </div>
+                                            <div className={styles.inlineDiv}>
+                                                <h4 className={styles.grayText}>
+                                                    {"Grade: "}{role==="admin"||
+                                                        (role==="teacher" && selectedClass.teacherID===id)
+                                                        ?(grade==="Outstanding"?<HappyLogo width={25} height={25}/>:
+                                                        (grade==="Satisfactory"?<ConfusedLogo width={25} height={25}/>:
+                                                        <SadLogo width={25} height={25}/>))
+                                                        :"Hidden"}
+                                                </h4>
+                                            </div>
+                                        </ListItemText>
+                                    </ListItem>
+                                    <Divider/>
+                                </div>
+                            )
+                        })}
+                    </List>
+                </div>
             </Grid>
             <Footer/>
         </div>
