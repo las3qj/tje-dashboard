@@ -61,7 +61,7 @@ export default function HomePage() {
     return (
         <div>
             <NavBar />
-            <div className={classes.container}>
+            <div className={classes.container} style={{marginTop:"-20px"}>
                 <div className={classes.main}>
                     <div className={classes.image}>
                         <h1 style={{ fontSize: 68, color: "#FDFD96", fontStyle: "italic", marginBottom:"-20px" }}>  Thomas Jefferson Elementary School</h1>
