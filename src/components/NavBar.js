@@ -15,10 +15,10 @@ export default function NavBar() {
         <div style={{ display: "flex" }}>
         <Grid container item xs={12} spacing={1}>
         <Grid item xs={4}>
-            <h1 style={{fontSize:"3vh", paddingLeft:15}}>TJ Elementary Mission Control 🚀</h1>
+            <h1 style={{fontSize:"3.3vh", paddingLeft:15, fontWeight:"200"}}>TJ Elementary Mission Control 🚀</h1>
         </Grid>
         <Grid item xs={7}>
-        <div style={{paddingTop:"1.75%"}}>
+        <div style={{paddingTop:"2.5%"}}>
           <Button
             size="small"
             color="inherit"

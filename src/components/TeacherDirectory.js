@@ -8,12 +8,14 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
+import Footer from "./Footer"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 function TeacherDirectory(){
     const { role } = useContext(UserContext);
-    const personType = "teacher";
-    const [teachers,setTeachers] = useState([]);
+    const [teachers,setTeachers] = useState("loading");
     const [search, setSearch] = useState("")
+    const [sort,setSort]=useState(false);
     const [classList, setClassList] = useState([]);
 
     const getTeachers=(()=>{
@@ -35,23 +37,15 @@ function TeacherDirectory(){
     },[])
 
     const searchTeachers = () => {
-        fetch("http://localhost:8000/teachers")
-        .then((resp) => {
-            return resp.json();
-            })
-            .then((obj) => {
-                let newTeachers = obj
-                newTeachers = newTeachers.filter((teacher) => {
-                    const name = teacher.lastName.toUpperCase()
-                    const searchWord = search.toUpperCase()
-                    return (name.indexOf(searchWord) !== -1 || searchWord === "")
-        
-                }
-                )
-                console.log("filtered list:", newTeachers)
-                setTeachers(newTeachers)
-            })
-    }
+        if (teachers === "loading") return []
+        let newTeachers = teachers;
+        newTeachers = newTeachers.filter((teacher) => {
+            const name = teacher.lastName.toUpperCase();
+            const searchWord = search.toUpperCase();
+            return name.indexOf(searchWord) !== -1 || searchWord === "";
+        });
+        return newTeachers;
+    };
 
     const sortNameDown = () => {
         const newTeachers = [...teachers]
@@ -63,11 +57,13 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
 
     const sortNameUp = () => {
         const newTeachers = [...teachers]
         newTeachers.sort(function (a, b) {
+            
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
             const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
             if (nameA < nameB) return 1;
@@ -75,14 +71,17 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
+    
+    const teachersToDisplay = searchTeachers();
     
     return (
         <div>
             <NavBar/>
             <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
-            <div style={{display:"flex",justifyContent:"center"}}>
-            <AddPersonForm personType="teacher" style={{ width: "20%" }} />
+            <div style={{display:"flex",justifyContent:"center", marginBottom: "1%" }}>
+            {role === "admin" && (<AddPersonForm personType="teacher" style={{ width: "20%" }} />)}
 
             <Button
             onClick={sortNameDown}
@@ -98,12 +97,21 @@ function TeacherDirectory(){
             }}placeholder={'search by last name'} />
             </div>
             <Grid container spacing={1} style={{justifyContent:"center"}}>
-            {teachers.map((teacher, i)=>{
-                return(
-                    <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={i}/>
-                )
-            })}
+            {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
+                <PersonCard
+                  personType={"teacher"}
+                  person={teacher}
+                  key={teacher.id}
+                  reload={getTeachers}
+                  classList={classList}
+                  sort={sort}
+                  setSort={setSort}
+                />
+              )))}
+            {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
+            {teachers === "loading" && <CircularProgress /> }
             </Grid>
+            <Footer/>
         </div>
     )
 }

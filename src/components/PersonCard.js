@@ -1,21 +1,19 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
-import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React, { useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import axios from "axios"
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
 function PersonCard({personType,person,reload,classList}){
-  const { role } = useContext(UserContext);
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
-  const [dob,setDOB] = useState(person.birthday);
+  const dob = person.birthday;
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
+  const { role } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
 
   const saveChanges = (()=>{
@@ -28,67 +26,63 @@ function PersonCard({personType,person,reload,classList}){
     const phone = number;
 
     if(personType==="teacher"){
-      axios.put("http://localhost:8000/teachers", {id,firstName,lastName,birthday,classes,address,phone})
-    }
-    else{
-      axios.put("http://localhost:8000/students", {id,firstName,lastName,birthday,classes,address,phone})
+      fetch("http://localhost:8000/teachers", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
+      })
+      .then(()=>{reload()})
+    } else{
+      fetch("http://localhost:8000/students", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
+      })
+      .then(()=>{reload()})
     }
     setEdit(false)
   })
 
   const removePerson=(()=>{
     if(personType==="teacher"){
-      fetch("http://localhost:8000/teachers?"+"id="+person.id, {
+      fetch("http://localhost:8000/teachers?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})
     }
     else{
-      fetch("http://localhost:8000/students?"+"id="+person.id, {
+      fetch("http://localhost:8000/students?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})
     }
   })
 
-  // useEffect(()=>{
-  //   fetch("http://localhost:8000/classes")
-  //     .then((resp) => {
-  //         return resp.json();
-  //         })
-  //         .then((obj) => {
-  //             setClassList(obj);
-  //         })
-
-  // },[])
-
-    const formatClasses = ((classes)=>{
-            if(classes){
-              let result = "";
-              let x = 0;
-              for(x=0;x<classes.length;x++){
-                if(x===0){
-                  for(let y=0;y<classList.length;y++){
-                    if(classList[y].id===classes[x]){
-                      result=classList[y].name
-                    }  
-                  }
-                }
-                else{
-                  for(let y=0;y<classList.length;y++){
-                    if(classList[y].id===classes[x]){
-                      result = result+", "+classList[y].name;
-                    }  
-                  }
-                }
+    const formatClasses = (classes) => {
+      if (classes) {
+        let result = "";
+        let x = 0;
+        for (x = 0; x < classes.length; x++) {
+          if (x === 0) {
+            for (let y = 0; y < classList.length; y++) {
+              if (classList[y].id === classes[x]) {
+                result = classList[y].name;
               }
-              return result;
             }
-            else{
-              return "No Classes"
-      
+          } else {
+            for (let y = 0; y < classList.length; y++) {
+              if (classList[y].id === classes[x]) {
+                result = result + ", " + classList[y].name;
+              }
             }
-        })
+          }
+        }
+        return result;
+      } else {
+        return "No Classes";
+      }
+    };
+    
     return (
       <div style={{ padding: 2, justifyContent: "center"}}>
         <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
@@ -130,7 +124,7 @@ function PersonCard({personType,person,reload,classList}){
               )}
             </Grid>
             <Grid item xs={2}>
-              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
+              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
           setNumber(evt.target.value)
@@ -161,9 +155,9 @@ function PersonCard({personType,person,reload,classList}){
                 </Grid>
                 <Grid item xs={1}>
                   {edit ? (
-                    <Button onClick={() => saveChanges()}>Save</Button>
+                    <Button onClick={() => saveChanges()} variant="outlined">Save</Button>
                   ) : (
-                    <Button onClick={() => setEdit(true)}>Edit</Button>
+                    <Button onClick={() => setEdit(true)} variant="outlined">Edit</Button>
                   )}
                 </Grid>
               </>

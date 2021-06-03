@@ -7,6 +7,7 @@ import { getCalendarEvents, convertDate } from "../utils/CalendarUtils";
 import CalendarView from "./CalendarView";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import Footer from "./Footer"
 
 function CalendarPage() {
   const [events, setEvents] = useState();
@@ -103,6 +104,7 @@ function CalendarPage() {
 
         {view === "calendar" && events && <CalendarView events={events} />}
       </div>
+      <Footer/>
     </div>
   );
 }

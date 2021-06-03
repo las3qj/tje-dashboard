@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import {ReactComponent as HappyLogo} from './gradeIcons/happy.svg';
 import {ReactComponent as ConfusedLogo} from './gradeIcons/confused.svg';
 import {ReactComponent as SadLogo} from './gradeIcons/sad.svg';
+import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -113,6 +114,7 @@ function ClassDashboard () {
                     })}
                 </List>
             </Grid>
+            <Footer/>
         </div>
     );
 }
