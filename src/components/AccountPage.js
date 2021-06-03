@@ -86,7 +86,7 @@ function AccountPage() {
       <br />
       <Button
         variant="contained"
-        color="secondary"
+        style={{ color: "#ff6961" }}
         onClick={() => {
           firebase.auth().signOut();
           history.push("/");
@@ -100,7 +100,7 @@ function AccountPage() {
 
       <Button
         variant="contained"
-        color="secondary"
+        style={{ backgroundColor: "#ff6961", color: "black" }}
         onClick={() => {
           handleDelete()
         }}
