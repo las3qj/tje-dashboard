@@ -8,13 +8,13 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
-import StudentDirectory from './StudentDirectory'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
-function TeacherDirectory() {
+import CircularProgress from "@material-ui/core/CircularProgress"
+
+
+export default function TeacherDirectory() {
     const { role } = useContext(UserContext);
-    const personType = "teacher";
-    const [teachers, setTeachers] = useState([]);
+    const [teachers, setTeachers] = useState("loading");
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
@@ -60,62 +60,77 @@ function TeacherDirectory() {
         console.log("filtered list:", newTeachers)
         setTeachers(newTeachers)
 
-    }
+        const searchTeachers = () => {
+            if (teachers === "loading") return []
+            let newTeachers = teachers;
+            newTeachers = newTeachers.filter((teacher) => {
+                const name = teacher.lastName.toUpperCase();
+                const searchWord = search.toUpperCase();
+                return name.indexOf(searchWord) !== -1 || searchWord === "";
+            });
+            return newTeachers;
+        };
 
-    const sortNameDown = () => {
-        const newTeachers = [...teachers]
-        newTeachers.sort(function (a, b) {
-            const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
-            const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
-            if (nameA < nameB) return -1;
-            if (nameA > nameB) return 1;
-            return 0;
-        })
-        setTeachers(newTeachers)
-    }
+        const sortNameDown = () => {
+            const newTeachers = [...teachers]
+            newTeachers.sort(function (a, b) {
+                const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0;
+            })
+            setTeachers(newTeachers)
+        }
 
-    const sortNameUp = () => {
-        const newTeachers = [...teachers]
-        newTeachers.sort(function (a, b) {
-            const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
-            const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
-            if (nameA < nameB) return 1;
-            if (nameA > nameB) return -1;
-            return 0;
-        })
-        setTeachers(newTeachers)
-    }
+        const sortNameUp = () => {
+            const newTeachers = [...teachers]
+            newTeachers.sort(function (a, b) {
 
-    return (
-        <div>
-            <NavBar />
-            <h1 style={{ textAlign: "center" }}>Teacher Directory</h1>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                <AddPersonForm personType="teacher" style={{ width: "20%" }} />
+                const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) return 1;
+                if (nameA > nameB) return -1;
+                return 0;
+            })
+            setTeachers(newTeachers)
+        }
 
-                <Button
-                    onClick={sortNameDown}
-                    startIcon={<FiArrowDown />}
-                >Name
+        const teachersToDisplay = searchTeachers();
+
+        return (
+            <div>
+                <NavBar />
+                <h1 style={{ textAlign: "center" }}>Teacher Directory</h1>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "1%" }}>
+                    {role === "admin" && (<AddPersonForm personType="teacher" style={{ width: "20%" }} />)}
+
+                    <Button
+                        onClick={sortNameDown}
+                        startIcon={<FiArrowDown />}
+                    >Name
             </Button>
-                <Button style={{ paddingRight: 20 }}
-                    onClick={sortNameUp}
-                    startIcon={<FiArrowUp />}
-                >Name</Button>
-                <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt) => {
-                    //searchTeachers();
-                }} placeholder={'search by last name'} />
-            </div>
-            {isLoading ? <CircularProgress size={60} style={{ alignSelf: "center", marginTop: 100 }} /> :
+                    <Button style={{ paddingRight: 20 }}
+                        onClick={sortNameUp}
+                        startIcon={<FiArrowUp />}
+                    >Name</Button>
+                    <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt) => {
+                        //searchTeachers();
+                    }} placeholder={'search by last name'} />
+                </div>
                 <Grid container spacing={1} style={{ justifyContent: "center" }}>
-                    {teachers.map((teacher) => {
-                        return (
-                            <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={teacher.id} />
-                        )
-                    })}
+                    {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
+                        <PersonCard
+                            person={teacher}
+                            key={teacher.id}
+                            reload={getTeachers}
+                            classList={classList}
+                        />
+                    )))}
+                    {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
+                    {teachers === "loading" && <CircularProgress />}
                 </Grid>
-            }
-        </div>
-    )
-}
-export default TeacherDirectory
+            </div>
+        )
+    }
+
