@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function StudentDirectory() {
-    const { role } = useContext(UserContext);
+    const { role, isLoggedIn } = useContext(UserContext);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
     const [students, setStudents] = useState([]);
@@ -122,7 +122,7 @@ export default function StudentDirectory() {
               placeholder={"search by last name"}
             />
           </div>
-          <div className={classes.studentList} style={{margin: "auto"}}>
+          {isLoggedIn? (<div className={classes.studentList} style={{margin: "auto"}}>
             <Grid container spacing={1} style={{ justifyContent: "center" }}>
               {studentsToDisplay.map((student) => (
                 <PersonCard
@@ -138,7 +138,9 @@ export default function StudentDirectory() {
             </Grid>
             {students.length === 0 && <CircularProgress />}
             {studentsToDisplay.length === 0 && students.length !== 0 && ("No results found")}
-          </div>
+          </div>) : (
+              <p>Please log in to view students.</p>
+          )}
         </div>
       </div>
     );
