@@ -1,6 +1,6 @@
 import AppBar from "@material-ui/core/AppBar";
 import { Button, Tab, Grid } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import firebase from "../firebase/firebase";
@@ -123,17 +123,17 @@ export default function NavBar() {
           <Grid container item xs={12} spacing={1}>
             <Grid item xs={2}>
               <IconButton edge="start" color="inherit" aria-label="open drawer">
-                <MenuIcon style={{ fontSize: 50, color: "#FDFD96", marginRight: 120 }} onClick={() => { toggleDrawer() }} />
+                <MenuIcon style={{ fontSize: 35, color: "#FDFD96", marginRight: 120 }} onClick={() => { toggleDrawer() }} />
               </IconButton>
             </Grid>
-            <Grid item xs={9}>
-              <div style={{}}>
-                <h1 style={{ fontSize: "3.3vh", paddingRight: 100, fontWeight: "200" }}>TJ Elementary Mission Control 🚀</h1>
+            <Grid item xs={8}>
+              <div style={{paddingTop:"10px"}}>
+                <Link to="/" style={{ fontSize: "3.3vh", paddingRight: 100, fontWeight: "200", textDecoration:"None",color:"white"}}>TJ Elementary Mission Control 🚀</Link>
               </div>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               {!isLoggedIn && (
-                <div style={{ paddingTop: "15%" }}>
+                <div style={{ paddingTop: "5%" }}>
                   <Button
                     style={{ backgroundColor: "#FDFD96" }}
                     size="small"
@@ -145,7 +145,7 @@ export default function NavBar() {
                 </div>
               )}
               {isLoggedIn && (
-                <div style={{ paddingTop: "15%" }}>
+                <div style={{ paddingTop: "5%" }}>
                   <Button
                     style={{ backgroundColor: "#FDFD96" }}
                     size="small"
