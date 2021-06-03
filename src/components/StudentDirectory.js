@@ -165,6 +165,7 @@ export default function StudentDirectory() {
                 </div>
             </div>
         </div>
+
     );
 
 }
