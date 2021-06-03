@@ -125,7 +125,7 @@ export default function StudentDirectory() {
                     />
                 </div>
                 <div className={classes.studentList} style={{ margin: "auto" }}>
-                     <div style={{paddingBottom:"3%"}}> 
+                     <div style={{paddingBottom:"0.5%"}}> 
                       <Card elevation={2} style={{ width: "90vw", height: "4vw", margin:"auto",paddingBottom:"10px",backgroundColor:"#2E3B55"}}>
                       <Grid container item xs={12} spacing={1} style={{alignItems: "center", height: "100%" }}>
                         <Grid item xs={2}>
