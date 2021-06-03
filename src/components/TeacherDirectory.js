@@ -1,7 +1,7 @@
 import '../App.css'
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import PersonCard from './PersonCard'
-import {Grid, Button,TextField} from '@material-ui/core' 
+import { Grid, Button, TextField } from '@material-ui/core'
 import AddPersonForm from './AddPersonForm'
 import NavBar from "./NavBar";
 import { UserContext } from "../contexts/UserContext";
@@ -11,30 +11,30 @@ import { FiArrowUp } from "react-icons/fi";
 import Footer from "./Footer"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
-function TeacherDirectory(){
+function TeacherDirectory() {
     const { role } = useContext(UserContext);
-    const [teachers,setTeachers] = useState("loading");
+    const [teachers, setTeachers] = useState("loading");
     const [search, setSearch] = useState("")
-    const [sort,setSort]=useState(false);
+    const [sort, setSort] = useState(false);
     const [classList, setClassList] = useState([]);
 
-    const getTeachers=(()=>{
+    const getTeachers = (() => {
         fetch("http://localhost:8000/classes")
-        .then((res)=> res.json())
-        .then((res) => setClassList(res))
+            .then((res) => res.json())
+            .then((res) => setClassList(res))
 
         fetch("http://localhost:8000/teachers")
-        .then((resp) => {
-            return resp.json();
+            .then((resp) => {
+                return resp.json();
             })
             .then((obj) => {
                 setTeachers(obj);
             })
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         getTeachers();
-    },[])
+    }, [])
 
     const searchTeachers = () => {
         if (teachers === "loading") return []
@@ -63,7 +63,7 @@ function TeacherDirectory(){
     const sortNameUp = () => {
         const newTeachers = [...teachers]
         newTeachers.sort(function (a, b) {
-            
+
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
             const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
             if (nameA < nameB) return 1;
@@ -73,45 +73,45 @@ function TeacherDirectory(){
         setTeachers(newTeachers)
         setSort(true)
     }
-    
+
     const teachersToDisplay = searchTeachers();
-    
+
     return (
         <div>
-            <NavBar/>
-            <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
-            <div style={{display:"flex",justifyContent:"center", marginBottom: "1%" }}>
-            {role === "admin" && (<AddPersonForm personType="teacher" style={{ width: "20%" }} />)}
+            <NavBar />
+            <h1 style={{ textAlign: "center" }}>Teacher Directory</h1>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1%" }}>
+                {role === "admin" && (<AddPersonForm personType="teacher" style={{ width: "20%" }} />)}
 
-            <Button
-            onClick={sortNameDown}
-            startIcon={<FiArrowDown />}
-            >Name
+                <Button
+                    onClick={sortNameDown}
+                    startIcon={<FiArrowDown />}
+                >Name
             </Button>
-            <Button style={{paddingRight:20}}
-            onClick={sortNameUp}
-            startIcon={<FiArrowUp />}
-            >Name</Button>
-            <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt)=>{
-                searchTeachers();
-            }}placeholder={'search by last name'} />
+                <Button style={{ paddingRight: 20 }}
+                    onClick={sortNameUp}
+                    startIcon={<FiArrowUp />}
+                >Name</Button>
+                <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt) => {
+                    searchTeachers();
+                }} placeholder={'search by last name'} />
             </div>
-            <Grid container spacing={1} style={{justifyContent:"center"}}>
-            {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
-                <PersonCard
-                  personType={"teacher"}
-                  person={teacher}
-                  key={teacher.id}
-                  reload={getTeachers}
-                  classList={classList}
-                  sort={sort}
-                  setSort={setSort}
-                />
-              )))}
-            {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
-            {teachers === "loading" && <CircularProgress /> }
+            <Grid container spacing={1} style={{ justifyContent: "center", minHeight: "40vh" }}>
+                {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
+                    <PersonCard
+                        personType={"teacher"}
+                        person={teacher}
+                        key={teacher.id}
+                        reload={getTeachers}
+                        classList={classList}
+                        sort={sort}
+                        setSort={setSort}
+                    />
+                )))}
+                {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
+                {teachers === "loading" && <CircularProgress />}
             </Grid>
-            <Footer/>
+            <Footer />
         </div>
     )
 }
