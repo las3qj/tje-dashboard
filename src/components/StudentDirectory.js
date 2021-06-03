@@ -129,7 +129,6 @@ export default function StudentDirectory() {
           </div>
           <div className={classes.studentList} style={{margin: "auto"}}>
             <Grid container spacing={1} style={{ justifyContent: "center" }}>
-              {console.log(students)}
               {students.map((student) => (
                 <PersonCard
                   person={student}

@@ -69,15 +69,18 @@ function TeacherDirectory(){
     const sortNameUp = () => {
         const newTeachers = [...teachers]
         newTeachers.sort(function (a, b) {
+            
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
             const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
+            // console.log(nameA,nameB)
             if (nameA < nameB) return 1;
             if (nameA > nameB) return -1;
             return 0;
         })
+        console.log(newTeachers)
         setTeachers(newTeachers)
     }
-    
+    console.log(teachers)
     return (
         <div>
             <NavBar/>
@@ -99,11 +102,14 @@ function TeacherDirectory(){
             }}placeholder={'search by last name'} />
             </div>
             <Grid container spacing={1} style={{justifyContent:"center"}}>
-            {teachers.map((teacher, i)=>{
-                return(
-                    <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={i}/>
-                )
-            })}
+            {teachers.map((teacher) => (
+                <PersonCard
+                  person={teacher}
+                  key={teacher.id}
+                  reload={getTeachers}
+                  classList={classList}
+                />
+              ))}
             {teachers.length === 0 && <CircularProgress />}
             </Grid>
         </div>
