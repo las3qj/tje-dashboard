@@ -23,7 +23,7 @@ function AddStudentDialog({studentMap, currentStudents, handlePut}) {
           newAvailable.splice(newAvailable.findIndex(id => id === student.studentID), 1);
       });
       setAvailableStudents(newAvailable);
-  }, currentStudents, studentMap);
+  }, [currentStudents, studentMap]);
 
   return (
     <div>
@@ -38,6 +38,7 @@ function AddStudentDialog({studentMap, currentStudents, handlePut}) {
             labelId="student-label"
             id="student"
             value={student}
+            fullWidth
             onChange={e=>setStudent(e.target.value)}
           >
             {availableStudents.map(id => 
