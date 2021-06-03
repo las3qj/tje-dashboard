@@ -95,7 +95,7 @@ function TeacherDirectory() {
                     onClick={sortNameUp}
                     startIcon={<FiArrowUp />}
                 >Name</Button>
-                <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt) => {
+                <TextField size="small" id="outlined-basic" variant="outlined" name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} onKeyPress={(evt) => {
                     searchTeachers();
                 }} placeholder={'search by last name'} />
             </div>

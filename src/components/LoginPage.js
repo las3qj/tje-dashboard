@@ -70,6 +70,7 @@ const LoginPage = () => {
   return (
     <div>
       <NavBar />
+      <div style={{paddingTop:"5%"}}>
       <h1>Login</h1>
       <form
         style={{
@@ -125,6 +126,7 @@ const LoginPage = () => {
           Create Account
         </Button>
       </form>
+      </div>
     </div>
   );
 };

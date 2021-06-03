@@ -117,7 +117,7 @@ export default function StudentDirectory() {
                     >
                         Name
             </Button>
-                    <TextField
+                    <TextField size="small" id="outlined-basic" variant="outlined"
                         name="value"
                         value={search}
                         onChange={(event) => {
