@@ -61,14 +61,13 @@ export default function HomePage() {
     return (
         <div>
             <NavBar />
-            <div className={classes.container}>
+            <div className={classes.container} style={{marginTop:"-20px"}}>
                 <div className={classes.main}>
                     <div className={classes.image}>
                         <h1 style={{ fontSize: 68, color: "#FDFD96", fontStyle: "italic", marginBottom:"-20px" }}>  Thomas Jefferson Elementary School</h1>
                         <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
-                        <br/>
 
                         <div style={{ display: "flex", flexDirection: "column", flex: 1, margin:"auto ",alignItems:"center",fontSize: "1.8vw", color: "#FDFD96"}}>
 

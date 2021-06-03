@@ -123,11 +123,11 @@ export default function NavBar() {
           <Grid container item xs={12} spacing={1}>
             <Grid item xs={2}>
               <IconButton edge="start" color="inherit" aria-label="open drawer">
-                <MenuIcon style={{ fontSize: 35, color: "#FDFD96", marginRight: 120 }} onClick={() => { toggleDrawer() }} />
+                <MenuIcon style={{ fontSize: 35, color: "#FDFD96" }} onClick={() => { toggleDrawer() }} />
               </IconButton>
             </Grid>
             <Grid item xs={8}>
-              <div style={{paddingTop:"10px"}}>
+              <div style={{paddingTop:"13px"}}>
                 <Link to="/" style={{ fontSize: "3.3vh", paddingRight: 100, fontWeight: "200", textDecoration:"None",color:"white"}}>TJ Elementary Mission Control 🚀</Link>
               </div>
             </Grid>
