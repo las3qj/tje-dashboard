@@ -1,8 +1,13 @@
 import {Card, Grid, TextField, IconButton, Button} from '@material-ui/core' 
+import { CodeSharp, PinDropSharp } from '@material-ui/icons';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import React,{useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import axios from "axios"
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
+
 function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
 
   const [fName,setFName] = useState(person.firstName);
@@ -11,6 +16,8 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
   const [classList,setClassList] = useState([]);
+  const { role } = useContext(UserContext);
+  const [edit, setEdit] = useState(false);
 
   useEffect(()=>{
     if(sort===true){
@@ -22,7 +29,6 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
     setSort(false)
     }
   })
-
 
   const saveChanges = (()=>{
     const firstName = fName;
@@ -49,6 +55,7 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
       })
       .then(()=>{window.location.reload()})
     }
+    setEdit(false)
   })
 
   const removePerson=(()=>{
@@ -56,33 +63,14 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
       fetch("http://localhost:8000/teachers?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
     else{
       fetch("http://localhost:8000/students?"+"id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }).then(()=>{window.location.reload();})
+      }).then(()=>{reload()})
     }
-  })
-
-  useEffect(()=>{
-    fetch("http://localhost:8000/classes")
-      .then((resp) => {
-          return resp.json();
-          })
-          .then((obj) => {
-              setClassList(obj);
-          })
-
-  },[])
-  
-
-  useEffect(()=>{
-      if(save===true){
-        saveChanges();
-        setSave(false);
-      }
   })
 
     const formatClasses = ((classes)=>{
@@ -112,37 +100,48 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
       
             }
         })
-
-    return(<div style={{padding:2,justifyContent:"center"}}>
-            <Card elevation="2" style={{width: '90vw',height: '5vw'}}>
-            <Grid container item xs={12} spacing={1}>
+    return (
+      <div style={{ padding: 2, justifyContent: "center"}}>
+        <Card elevation={2} style={{ width: "90vw", height: "5vw" }}>
+          <Grid container item xs={12} spacing={1} style={{alignItems: "center", height: "100%" }}>
             <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField  onChange={(evt)=>{
-              setLName(evt.target.value)
-              }} 
-              id="outlined-basic" label="Last Name" size="small" variant="outlined" defaultValue={lName}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{lName}</p>}
+              {edit ? (
+                <div style={{ paddingTop: 12, paddingLeft: 10 }}>
+                  <TextField
+                    onChange={(evt) => {
+                      setLName(evt.target.value);
+                    }}
+                    id="outlined-basic"
+                    label="Last Name"
+                    size="small"
+                    variant="outlined"
+                    defaultValue={lName}
+                  />
+                </div>
+              ) : (
+                <p style={{ textAlign: "center", fontSize: 18 }}>{lName}</p>
+              )}
             </Grid>
             <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField onChange={(evt)=>{
-              setFName(evt.target.value)
-              }} id="outlined-basic" label="First Name" size="small" variant="outlined" defaultValue={fName}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{fName}</p>}
+              {edit ? (
+                <div style={{ paddingTop: 12, paddingLeft: 10 }}>
+                  <TextField
+                    onChange={(evt) => {
+                      setFName(evt.target.value);
+                    }}
+                    id="outlined-basic"
+                    label="First Name"
+                    size="small"
+                    variant="outlined"
+                    value={fName}
+                  />
+                </div>
+              ) : (
+                <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
+              )}
             </Grid>
             <Grid item xs={2}>
-              {edit?(
-              <div style={{paddingTop:12,paddingLeft:10}}>
-              <TextField onChange={(evt)=>{
-          setDOB(evt.target.value)
-          }} id="outlined-basic" label="Date of Birth" size="small" variant="outlined" defaultValue={dob}/>
-              </div>):<p style={{textAlign:"center",fontSize:18}}>{dob}</p>}
-            </Grid>
-            <Grid item xs={2}>
-              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
+              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
           setNumber(evt.target.value)
@@ -155,18 +154,34 @@ function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
                 </div>
               </Popup>
             </Grid>
-            <Grid item xs={edit?3:4}>
+            <Grid item xs={4}>
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
-            <Grid item xs={1}>
-              {edit&&<IconButton onClick={()=>{
-                removePerson();
-              }}>
-                <HighlightOffIcon/>
-              </IconButton>}
-            </Grid>
-            </Grid>
-            </Card>
-        </div>)
+
+            {role === "admin" && (
+              <>
+                <Grid item xs={1}>
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removePerson();
+                    }}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={1}>
+                  {edit ? (
+                    <Button onClick={() => saveChanges()} variant="outlined">Save</Button>
+                  ) : (
+                    <Button onClick={() => setEdit(true)} variant="outlined">Edit</Button>
+                  )}
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </Card>
+      </div>
+    );
 }
 export default PersonCard;
