@@ -1,23 +1,29 @@
 import {useState} from 'react';
-import {ListItem, ListItemText, Button, Select, MenuItem, InputLabel, makeStyles} from '@material-ui/core';
+import {ListItem, Button, Select, MenuItem, InputLabel, makeStyles} from '@material-ui/core';
 import {ReactComponent as HappyLogo} from './gradeIcons/happy.svg';
 import {ReactComponent as ConfusedLogo} from './gradeIcons/confused.svg';
 import {ReactComponent as SadLogo} from './gradeIcons/sad.svg';
 
 const useStyles = makeStyles(() => ({
     inlineDiv: {
-        display: 'inline-block',
-        padding: '0 45px',
-        width: '20%',
+        width: "29%",
+        wordWrap: "break-word"
     },
     grayText: {
         color: 'gray',
     },
     secondButton: {
-        margin: "0 15px",
+        margin: "0 2%",
     },
     gradeLabel: {
-        margin: "25px 0 18px 0",
+        marginRight: "1em",
+        display: "inline"
+    },
+    rosterItem: {
+        display: "flex", 
+        flexDirection: "row", 
+        justifyContent:"space-between", 
+        alignItems:"center"
     }
 }));
   
@@ -30,8 +36,7 @@ function StudentItem({student, grade, studentID, handlePut, handleDelete}) {
         setChanges(false);
     }
     return (
-        <ListItem>
-            <ListItemText>
+        <ListItem className={styles.rosterItem}>
                 <div className={styles.inlineDiv}>
                     <h3>{student.lastName+", "+student.firstName}</h3>
                 </div>
@@ -55,12 +60,15 @@ function StudentItem({student, grade, studentID, handlePut, handleDelete}) {
                         <MenuItem value={"Needs Improvement"}><SadLogo width={25} height={25}/></MenuItem>
                     </Select>
                 </div>
-                <Button variant="contained" color="primary" onClick={() => handleSave()} disabled={!changes}>
-                    Save
-                </Button>
-                <Button variant="contained" color="secondary" className={styles.secondButton} 
-                    onClick={()=>handleDelete(studentID)}>Unenroll</Button>
-            </ListItemText>
+                <div className={styles.inlineDiv}>
+                    <Button variant="contained" color="primary" onClick={() => handleSave()} disabled={!changes}>
+                        Save
+                    </Button>
+                    <Button variant="contained" color="secondary" className={styles.secondButton} 
+                        onClick={()=>handleDelete(studentID)}>Unenroll</Button>
+                </div>
+
+            
         </ListItem>
     );   
 }

@@ -10,16 +10,19 @@ import Footer from './Footer';
 
 const useStyles = makeStyles(() => ({
     root: {
-        width: '100%',
-        alignItems: "flex-start"
+        width: '90vw',
+        alignItems: "flex-start",
+        margin: "auto"
     },
     mainItem: {
         width: '60%',
-        padding: 15,
+        marginTop: "2vh",
+        paddingRight: "1vw"
     },
     sidePanel: {
         width: '40%',
-        padding: 25,
+        marginTop: "2vh",
+        paddingLeft: "1vw"
     },
     inlineDiv: {
         display: 'inline-block',
@@ -51,7 +54,7 @@ function ClassPage() {
             });
             setChanges(false);
         }
-    }, [changes]);
+    }, [changes, classID]);
 
     const handlePutNewStudent = (studentID) => {
         const newClass = {...myClass};
