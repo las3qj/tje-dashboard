@@ -127,7 +127,7 @@ function PersonCard({personType,person,reload,classList}){
                 <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
               )}
             </Grid>
-            {isLoggedIn && (<Grid item xs={2}>
+            {isLoggedIn && (<Grid item xs={1.5}>
               <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
@@ -141,6 +141,13 @@ function PersonCard({personType,person,reload,classList}){
                 </div>
               </Popup>
             </Grid>)}
+
+            {role === "admin" && (
+              <Grid item xs={1}> 
+                {dob}
+              </Grid>
+            )}
+
             <Grid item xs={classSize}>
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
