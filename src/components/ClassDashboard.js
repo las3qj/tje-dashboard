@@ -116,6 +116,7 @@ function ClassDashboard () {
                     })}
                 </List>
             </Grid>
+            <Footer/>
         </div>
     );
 }

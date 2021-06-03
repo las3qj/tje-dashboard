@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import StudentItem from './StudentItem';
 import ClassInfoPanel from './ClassInfoPanel';
 import AddStudentDialog from './AddStudentDialog';
+import Footer from './Footer';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -121,6 +122,7 @@ function ClassPage() {
                     {myClass!==undefined && <ClassInfoPanel myClass={myClass} handlePut={handlePutClassInfo}/>}
                 </Grid>
             </Grid>
+            <Footer/>
         </div>
     );
 
