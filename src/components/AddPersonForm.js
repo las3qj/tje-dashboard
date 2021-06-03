@@ -5,9 +5,10 @@ import 'reactjs-popup/dist/index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { PinDropSharp } from '@material-ui/icons';
 import Input from '@material-ui/core/Input';
-import { FormControl, InputLabel, FormHelperText, Button, TextField } from '@material-ui/core';
+import { FormControl, InputLabel, FormHelperText, Button, TextField, IconButton } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import '../App.css';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 export default function AddPersonForm(props) {
@@ -49,7 +50,7 @@ export default function AddPersonForm(props) {
         axios.post(url, {
             firstName,
             lastName,
-            classes: [homeroom],
+            classes: homeroom,
             birthday,
             address,
             phone
@@ -66,24 +67,31 @@ export default function AddPersonForm(props) {
     return (
         <Popup
             trigger={<Button className="button"> Add a {props.personType} </Button>}
-            contentStyle={{height: "20%",width: "80%"}}
+            contentStyle={{height: "450px",width: "700px"}}
 
             modal
             nested
         >
             {close => (
                 <div className="modal">
-                    <button className="close" onClick={close}>
-                        &times;
-                     </button>
-                    <div className="header"> Add a {props.personType} </div>
-                    <div className="content" style={{ display: "flex" }}>
+                    <IconButton className="close" onClick={close}>
+                        <CloseIcon/>
+                     </IconButton>
+                     <FormControl style={{paddingLeft:"2vw"}}>
+                    <div className="header"> 
+                        <h1>Add a {props.personType}.</h1>
+                    </div>
+                    <div className="content">
 
-                        <TextField id="my-input" value={firstName} label="First Name" onChange={(e) => { setFirstName(e.target.value) }} />
+                        <TextField id="my-input" style={{paddingRight:40}}value={firstName} label="First Name" onChange={(e) => { setFirstName(e.target.value) }} />
                         <TextField id="my-input" value={lastName} label="Last Name" onChange={(e) => { setLastName(e.target.value) }} />
-                        <TextField id="my-input" value={birthday} label="Birthday" onChange={(e) => { setBirthday(e.target.value) }} />
-                        <TextField id="my-input" value={address} label="Address" onChange={(e) => { setAddress(e.target.value) }} />
-                        <TextField id="my-input" value={phone} label="Home Phone" onChange={(e) => { setPhone(e.target.value) }} />
+                        <br/>
+                        <br/>
+                        <TextField id="my-input" style={{paddingRight:40}} value={birthday} label="Birthday" onChange={(e) => { setBirthday(e.target.value) }} />
+                        <TextField id="my-input" style={{paddingRight:40}} value={address} label="Address" onChange={(e) => { setAddress(e.target.value) }} />
+                        <TextField id="my-input" style={{paddingRight:40}} value={phone} label="Home Phone" onChange={(e) => { setPhone(e.target.value) }} />
+                        <br/>
+                        <br/>
                         <Autocomplete
                             id="combo-box-demo"
                             options={allClasses}
@@ -93,9 +101,14 @@ export default function AddPersonForm(props) {
                                 console.log(v)
                                 setHomeroom(v.id)
                             }}
-                            renderInput={(params) => <TextField {...params} label="Homeroom" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} label={props.personType==="teacher"?"Class":"Homeroom"} variant="outlined" />}
                         />
+                        <br/>
+                        <br/>
                         <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ width: "7em" ,backgroundColor:"#2E3B55"}}
                             className="button"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -108,9 +121,7 @@ export default function AddPersonForm(props) {
 
 
                     </div>
-
-
-
+                    </FormControl>
                 </div>
             )}
         </Popup>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import firebase from "../firebase/firebase";
 import NavBar from "./NavBar";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
@@ -102,7 +102,7 @@ const LoginPage = () => {
           type="submit"
           variant="contained"
           color="primary"
-          style={{ width: "7em" }}
+          style={{ width: "7em" ,backgroundColor:"#2E3B55"}}
           onClick={logIn}
         >
           Log in
@@ -120,7 +120,7 @@ const LoginPage = () => {
           type="submit"
           variant="contained"
           color="primary"
-          style={{ width: "12em" }}
+          style={{ width: "12em",backgroundColor:"#2E3B55" }}
           onClick={createAccount}
         >
           Create Account
