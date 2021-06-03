@@ -1,6 +1,13 @@
 import {Grid, makeStyles, Divider, Button, TextField, Select, InputLabel, MenuItem} from '@material-ui/core';
 import {useState, useEffect, useContext} from 'react';
 import { UserContext } from "../contexts/UserContext";
+import {ReactComponent as HappyLogo} from './gradeIcons/happy.svg';
+import {ReactComponent as ConfusedLogo} from './gradeIcons/confused.svg';
+import {ReactComponent as SadLogo} from './gradeIcons/sad.svg';
+
+const GRADECONV = {"Outstanding": 3, "Satisfactory": 2, "Needs Improvement": 1};
+const GRADEDISPL = [<p>N/A</p>, <SadLogo width={25} height={25}/>, 
+    <ConfusedLogo width={25} height={25}/>, <HappyLogo width={25} height={25}/>]
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -30,8 +37,8 @@ const computeAverage = students => {
         return 0;
     }
     let total = 0.0;
-    students.forEach(student => total+=parseInt(student.grade));
-    return (total / students.length);
+    students.forEach(student => total+=GRADECONV[student.grade]);
+    return (Math.round(total / students.length));
 }
 
 function ClassInfoPanel({myClass, handlePut}) {
@@ -62,7 +69,7 @@ function ClassInfoPanel({myClass, handlePut}) {
                     {editing? 
                     <TextField className={styles.nameField}
                         value={className}
-                        inputProps={{style: {fontSize: 30}}}
+                        inputProps={{style: {fontSize: 30, textAlign: 'center'}}}
                         onChange={e => setClassName(e.target.value)}
                         label="Class name:"
                     />
@@ -90,7 +97,7 @@ function ClassInfoPanel({myClass, handlePut}) {
                         (teacherMap[teacherID].lastName+", "+teacherMap[teacherID].firstName)}</h2>}
                 </Grid>
                 <Grid item>
-                    <h3>Grade average: {computeAverage(myClass.students)}</h3>
+                    <h3>Grade average: {GRADEDISPL[computeAverage(myClass.students)]}</h3>
                 </Grid>
                 <Grid item>
                     <h3>Students: {myClass.students.length}</h3>

@@ -55,9 +55,9 @@ function ClassPage() {
 
     const handlePutNewStudent = (studentID) => {
         const newClass = {...myClass};
-        newClass.students.push({studentID, grade: 100});
+        newClass.students.push({studentID, grade: "Outstanding"});
         const url = "http://localhost:8000/class-page/add-student";
-        axios.put(url, {id: classID, student: {studentID, grade: 100}}).then(resp => {
+        axios.put(url, {id: classID, student: {studentID, grade: "Outstanding"}}).then(resp => {
             setChanges(true);
         })
         setMyClass(newClass);
