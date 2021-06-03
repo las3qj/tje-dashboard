@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import StudentDirectory from './StudentDirectory'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function TeacherDirectory() {
     const { role } = useContext(UserContext);
@@ -16,6 +17,7 @@ function TeacherDirectory() {
     const [teachers, setTeachers] = useState([]);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
 
     const getTeachers = (() => {
         fetch("http://localhost:8000/classes")
@@ -28,6 +30,7 @@ function TeacherDirectory() {
             })
             .then((obj) => {
                 searchTeachers(obj);
+                setIsLoading(false)
             })
     })
 
@@ -36,6 +39,7 @@ function TeacherDirectory() {
     // },[])
 
     useEffect(() => {
+        setIsLoading(true)
         const delayDebounceFn = setTimeout(() => {
             getTeachers()
         }, 550)
@@ -102,13 +106,15 @@ function TeacherDirectory() {
                     //searchTeachers();
                 }} placeholder={'search by last name'} />
             </div>
-            <Grid container spacing={1} style={{ justifyContent: "center" }}>
-                {teachers.map((teacher) => {
-                    return (
-                        <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={teacher.id} />
-                    )
-                })}
-            </Grid>
+            {isLoading ? <CircularProgress size={60} style={{ alignSelf: "center", marginTop: 100 }} /> :
+                <Grid container spacing={1} style={{ justifyContent: "center" }}>
+                    {teachers.map((teacher) => {
+                        return (
+                            <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={teacher.id} />
+                        )
+                    })}
+                </Grid>
+            }
         </div>
     )
 }

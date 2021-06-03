@@ -98,16 +98,7 @@ export default function StudentDirectory() {
         })
         setStudents(newStudents)
     }
-    if (isLoading) {
-        return (
-            <div>
-                <NavBar />
-                <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                <CircularProgress />
 
-            </div>
-        )
-    }
 
     return (
         <div>
@@ -131,16 +122,17 @@ export default function StudentDirectory() {
                      </Button>
                     <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} placeholder={'search by last name'} />
                 </div>
-                <div className={classes.studentList} >
-                    <Grid container spacing={1} style={{ justifyContent: "center" }}>
-                        {console.log(students)}
-                        {
-                            students.map((student) => (
-                                <PersonCard person={student} key={student.id} reload={fetchStudents} classList={classList} />
+                {isLoading ? <CircularProgress size={60} style={{ alignSelf: "center", marginTop: 100 }} /> :
+                    <div className={classes.studentList} >
+                        <Grid container spacing={1} style={{ justifyContent: "center" }}>
+                            {console.log(students)}
+                            {
+                                students.map((student) => (
+                                    <PersonCard person={student} key={student.id} reload={fetchStudents} classList={classList} />
 
-                            ))}
-                    </Grid>
-                </div>
+                                ))}
+                        </Grid>
+                    </div>}
             </div>
         </div>
     )
