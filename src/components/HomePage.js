@@ -56,8 +56,8 @@ export default function HomePage() {
             <div className={classes.container}>
                 <div className={classes.main}>
                     <div className={classes.image}>
-                        <h1 style={{ fontSize: 68, color: "gold", }}>  Thomas Jefferson Elementary School</h1>
-                        <h2 style={{ fontSize: 30, color: "white" }}> Home of the Banana Slugs</h2>
+                        <h1 style={{ fontSize: 68, color: "gold", fontStyle: "italic", }}>  Thomas Jefferson Elementary School</h1>
+                        <h2 style={{ fontSize: 30, color: "white", fontStyle: "italic", }}> Home of the Banana Slugs</h2>
                     </div>
                     <div className={classes.mission}>
 
@@ -78,8 +78,8 @@ export default function HomePage() {
 
                             </div>
                         </div>
-                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingBottom: 35, paddingLeft: 50, paddingRight: 50 }} >
-                            <h2 style={{ fontSize: 30, color: "white" }}> Our Mission</h2>
+                        <div style={{ flex: 1, fontSize: 30, color: "gold", paddingBottom: 35, paddingLeft: 50, paddingRight: 50, fontStyle: "italic", }} >
+                            <h2 style={{ fontSize: 30, color: "white", fontStyle: "normal", }}> Our Mission</h2>
                            At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.
 
                          </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
                 </div>
 
             </div>
-          <Footer/>
+            <Footer />
         </div>
     )
 
