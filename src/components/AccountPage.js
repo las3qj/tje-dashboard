@@ -8,6 +8,9 @@ import { useHistory } from "react-router-dom";
 import axios from "axios"
 
 function AccountPage() {
+
+  document.body.style='background:"white";';
+  
   const history = useHistory();
   const { firstName, lastName, isLoggedIn, role, id, user, forceUserReload} = useContext(UserContext);
   const [editActive, setEditActive] = useState(false);
