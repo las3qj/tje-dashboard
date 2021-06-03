@@ -218,6 +218,14 @@ app.delete('/events', (req, res) => {
     db.collection("event").doc(id).delete().then(resp => res.sendStatus(200).end());
 })
 
+app.delete('/users', (req, res) => {
+    console.log("deleting")
+    console.log(req)
+    const user = req.body.user;
+    console.log(user)
+    db.collection("user").doc(user).delete().then(resp => res.sendStatus(200).end());
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 })
@@ -276,6 +284,12 @@ app.put('/events', (req, res) => {
     const date = req.body.date;
     const desc = req.body.desc;
     db.collection("event").doc(id).set({ name, date, desc }).then(resp => res.sendStatus(200).end());
+})
+
+app.put('/users', (req, res) => {
+    const user = req.body.user;
+    const accessCode = req.body.accessCode;
+    db.collection("user").doc(user).set({ accessCode }, {merge: true}).then(resp => res.sendStatus(200).end());
 })
 
 // composite routes
