@@ -1,11 +1,18 @@
 import {useState, useEffect} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, InputLabel,
-    DialogTitle, Select, MenuItem} from '@material-ui/core';
+    DialogTitle, Select, MenuItem, makeStyles} from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+  bottomButton: {
+      marginTop: 10,
+  },
+}));
 
 function AddStudentDialog({studentMap, currentStudents, handlePut}) {
   const [open, setOpen] = useState(false);
   const [student, setStudent] = useState('');
   const [availableStudents, setAvailableStudents] = useState([]);
+  const styles = useStyles();
 
   const handleClose = () => setOpen(false);
 
@@ -20,7 +27,7 @@ function AddStudentDialog({studentMap, currentStudents, handlePut}) {
 
   return (
     <div>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" className={styles.bottomButton} onClick={() => setOpen(true)}>
         Enroll student in class
       </Button>
       <Dialog open={open} onClose={handleClose}>
