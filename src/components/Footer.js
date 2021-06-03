@@ -7,7 +7,7 @@ function Footer(){
             <Grid style={{paddingTop:"1%",paddingBottom:"2%"}}container item xs={12} spacing={1}>
             <Grid item xs={4} style={{paddingTop:"1.5%"}}>
             <div style={{paddingLeft:"8%"}}>
-            <h1 style={{color:"white",textAlign:"left",marginBottom:"-20px"}}>We are</h1>
+            <h1 style={{color:"white",textAlign:"left",marginBottom:"-23px"}}>We are</h1>
             <h1 style={{color:"#FDFD96",textAlign:"left",marginBottom:"-5px"}}>Thomas Jefferson Elementary School.</h1>
             <p style={{color:"white",fontSize:"1vw",textAlign:"left"}}>Home of the <mark style={{fontWeight:"bold",background: "none",color:"white"}}>Banana Slugs.</mark></p>
             </div>
@@ -15,7 +15,7 @@ function Footer(){
             <Grid item xs={4}>
                 <div style={{paddingLeft:40}}>
                 <h1 style={{marginBottom:"-10px"}}>🌎 📖 🏆</h1>
-                <h4 style={{color:"#FDFD96",marginBottom:"-3px",fontSize:15.2}}>Positivity. Respect. Diversity. Education. Comradery.</h4>
+                <h4 style={{color:"#FDFD96",marginBottom:"-3px",fontSize:"1vw"}}>Positivity. Respect. Diversity. Education. Comradery.</h4>
                 <p style={{color:"white",fontSize:"0.8vw",textAlign:"justify"}}>At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.</p>
                 </div>
             </Grid>
