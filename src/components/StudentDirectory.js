@@ -7,6 +7,7 @@ import { Grid, Button, TextField } from '@material-ui/core'
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
+import Footer  from "./Footer"
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress"
@@ -32,6 +33,16 @@ export default function StudentDirectory() {
     const [students, setStudents] = useState([])
 
     useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            fetchStudents()
+        }, 550)
+        return () => clearTimeout(delayDebounceFn)
+
+    }, [search])
+    const [students, setStudents] = useState([])
+    const [edit, setEdit] = useState(false);
+    const [save, setSave] = useState(false);
+    const [sort,setSort]=useState(false);
         fetch("http://localhost:8000/classes")
         .then((res)=> res.json())
         .then((res) => setClassList(res))
@@ -72,6 +83,7 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
+        setSort(true)
     }
 
     const sortNameUp = () => {
@@ -84,8 +96,9 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
+        setSort(true)
     }
-
+    
     const studentsToDisplay = searchStudents();
 
     return (
@@ -125,10 +138,13 @@ export default function StudentDirectory() {
             <Grid container spacing={1} style={{ justifyContent: "center" }}>
               {studentsToDisplay.map((student) => (
                 <PersonCard
+                  personType={"student"}
                   person={student}
                   key={student.id}
                   reload={fetchStudents}
                   classList={classList}
+                  sort={sort}
+                  setSort={setSort}
                 />
               ))}
             </Grid>

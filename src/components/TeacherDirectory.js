@@ -8,12 +8,14 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
+import Footer from "./Footer"
 import CircularProgress from "@material-ui/core/CircularProgress"
 
 function TeacherDirectory(){
     const { role } = useContext(UserContext);
     const [teachers,setTeachers] = useState("loading");
     const [search, setSearch] = useState("")
+    const [sort,setSort]=useState(false);
     const [classList, setClassList] = useState([]);
 
     const getTeachers=(()=>{
@@ -55,6 +57,7 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
 
     const sortNameUp = () => {
@@ -68,6 +71,7 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
     
     const teachersToDisplay = searchTeachers();
@@ -95,15 +99,19 @@ function TeacherDirectory(){
             <Grid container spacing={1} style={{justifyContent:"center"}}>
             {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
                 <PersonCard
+                  personType={"teacher"}
                   person={teacher}
                   key={teacher.id}
                   reload={getTeachers}
                   classList={classList}
+                  sort={sort}
+                  setSort={setSort}
                 />
               )))}
             {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
             {teachers === "loading" && <CircularProgress /> }
             </Grid>
+            <Footer/>
         </div>
     )
 }

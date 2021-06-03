@@ -1,4 +1,6 @@
 import NavBar from "./NavBar"
+import AppBar from '@material-ui/core/AppBar';
+import Footer from "./Footer.js"
 import { makeStyles } from '@material-ui/core/styles';
 import background from './background.png'
 import respect from "./homePageIcons/respect.png"
@@ -85,6 +87,7 @@ export default function HomePage() {
                 </div>
 
             </div>
+          <Footer/>
         </div>
     )
 

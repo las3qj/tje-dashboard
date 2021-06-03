@@ -228,6 +228,7 @@ app.listen(port, () => {
 // put routes
 
 app.put('/teachers', (req, res) => {
+    console.log(req.body)
     const id = req.body.id;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -244,6 +245,7 @@ app.put('/teachers', (req, res) => {
 })
 
 app.put('/students', (req, res) => {
+    console.log(req.body)
     const id = req.body.id;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;

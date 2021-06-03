@@ -4,6 +4,7 @@ import ClassItem from './ClassItem';
 import AddClassDialog from './AddClassDialog';
 import {List, ListItem, ListItemText, Grid, Divider, makeStyles} from '@material-ui/core';
 import NavBar from './NavBar';
+import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -108,6 +109,7 @@ function ClassDashboard () {
                     })}
                 </List>
             </Grid>
+            <Footer/>
         </div>
     );
 }
