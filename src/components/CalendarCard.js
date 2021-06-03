@@ -28,7 +28,7 @@ function CalendarCard({ event, setEvents }) {
 
       {isLoggedIn && (
         <Button
-          color="secondary"
+          style={{ color: "red" }}
           onClick={() => {
             axios
               .delete("http://localhost:8000/events", {

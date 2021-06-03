@@ -42,7 +42,6 @@ function ClassPage() {
 
     useEffect(() => {
         if(changes) {
-            console.log("fetching");
             const url = new URL("http://localhost:8000/class-page");
             url.searchParams.append("id", classID);
             fetch(url).then(resp => resp.json()).then(res => {
@@ -98,6 +97,13 @@ function ClassPage() {
     return(
         <div>
             <NavBar/>
+            {(myClass !== undefined && (role === "none" || (role !== "admin" && id !==myClass.teacherID))) ? 
+            <div>
+                <h1>Class Page Unavailable</h1>
+                {role === "none" ? 
+                <h2 className={styles.grayText}>Sign in to view more information.</h2> :
+                <h2 className={styles.grayText}>Only relevant teachers and administrators can access.</h2>}
+            </div>: 
             <Grid className={styles.root} container fluid direction="row" justify="center" alignItems="center" >
                 <Grid item className={styles.mainItem}>
                     <List>
@@ -121,7 +127,7 @@ function ClassPage() {
                 <Grid item className={styles.sidePanel}>
                     {myClass!==undefined && <ClassInfoPanel myClass={myClass} handlePut={handlePutClassInfo}/>}
                 </Grid>
-            </Grid>
+            </Grid> }
             <Footer/>
         </div>
     );

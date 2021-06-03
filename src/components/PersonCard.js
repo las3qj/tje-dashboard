@@ -145,7 +145,7 @@ function PersonCard({personType,person,reload,classList, accessCode}){
             </Grid>)}
 
             {role === "admin" && (
-              <Grid item xs={1}> 
+              <Grid item xs={1} style={{paddingLeft:"6%"}}> 
                 {dob}
               </Grid>
             )}
