@@ -8,6 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 function TeacherDirectory(){
     const { role } = useContext(UserContext);
@@ -81,8 +82,8 @@ function TeacherDirectory(){
         <div>
             <NavBar/>
             <h1 style={{textAlign:"center"}}>Teacher Directory</h1>
-            <div style={{display:"flex",justifyContent:"center"}}>
-            <AddPersonForm personType="teacher" style={{ width: "20%" }} />
+            <div style={{display:"flex",justifyContent:"center", marginBottom: "1%" }}>
+            {role === "admin" && (<AddPersonForm personType="teacher" style={{ width: "20%" }} />)}
 
             <Button
             onClick={sortNameDown}
@@ -103,6 +104,7 @@ function TeacherDirectory(){
                     <PersonCard personType={personType} person={teacher} reload={getTeachers} classList={classList} key={i}/>
                 )
             })}
+            {teachers.length === 0 && <CircularProgress />}
             </Grid>
         </div>
     )

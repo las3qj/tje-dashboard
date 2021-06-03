@@ -9,6 +9,8 @@ import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress"
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -93,38 +95,53 @@ export default function StudentDirectory() {
         setStudents(newStudents)
     }
     return (
-        <div>
-            <NavBar />
-            <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ width: "100%" }}>
-
-                    <h1 style={{ textAlign: "center" }}>Student Directory</h1>
-                    {role==="admin" && (<AddPersonForm refresh={fetchStudents} reload={fetchStudents} personType="student" style={{ width: "20%" }} />)}
-                    <Button
-                        onClick={sortNameDown}
-                        startIcon={<FiArrowDown />}
-                    >
-                        Name
-                    </Button>
-                    <Button style={{paddingRight:20}}
-                        onClick={sortNameUp}
-                        startIcon={<FiArrowUp />}
-                    >
-                        Name
-                     </Button>
-                    <TextField name='value' value={search} onChange={(event) => { setSearch(event.target.value) }} placeholder={'search by last name'} />
-                </div>
-                <div className={classes.studentList} >
-                    <Grid container spacing={1} style={{ justifyContent: "center" }}>
-                        {console.log(students)}
-                        {
-                            students.map((student) => (
-                                <PersonCard person={student} key={student.id} reload={fetchStudents} classList={classList} />
-
-                            ))}
-                    </Grid>
-                </div>
-            </div>
+      <div>
+        <NavBar />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ width: "100%", marginBottom: "1%" }}>
+            <h1 style={{ textAlign: "center" }}>Student Directory</h1>
+            {role === "admin" && (
+              <AddPersonForm
+                refresh={fetchStudents}
+                reload={fetchStudents}
+                personType="student"
+                style={{ width: "20%" }}
+              />
+            )}
+            <Button onClick={sortNameDown} startIcon={<FiArrowDown />}>
+              Name
+            </Button>
+            <Button
+              style={{ paddingRight: 20 }}
+              onClick={sortNameUp}
+              startIcon={<FiArrowUp />}
+            >
+              Name
+            </Button>
+            <TextField
+              name="value"
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value);
+              }}
+              placeholder={"search by last name"}
+            />
+          </div>
+          <div className={classes.studentList} style={{margin: "auto"}}>
+            <Grid container spacing={1} style={{ justifyContent: "center" }}>
+              {console.log(students)}
+              {students.map((student) => (
+                <PersonCard
+                  person={student}
+                  key={student.id}
+                  reload={fetchStudents}
+                  classList={classList}
+                />
+              ))}
+            </Grid>
+            {students.length === 0 && <CircularProgress />}
+          </div>
         </div>
-    )
+      </div>
+    );
 }
