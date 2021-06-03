@@ -17,6 +17,7 @@ function TeacherDirectory(){
     const [search, setSearch] = useState("")
     const [sort,setSort]=useState(false);
     const [classList, setClassList] = useState([]);
+    console.log(teachers)
 
     const getTeachers=(()=>{
         fetch("http://localhost:8000/classes")
@@ -106,6 +107,7 @@ function TeacherDirectory(){
                   classList={classList}
                   sort={sort}
                   setSort={setSort}
+                  accessCode={teacher.id}
                 />
               )))}
             {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
