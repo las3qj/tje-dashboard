@@ -163,5 +163,8 @@ export default function StudentDirectory() {
                         <p>Please log in to view students.</p>
                     )}
                 </div>
+            </div>
+        </div>
     );
+
 }
