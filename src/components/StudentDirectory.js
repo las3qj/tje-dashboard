@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import AddPersonForm from "./AddPersonForm"
 import { makeStyles } from '@material-ui/core/styles';
 import PersonCard from "./PersonCard"
-import { Grid, Button, TextField } from '@material-ui/core'
+import { Grid, Button, TextField,Card } from '@material-ui/core'
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
@@ -136,6 +136,24 @@ export default function StudentDirectory() {
             />
           </div>
           <div className={classes.studentList} style={{margin: "auto"}}>
+        <div style={{paddingBottom:"10px"}}> 
+          <Card elevation={2} style={{ width: "90vw", height: "3vw", margin:"auto",paddingBottom:"10px",backgroundColor:"#2E3B55"}}>
+          <Grid container item xs={12} spacing={1} style={{alignItems: "center", height: "100%" }}>
+            <Grid item xs={2}>
+            <p style={{textAlign:"center",fontSize:20,color:"white",fontWeight:"bold"}}>Last Name</p>
+            </Grid>
+            <Grid item xs={2}>
+            <p style={{textAlign:"center",fontSize:20,color:"white",fontWeight:"bold"}}>First Name</p>
+            </Grid>
+            <Grid item xs={2}>
+            <p style={{textAlign:"center",fontSize:20,color:"white",fontWeight:"bold"}}>Contact Information</p>
+            </Grid>
+            <Grid item xs={4}>
+              <p style={{textAlign:"center",fontSize:20,color:"white",fontWeight:"bold"}}>Classes</p>
+            </Grid>
+          </Grid>
+        </Card>
+        </div>
             <Grid container spacing={1} style={{ justifyContent: "center" }}>
               {studentsToDisplay.map((student) => (
                 <PersonCard
