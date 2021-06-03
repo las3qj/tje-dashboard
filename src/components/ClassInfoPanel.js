@@ -29,6 +29,9 @@ const useStyles = makeStyles(() => ({
     teacherSelect: {
         marginTop: 9,
         marginBottom: 10,
+    },
+    bottomButton: {
+        marginTop: 10
     }
 }));
 
@@ -103,7 +106,7 @@ function ClassInfoPanel({myClass, handlePut}) {
                     <h3>Students: {myClass.students.length}</h3>
                 </Grid>
             </Grid>
-            <Button variant="contained" color={editing?"primary":"default"} onClick={()=>{
+            <Button variant="contained" color={editing?"primary":"default"} className={styles.bottomButton} onClick={()=>{
                 if(editing) {
                     handlePut({name: className, teacherID})
                 }
