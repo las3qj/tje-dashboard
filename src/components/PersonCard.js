@@ -13,14 +13,14 @@ function PersonCard({personType,person,reload,classList}){
   const dob = person.birthday;
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
-  const { role } = useContext(UserContext);
+  const { role, isLoggedIn } = useContext(UserContext);
   const [edit, setEdit] = useState(false);
 
   const saveChanges = (()=>{
     const firstName = fName;
     const lastName = lName;
     const birthday = dob;
-    const id=person.id;
+    const id = person.id;
     const classes = person.classes;
     const address = addr;
     const phone = number;
@@ -82,6 +82,10 @@ function PersonCard({personType,person,reload,classList}){
         return "No Classes";
       }
     };
+
+    let classSize = 8;
+    if (role === "admin") classSize = 4;
+    if (role === "teacher") classSize = 6;
     
     return (
       <div style={{ padding: 2, justifyContent: "center"}}>
@@ -123,7 +127,7 @@ function PersonCard({personType,person,reload,classList}){
                 <p style={{ textAlign: "center", fontSize: 18 }}>{fName}</p>
               )}
             </Grid>
-            <Grid item xs={2}>
+            {isLoggedIn && (<Grid item xs={1.5}>
               <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
@@ -136,14 +140,21 @@ function PersonCard({personType,person,reload,classList}){
           }} id="outlined-basic" label="Address" size="small" variant="outlined" defaultValue={addr}/>):<p>{person.address===undefined?"Address Unavailable":("Address: "+addr)}</p>}
                 </div>
               </Popup>
-            </Grid>
-            <Grid item xs={4}>
+            </Grid>)}
+
+            {role === "admin" && (
+              <Grid item xs={1}> 
+                {dob}
+              </Grid>
+            )}
+
+            <Grid item xs={classSize}>
               <p style={{textAlign:"center",fontSize:18}}>{formatClasses(person.classes)}</p>
             </Grid>
 
             {role === "admin" && (
               <>
-                <Grid item xs={1}>
+                <Grid item xs={.5}>
                   <IconButton
                     onClick={(e) => {
                       e.preventDefault();
@@ -153,7 +164,7 @@ function PersonCard({personType,person,reload,classList}){
                     <HighlightOffIcon />
                   </IconButton>
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={.5}>
                   {edit ? (
                     <Button onClick={() => saveChanges()} variant="outlined">Save</Button>
                   ) : (
