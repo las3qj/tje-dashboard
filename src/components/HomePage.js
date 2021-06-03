@@ -92,15 +92,8 @@ export default function HomePage() {
                          <h1 style={{marginBottom:"-100px",color:"white",fontFamily:"Times New Roman"}}>. . .</h1>
                     </div>
                 </div>
-                <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center" }} >
-                    <h2 style={{ fontSize: "3vw", color: "white", fontStyle: "normal", textAlign:"center", fontWeight:"300"}}>We're on a Mission.</h2>
-                    "At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic."
-                </div>
-                <br/>
-                <h1 style={{marginBottom:"-100px",color:"white",fontFamily:"Times New Roman"}}>. . .</h1>
             </div>
             <Footer />
-        </div>
     </div>
     );
 }
