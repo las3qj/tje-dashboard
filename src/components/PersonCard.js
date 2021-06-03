@@ -9,7 +9,6 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
 function PersonCard({personType,person,reload,classList}){
-  console.log(person.lastName)
   const { role } = useContext(UserContext);
 
   const [fName,setFName] = useState(person.firstName);

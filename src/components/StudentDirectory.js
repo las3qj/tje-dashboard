@@ -29,6 +29,7 @@ export default function StudentDirectory() {
     const { role } = useContext(UserContext);
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
+    const [students, setStudents] = useState([])
 
     useEffect(() => {
         fetch("http://localhost:8000/classes")
@@ -44,20 +45,16 @@ export default function StudentDirectory() {
         return () => clearTimeout(delayDebounceFn)
 
     }, [search])
-    const [students, setStudents] = useState([])
 
-    const searchStudents = (fetchedStudents) => {
-        var newStudents = [...fetchedStudents]
-        newStudents = newStudents.filter((student) => {
-            const name = student.lastName.toUpperCase()
-            const searchWord = search.toUpperCase()
-            return (name.indexOf(searchWord) !== -1 || searchWord === "")
-
-        }
-        )
-        console.log("filtered list:", newStudents)
-        setStudents(newStudents)
-    }
+    const searchStudents = () => {
+        let newStudents = students;
+        newStudents = newStudents.filter((teacher) => {
+            const name = teacher.lastName.toUpperCase();
+            const searchWord = search.toUpperCase();
+            return name.indexOf(searchWord) !== -1 || searchWord === "";
+        });
+        return newStudents;
+    };
 
     const fetchStudents = () => {
         const url = new URL("http://localhost:8000/students");
@@ -65,7 +62,7 @@ export default function StudentDirectory() {
         axios.get(url)
             .then(response => {
                 console.log("fetched data", response.data);
-                searchStudents(response.data)
+                setStudents(response.data)
             }, error => {
                 console.log(error);
             });
@@ -94,6 +91,9 @@ export default function StudentDirectory() {
         })
         setStudents(newStudents)
     }
+
+    const studentsToDisplay = searchStudents();
+
     return (
       <div>
         <NavBar />
@@ -129,7 +129,7 @@ export default function StudentDirectory() {
           </div>
           <div className={classes.studentList} style={{margin: "auto"}}>
             <Grid container spacing={1} style={{ justifyContent: "center" }}>
-              {students.map((student) => (
+              {studentsToDisplay.map((student) => (
                 <PersonCard
                   person={student}
                   key={student.id}
@@ -139,6 +139,7 @@ export default function StudentDirectory() {
               ))}
             </Grid>
             {students.length === 0 && <CircularProgress />}
+            {studentsToDisplay.length === 0 && students.length !== 0 && ("No results found")}
           </div>
         </div>
       </div>

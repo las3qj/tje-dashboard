@@ -12,8 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 
 function TeacherDirectory(){
     const { role } = useContext(UserContext);
-    const personType = "teacher";
-    const [teachers,setTeachers] = useState([]);
+    const [teachers,setTeachers] = useState("loading");
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
 
@@ -36,23 +35,15 @@ function TeacherDirectory(){
     },[])
 
     const searchTeachers = () => {
-        fetch("http://localhost:8000/teachers")
-        .then((resp) => {
-            return resp.json();
-            })
-            .then((obj) => {
-                let newTeachers = obj
-                newTeachers = newTeachers.filter((teacher) => {
-                    const name = teacher.lastName.toUpperCase()
-                    const searchWord = search.toUpperCase()
-                    return (name.indexOf(searchWord) !== -1 || searchWord === "")
-        
-                }
-                )
-                console.log("filtered list:", newTeachers)
-                setTeachers(newTeachers)
-            })
-    }
+        if (teachers === "loading") return []
+        let newTeachers = teachers;
+        newTeachers = newTeachers.filter((teacher) => {
+            const name = teacher.lastName.toUpperCase();
+            const searchWord = search.toUpperCase();
+            return name.indexOf(searchWord) !== -1 || searchWord === "";
+        });
+        return newTeachers;
+    };
 
     const sortNameDown = () => {
         const newTeachers = [...teachers]
@@ -80,7 +71,9 @@ function TeacherDirectory(){
         console.log(newTeachers)
         setTeachers(newTeachers)
     }
-    console.log(teachers)
+    
+    const teachersToDisplay = searchTeachers();
+    console.log(teachersToDisplay)
     return (
         <div>
             <NavBar/>
@@ -102,15 +95,16 @@ function TeacherDirectory(){
             }}placeholder={'search by last name'} />
             </div>
             <Grid container spacing={1} style={{justifyContent:"center"}}>
-            {teachers.map((teacher) => (
+            {teachers !== "loading" && (teachersToDisplay.map((teacher) => (
                 <PersonCard
                   person={teacher}
                   key={teacher.id}
                   reload={getTeachers}
                   classList={classList}
                 />
-              ))}
-            {teachers.length === 0 && <CircularProgress />}
+              )))}
+            {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
+            {teachers === "loading" && <CircularProgress /> }
             </Grid>
         </div>
     )
