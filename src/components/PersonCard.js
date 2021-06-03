@@ -3,21 +3,24 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React,{useEffect, useState} from 'react'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-function PersonCard({personType,person,edit,save,setSave}){
+function PersonCard({personType,person,edit,save,setSave,sort,setSort}){
 
-  const [fName,setFName] = useState(null);
-  const [lName,setLName] = useState(null);
-  const [dob,setDOB] = useState(null);
-  const [addr,setAddr] = useState(null);
-  const [number,setNumber] = useState(null);
+  const [fName,setFName] = useState(person.firstName);
+  const [lName,setLName] = useState(person.lastName);
+  const [dob,setDOB] = useState(person.birthday);
+  const [addr,setAddr] = useState(person.address);
+  const [number,setNumber] = useState(person.phone);
   const [classList,setClassList] = useState([]);
 
   useEffect(()=>{
+    if(sort===true){
     setFName(person.firstName)
     setLName(person.lastName)
     setDOB(person.birthday)
     setAddr(person.address)
     setNumber(person.phone)
+    setSort(false)
+    }
   })
 
 
@@ -36,13 +39,15 @@ function PersonCard({personType,person,edit,save,setSave}){
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
+      .then(()=>{window.location.reload()})
     }
     else{
       fetch("http://localhost:8000/students", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({id,firstName,lastName,birthday,classes})
+        body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
+      .then(()=>{window.location.reload()})
     }
   })
 

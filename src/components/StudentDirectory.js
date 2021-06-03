@@ -7,6 +7,7 @@ import { Grid, Button, TextField } from '@material-ui/core'
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
 import '../App.css';
+import Footer  from "./Footer"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -35,6 +36,7 @@ export default function StudentDirectory() {
     const [students, setStudents] = useState([])
     const [edit, setEdit] = useState(false);
     const [save, setSave] = useState(false);
+    const [sort,setSort]=useState(false);
 
 
     const searchStudents = (fetchedStudents) => {
@@ -72,6 +74,7 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
+        setSort(true)
     }
 
     const sortNameUp = () => {
@@ -84,6 +87,7 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
+        setSort(true)
     }
     return (
         <div>
@@ -96,9 +100,9 @@ export default function StudentDirectory() {
                     <Button onClick={() => {
                         setEdit(!edit);
                     }}>Edit</Button>
-                    <Button onClick={() => {
+                    {edit&&<Button onClick={() => {
                         setSave(true);
-                    }}>Save</Button>
+                    }}>Save</Button>}
                     <Button
                         onClick={sortNameDown}
                         startIcon={<FiArrowDown />}
@@ -118,12 +122,13 @@ export default function StudentDirectory() {
                         {console.log(students)}
                         {
                             students.map((student) => (
-                                <PersonCard person={student} edit={edit} save={save} key={student.id} setSave={setSave}/>
+                                <PersonCard personType={"student"} person={student} edit={edit} save={save} key={student.id} setSave={setSave} sort={sort} setSort={setSort}/>
 
                             ))}
                     </Grid>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

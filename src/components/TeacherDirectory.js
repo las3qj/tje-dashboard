@@ -6,6 +6,7 @@ import AddPersonForm from './AddPersonForm'
 import NavBar from "./NavBar";
 import { FiArrowDown } from "react-icons/fi";
 import { FiArrowUp } from "react-icons/fi";
+import Footer from "./Footer"
 
 function TeacherDirectory(){
     const personType = "teacher";
@@ -13,6 +14,7 @@ function TeacherDirectory(){
     const [edit,setEdit] = useState(false);
     const [save,setSave] = useState(false);
     const [search, setSearch] = useState("")
+    const [sort,setSort]=useState(false);
 
     const getTeachers=(()=>{
         fetch("http://localhost:8000/teachers")
@@ -57,6 +59,7 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
 
     const sortNameUp = () => {
@@ -69,6 +72,7 @@ function TeacherDirectory(){
             return 0;
         })
         setTeachers(newTeachers)
+        setSort(true)
     }
 
 
@@ -101,10 +105,11 @@ function TeacherDirectory(){
             <Grid container spacing={1} style={{justifyContent:"center"}}>
             {teachers.map((teacher)=>{
                 return(
-                    <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave}/>
+                    <PersonCard personType={personType} person={teacher} edit={edit} save={save} setSave={setSave} sort={sort} setSort={setSort}/>
                 )
             })}
             </Grid>
+            <Footer/>
         </div>
     )
 }
