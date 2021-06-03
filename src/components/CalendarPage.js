@@ -33,7 +33,7 @@ function CalendarPage() {
     ? events
     : events.filter((event) => convertDate(event.date) > Date.now());
 
-    document.body.style='background:"white";';
+  document.body.style = 'background:"white";';
 
   useEffect(() => {
     getCalendarEvents(setEvents);
@@ -42,15 +42,13 @@ function CalendarPage() {
   return (
     <div>
       <NavBar />
+      <h1>Calendar</h1>
       <ThemeProvider theme={theme}>
-        <h1>Calendar</h1>
-
         <AddCalendarEventDialog
           open={addEventActive}
           setOpen={setAddEventActive}
           setEvents={setEvents}
         />
-
         <div
           style={{
             display: "grid",
@@ -103,7 +101,6 @@ function CalendarPage() {
             </Button>
           )}
         </div>
-
         <div
           style={{
             display: "flex",
