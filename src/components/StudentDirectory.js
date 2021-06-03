@@ -35,16 +35,11 @@ export default function StudentDirectory() {
         fetch("http://localhost:8000/classes")
         .then((res)=> res.json())
         .then((res) => setClassList(res))
+
+        fetchStudents()
     }, [])
 
     const classes = useStyles();
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            fetchStudents()
-        }, 550)
-        return () => clearTimeout(delayDebounceFn)
-
-    }, [search])
 
     const searchStudents = () => {
         let newStudents = students;
