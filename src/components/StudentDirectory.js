@@ -56,7 +56,6 @@ export default function StudentDirectory() {
         const axios = require('axios');
         axios.get(url)
             .then(response => {
-                console.log("fetched data", response.data);
                 setStudents(response.data)
             }, error => {
                 console.log(error);

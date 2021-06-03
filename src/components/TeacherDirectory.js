@@ -63,17 +63,15 @@ function TeacherDirectory(){
             
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
             const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
-            // console.log(nameA,nameB)
             if (nameA < nameB) return 1;
             if (nameA > nameB) return -1;
             return 0;
         })
-        console.log(newTeachers)
         setTeachers(newTeachers)
     }
     
     const teachersToDisplay = searchTeachers();
-    console.log(teachersToDisplay)
+    
     return (
         <div>
             <NavBar/>
