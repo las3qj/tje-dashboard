@@ -104,7 +104,9 @@ function ClassDashboard () {
                                                     (role==="teacher" && selectedClass.teacherID===id)
                                                     ?(grade==="Outstanding"?<HappyLogo width={25} height={25}/>:
                                                      (grade==="Satisfactory"?<ConfusedLogo width={25} height={25}/>:
-                                                     <SadLogo width={25} height={25}/>)):"Hidden"}</h4>
+                                                     <SadLogo width={25} height={25}/>))
+                                                    :"Hidden"}
+                                            </h4>
                                         </div>
                                     </ListItemText>
                                 </ListItem>
@@ -114,7 +116,6 @@ function ClassDashboard () {
                     })}
                 </List>
             </Grid>
-            <Footer/>
         </div>
     );
 }
