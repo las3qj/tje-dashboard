@@ -34,7 +34,7 @@ function ClassDashboard () {
     const [studentMap, setStudentMap] = useState(undefined);
     const [students, setStudents] = useState([]);
     const [teacherMap, setTeacherMap] = useState(undefined);
-    const [changes, setChanges] = useState(true);
+    const [changes, setChanges] = useState(0);
     const styles = useStyles();
 
     const handlePost = (name, teacherID) => {
@@ -45,7 +45,7 @@ function ClassDashboard () {
             teacherID,
             name,
             students: []
-        }).then(resp => setChanges(true));
+        }).then(resp => setChanges(changes+1));
         
         const newClasses = classes;
         newClasses.push({teacherID, name, students: []});
@@ -53,16 +53,14 @@ function ClassDashboard () {
     }
 
     useEffect(() => {
-        if(changes) {
-            const url = new URL("http://localhost:8000/class-dash");
-            fetch(url).then(resp => resp.json()).then(res => {
-                setClasses(res.classes);
-                setStudentMap(res.studentMap);
-                setTeacherMap(res.teacherMap);
-            });
-            setChanges(false);
-        }
-    }, [changes]);
+        console.log('fetching');
+        const url = new URL("http://localhost:8000/class-dash");
+        fetch(url).then(resp => resp.json()).then(res => {
+            setClasses(res.classes);
+            setStudentMap(res.studentMap);
+            setTeacherMap(res.teacherMap);
+        });
+    }, [changes, role, id]);
 
     return(
         <div>
@@ -74,8 +72,10 @@ function ClassDashboard () {
                     classes.map((myClass, index) => {
                         return(
                             <ListItem button onClick={e => {
-                                setSelectedClass(myClass);
-                                setStudents(myClass.students);
+                                if(role === "admin" || role === "teacher") {
+                                    setSelectedClass(myClass);
+                                    setStudents(myClass.students);
+                                }
                             }}>
                                 <ClassItem myClass={myClass} teacherMap={teacherMap}/>
                             </ListItem>
@@ -86,7 +86,8 @@ function ClassDashboard () {
                 </List>
                 <List className={styles.list}>
                     <h1> Student Roster </h1>
-                    {selectedClass===undefined ? <h2 className={styles.grayText}>No class selected</h2> :
+                    {role === "none" ? <h2 className={styles.grayText}>Roster available only for staff and administration</h2> : 
+                    selectedClass===undefined ? <h2 className={styles.grayText}>No class selected</h2> :
                     students.length===0? <h2 className={styles.grayText}>No students in this class</h2> :
                     students.map(({studentID, grade}, index) => {
                         const student = studentMap[studentID];
