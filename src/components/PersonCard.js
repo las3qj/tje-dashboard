@@ -51,17 +51,6 @@ function PersonCard({personType,person,reload,classList}){
     }
   })
 
-  // useEffect(()=>{
-  //   fetch("http://localhost:8000/classes")
-  //     .then((resp) => {
-  //         return resp.json();
-  //         })
-  //         .then((obj) => {
-  //             setClassList(obj);
-  //         })
-
-  // },[])
-
     const formatClasses = ((classes)=>{
             if(classes){
               let result = "";
@@ -130,7 +119,7 @@ function PersonCard({personType,person,reload,classList}){
               )}
             </Grid>
             <Grid item xs={2}>
-              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button>Contact Info</Button>} position="right center">
+              <Popup contentStyle={edit?{height: "17%",width: "30%"}:{height: "15%",width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
           setNumber(evt.target.value)
@@ -161,9 +150,9 @@ function PersonCard({personType,person,reload,classList}){
                 </Grid>
                 <Grid item xs={1}>
                   {edit ? (
-                    <Button onClick={() => saveChanges()}>Save</Button>
+                    <Button onClick={() => saveChanges()} variant="outlined">Save</Button>
                   ) : (
-                    <Button onClick={() => setEdit(true)}>Edit</Button>
+                    <Button onClick={() => setEdit(true)} variant="outlined">Edit</Button>
                   )}
                 </Grid>
               </>
