@@ -129,7 +129,7 @@ function PersonCard({personType,person,reload,classList, accessCode}){
               )}
             </Grid>
             {isLoggedIn && (<Grid item xs={1.5}>
-              <Popup contentStyle={edit?{width: "30%"}:{width: "30%"}} trigger={<Button variant="outlined">Contact Info</Button>} position="right center">
+              <Popup contentStyle={edit?{width: "30%"}:{width: "30%"}} trigger={<Button variant="contained">Contact Info</Button>} position="right center">
                 <div style={{padding:5}}>
           {edit?(<TextField onChange={(evt)=>{
           setNumber(evt.target.value)
@@ -168,9 +168,9 @@ function PersonCard({personType,person,reload,classList, accessCode}){
                 </Grid>
                 <Grid item xs={.5}>
                   {edit ? (
-                    <Button onClick={() => saveChanges()} variant="outlined">Save</Button>
+                    <Button style={{backgroundColor:"#FDFD96"}} onClick={() => saveChanges()} variant="contained">Save</Button>
                   ) : (
-                    <Button onClick={() => setEdit(true)} variant="outlined">Edit</Button>
+                    <Button style={{backgroundColor:"#FDFD96"}} onClick={() => setEdit(true)} variant="contained">Edit</Button>
                   )}
                 </Grid>
               </>
