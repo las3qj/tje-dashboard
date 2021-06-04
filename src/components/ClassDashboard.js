@@ -96,7 +96,7 @@ function ClassDashboard () {
                     </List>
                     <br />
                     {(classes.length > 0 && teacherMap !== undefined && studentMap !== undefined) &&
-                        <AddClassDialog teacherMap={teacherMap} handlePost={handlePost}/>}
+                        <AddClassDialog disabled={role==="none"} teacherMap={teacherMap} handlePost={handlePost}/>}
                 </div>
                 <div>
                     <h1> Student Roster </h1>
