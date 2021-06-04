@@ -49,7 +49,7 @@ function ClassDashboard () {
 
     const handlePost = (name, teacherID) => {
         const axios = require('axios');
-        let url = "http://localhost:8000/classes";
+        let url = "/classes";
     
         axios.post(url, {
             teacherID,
@@ -64,8 +64,7 @@ function ClassDashboard () {
 
     useEffect(() => {
         console.log('fetching');
-        const url = new URL("http://localhost:8000/class-dash");
-        fetch(url).then(resp => resp.json()).then(res => {
+        fetch("/class-dash").then(resp => resp.json()).then(res => {
             setClasses(res.classes);
             setStudentMap(res.studentMap);
             setTeacherMap(res.teacherMap);

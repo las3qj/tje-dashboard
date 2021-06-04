@@ -34,7 +34,7 @@ const LoginPage = () => {
   const createAccount = async (e) => {
     e.preventDefault();
     const check = await fetch(
-      "http://localhost:8000/user/check?accessCode=" + accessCode
+      "/user/check?accessCode=" + accessCode
     );
 
     console.log(check);
@@ -46,7 +46,7 @@ const LoginPage = () => {
           .createUserWithEmailAndPassword(email, password);
         const uid = userCredential.user.uid;
         const userEmail = userCredential.user.email;
-        await axios.post("http://localhost:8000/users", {
+        await axios.post("/users", {
           uid,
           accessCode,
           email: userEmail,

@@ -19,17 +19,15 @@ export default function AddPersonForm(props) {
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
 
-
-
     const handleSubmit = () => {
         console.log("form submitted")
         const axios = require('axios');
         let url = ""
         if (props.personType === "student") {
-            url = 'http://localhost:8000/students'
+            url = '/students'
         }
         else {
-            url = 'http://localhost:8000/teachers'
+            url = '/teachers'
         }
         axios.post(url, {
             firstName,

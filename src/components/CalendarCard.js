@@ -32,7 +32,7 @@ function CalendarCard({ event, setEvents }) {
           style={{ color: "red" }}
           onClick={() => {
             axios
-              .delete("http://localhost:8000/events", {
+              .delete("/events", {
                 params: { id: event.id },
               })
               .then(() => getCalendarEvents(setEvents));

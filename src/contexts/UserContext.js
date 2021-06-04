@@ -13,7 +13,7 @@ const UserContextProvider = ({ children }) => {
     if (!user) {
       setRole("none");
     } else {
-      fetch("http://localhost:8000/user?uid=" + user.uid)
+      fetch("/user?uid=" + user.uid)
         .then((res) => res.json())
         .then((res) => {
           setRole(res.role);

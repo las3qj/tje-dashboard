@@ -18,7 +18,7 @@ function AddCalendarEventDialog({ open, setOpen, setEvents }) {
     const date =
       dateElements[1] + "/" + dateElements[2] + "/" + dateElements[0];
 
-    await axios.post("http://localhost:8000/events", {
+    await axios.post("/events", {
       name: e.target.name.value,
       desc: e.target.desc.value,
       date: date,
