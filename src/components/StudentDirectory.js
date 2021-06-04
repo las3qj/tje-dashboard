@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         minHeight: "40vh"
-
+    },
+    sortButton: {
+        margin: "0 5px 0 0"
     }
 }));
 
@@ -30,7 +32,7 @@ export default function StudentDirectory() {
     const [search, setSearch] = useState("")
     const [classList, setClassList] = useState([]);
     const [students, setStudents] = useState([]);
-    const [sort, setSort] = useState(false);
+    const [sort, setSort] = useState("none");
 
     document.body.style = 'background:"white";';
 
@@ -65,7 +67,7 @@ export default function StudentDirectory() {
             });
     }
 
-    const sortNameDown = () => {
+    const sortLastNameDown = () => {
         const newStudents = [...students]
         newStudents.sort(function (a, b) {
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
@@ -75,10 +77,10 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
-        setSort(true)
+        setSort("la-d")
     }
 
-    const sortNameUp = () => {
+    const sortLastNameUp = () => {
         const newStudents = [...students]
         newStudents.sort(function (a, b) {
             const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
@@ -88,9 +90,35 @@ export default function StudentDirectory() {
             return 0;
         })
         setStudents(newStudents)
-        setSort(true)
+        setSort("la-i")
     }
 
+
+    const sortFirstNameDown = () => {
+        const newStudents = [...students]
+        newStudents.sort(function (a, b) {
+            const nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+            const nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        })
+        setStudents(newStudents)
+        setSort("fi-d")
+    }
+
+    const sortFirstNameUp = () => {
+        const newStudents = [...students]
+        newStudents.sort(function (a, b) {
+            const nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+            const nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) return 1;
+            if (nameA > nameB) return -1;
+            return 0;
+        })
+        setStudents(newStudents)
+        setSort("fi-i")
+    }
     const studentsToDisplay = searchStudents();
 
     return (
@@ -107,16 +135,15 @@ export default function StudentDirectory() {
                             style={{ width: "20%" }}
                         />
                     )}
-                    <Button onClick={sortNameDown} startIcon={<FiArrowDown />}>
-                        Name
-            </Button>
-                    <Button
-                        style={{ paddingRight: 20 }}
-                        onClick={sortNameUp}
-                        startIcon={<FiArrowUp />}
-                    >
-                        Name
-            </Button>
+                    <Button onClick={sort==="la-d"?sortLastNameUp:sortLastNameDown} variant="outlined" className={classes.sortButton}
+                        startIcon={sort==="la-d"?<FiArrowDown />:sort==="la-i"?<FiArrowUp/>:null}>
+                        Last Name
+                    </Button>
+                    <Button onClick={sort==="fi-d"?sortFirstNameUp:sortFirstNameDown} variant="outlined" className={classes.sortButton}
+                        startIcon={sort==="fi-d"?<FiArrowDown />:sort==="fi-i"?<FiArrowUp/>:null}
+                        style={{ paddingRight: 20 }}>
+                        First Name
+                    </Button>
                     <TextField size="small" id="outlined-basic" variant="outlined"
                         name="value"
                         value={search}
@@ -157,8 +184,6 @@ export default function StudentDirectory() {
                                     key={student.id}
                                     reload={fetchStudents}
                                     classList={classList}
-                                    sort={sort}
-                                    setSort={setSort}
                                 />
                             ))}
                         </Grid>
