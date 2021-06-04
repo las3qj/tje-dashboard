@@ -1,7 +1,7 @@
 import {useState, useContext} from 'react';
 import { UserContext } from "../contexts/UserContext";
 import {Button, Dialog, DialogActions, DialogContent, InputLabel,
-  DialogContentText, DialogTitle, TextField, makeStyles, Select, MenuItem} from '@material-ui/core';
+  DialogContentText, DialogTitle, TextField, Tooltip, Select, MenuItem} from '@material-ui/core';
 
 function AddClassDialog({teacherMap, handlePost}) {
   const [open, setOpen] = useState(false);
@@ -12,9 +12,14 @@ function AddClassDialog({teacherMap, handlePost}) {
 
   return (
     <div>
-      <Button variant="contained" disabled={role==="none"} onClick={() => setOpen(true)}>
-        Add new class
-      </Button>
+      <Tooltip title="Log in to add classes" disableFocusListener={role!=="none"} 
+        disableHoverListener={role!=="none"} disableTouchListener={role!=="none"} arrow>
+        <span>
+          <Button variant="contained" disabled={role==="none"} onClick={() => setOpen(true)}>
+            Add new class
+          </Button>
+        </span>
+      </Tooltip>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle id="form-dialog-title">Add new class</DialogTitle>
         <DialogContent>
@@ -32,18 +37,23 @@ function AddClassDialog({teacherMap, handlePost}) {
           />
           <br/><br/>
           <InputLabel id="teacher-label">Teacher</InputLabel>
-          <Select
-            labelId="teacher-label"
-            id="teacher"
-            value={teacher}
-            disabled={role !== "admin"}
-            onChange={e=>setTeacher(e.target.value)}
-          >
-            {Object.getOwnPropertyNames(teacherMap).map(id => 
-              <MenuItem value={id}>{teacherMap[id].lastName}, {teacherMap[id].firstName}</MenuItem>
-            )}
+          <Tooltip title="Only administrators can change teacher." disableFocusListener={role==="admin"} 
+            disableHoverListener={role==="admin"} disableTouchListener={role==="admin"} arrow>
+            <span>
+              <Select
+                labelId="teacher-label"
+                id="teacher"
+                value={teacher}
+                disabled={role !== "admin"}
+                onChange={e=>setTeacher(e.target.value)}
+              >
+                {Object.getOwnPropertyNames(teacherMap).map(id => 
+                  <MenuItem value={id}>{teacherMap[id].lastName}, {teacherMap[id].firstName}</MenuItem>
+                )}
 
-          </Select>
+              </Select>
+            </span>
+          </Tooltip>
 
         </DialogContent>
         <DialogActions>
