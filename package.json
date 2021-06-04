@@ -1,7 +1,8 @@
 {
   "name": "tje-dashboard",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "main": "server/app.js",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
@@ -27,12 +28,15 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/app.js",
+    "react-start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev-server": "nodemon server/app.js --watch server/app.js"
+    "dev-server": "nodemon server/app.js --watch server/app.js",
+    "heroku-postbuild": "npm install && npm run build"
   },
+  "proxy": "http://localhost:8000",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -53,5 +57,8 @@
   },
   "devDependencies": {
     "lato-font": "^3.0.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
