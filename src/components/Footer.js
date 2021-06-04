@@ -4,7 +4,7 @@ function Footer(){
     return(
         <footer style={{marginTop: "180px"}}>
         <Box  style={{backgroundColor:'#2E3B55'}}>
-            <Grid style={{paddingTop:"1%",paddingBottom:"2%"}}container item xs={12} spacing={1}>
+            <Grid style={{paddingTop:"1%",paddingBottom:"1%"}}container item xs={12} spacing={1}>
             <Grid item xs={4} style={{paddingTop:"1.5%"}}>
             <div style={{paddingLeft:"8%"}}>
             <h1 style={{color:"white",textAlign:"left",marginBottom:"-23px"}}>We are</h1>
