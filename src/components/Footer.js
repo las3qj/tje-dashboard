@@ -4,7 +4,7 @@ function Footer(){
     return(
         <footer style={{marginTop: "180px"}}>
         <Box  style={{backgroundColor:'#2E3B55'}}>
-            <Grid style={{paddingTop:"1%",paddingBottom:"2%"}}container item xs={12} spacing={1}>
+            <Grid style={{paddingTop:"1%",paddingBottom:"1%"}}container item xs={12} spacing={1}>
             <Grid item xs={4} style={{paddingTop:"1.5%"}}>
             <div style={{paddingLeft:"8%"}}>
             <h1 style={{color:"white",textAlign:"left",marginBottom:"-23px"}}>We are</h1>
@@ -16,7 +16,7 @@ function Footer(){
                 <div style={{paddingLeft:40}}>
                 <h1 style={{marginBottom:"-10px"}}>🌎 📖 🏆</h1>
                 <h4 style={{color:"#FDFD96",marginBottom:"-3px",fontSize:"1.2vw"}}>Positivity. Respect. Diversity. Education. Comradery.</h4>
-                <p style={{color:"white",fontSize:"1vw",textAlign:"justify"}}>At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.</p>
+                <p style={{color:"white",fontSize:"1vw",textAlign:"justify", fontWeight:"200"}}>At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic.</p>
                 </div>
             </Grid>
             <Grid item xs={4}>

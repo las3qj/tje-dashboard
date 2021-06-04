@@ -68,24 +68,24 @@ export default function HomePage() {
                     </div>
                     <div className={classes.mission}>
 
-                        <div style={{ display: "flex", flexDirection: "column", flex: 1, margin:"auto ",alignItems:"center",fontSize: "1.8vw", color: "#FDFD96"}}>
+                        <div style={{ display: "flex", flexDirection: "column", flex: 1, margin:"auto ",alignItems:"center",fontSize: "1.8vw", color: "#FDFD96", paddingTop:"3vh"}}>
 
-                            <h2 style={{ fontSize: "3vw", color: "white",textAlign:"center",fontWeight:"300"}}>These Are Our Values.</h2>
+                            <h2 style={{ fontSize: "3vw", color: "white",textAlign:"center",fontWeight:"bold",marginBottom:"30px"}}>These Are Our Values.</h2>
                             <div className={classes.value}>
                                <img className={classes.icon} src={positivity} alt="Positivity" />
-                                Positivity
+                                <mark style={{background:"none",fontWeight:"200",color:"#FDFD96",paddingTop:"12px"}}>Positivity</mark>
                                 <img className={classes.icon} src={respect} alt="Respect" />
-                                Respect
+                                <mark style={{background:"none",fontWeight:"200",color:"#FDFD96",paddingTop:"12px"}}>Respect</mark>
                                 <img className={classes.icon} src={diversity} alt="Diversity"/>
-                                Diversity
+                                <mark style={{background:"none",fontWeight:"200",color:"#FDFD96",paddingTop:"12px"}}>Diversity</mark>
                                 <img className={classes.icon} src={education} alt="Education"/>
-                                Education
+                                <mark style={{background:"none",fontWeight:"200",color:"#FDFD96",paddingTop:"12px"}}>Education</mark>
                                 <img className={classes.icon} src={comradery} alt="Comradery"/>
-                                Comradery
+                                <mark style={{background:"none",fontWeight:"200",color:"#FDFD96",paddingTop:"12px"}}>Comradery</mark>
                             </div>
                         </div>
-                        <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center" }} >
-                            <h2 style={{ fontSize: "3vw", color: "white", fontStyle: "normal", textAlign:"center", fontWeight:"300"}}>We're on a Mission.</h2>
+                        <div style={{ flex: 1, fontSize: "1.8vw", color: "#FDFD96", paddingLeft: 200, paddingRight: 200, textAlign:"center", fontWeight:"200"}} >
+                            <h2 style={{ fontSize: "3vw", color: "white", fontStyle: "normal", textAlign:"center", fontWeight:"bold"}}>We're on a Mission.</h2>
                            "At Thomas Jefferson Elementary School, we are a diverse community of global citizens and lifelong learners that lead by example. We believe in the power of positivity, respect, and cooperation. We manifest our potential through confidence and work ethic."
                          </div>
                          <br/>
