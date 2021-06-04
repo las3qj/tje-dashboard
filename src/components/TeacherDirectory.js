@@ -160,8 +160,8 @@ function TeacherDirectory() {
                     />
                 )))}
                 {teachersToDisplay.length === 0 && teachers !== "loading" && ("No results found")}
-            </Grid>
             {teachers === "loading" && <CircularProgress />}
+            </Grid>
             <Footer />
         </div>
     )
