@@ -92,7 +92,7 @@ export default function HomePage() {
                          <h1 style={{marginBottom:"-100px",color:"white",fontFamily:"Times New Roman"}}>. . .</h1>
                     </div>
                 </div>
-                </div> 
+            </div>
             <Footer />
     </div>
     );

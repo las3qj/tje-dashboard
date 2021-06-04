@@ -1,4 +1,4 @@
-import {Grid, makeStyles, Divider, Button, TextField, Select, InputLabel, MenuItem} from '@material-ui/core';
+import {Grid, makeStyles, Divider, Button, TextField, Select, InputLabel, MenuItem, Tooltip} from '@material-ui/core';
 import {useState, useEffect, useContext} from 'react';
 import { UserContext } from "../contexts/UserContext";
 import {ReactComponent as HappyLogo} from './gradeIcons/happy.svg';
@@ -83,18 +83,23 @@ function ClassInfoPanel({myClass, handlePut}) {
                     {editing?
                     <div className={styles.teacherSelect}>
                         <InputLabel id="teacher-label">Taught by</InputLabel>
-                        <Select
-                            labelId="teacher-label"
-                            id="teacher"
-                            value={teacherID}
-                            SelectDisplayProps={{style: {fontSize: 20}}}
-                            disabled={role !== "admin"}
-                            onChange={e=>setTeacherID(e.target.value)}
-                        >
-                            {Object.getOwnPropertyNames(teacherMap).map(id => 
-                                <MenuItem value={id}>{teacherMap[id].lastName}, {teacherMap[id].firstName}</MenuItem>
-                            )}
-                        </Select>
+                        <Tooltip title="Only administrators can change teacher." disableFocusListener={role==="admin"} 
+                            disableHoverListener={role==="admin"} disableTouchListener={role==="admin"} arrow>
+                            <span>
+                                <Select
+                                    labelId="teacher-label"
+                                    id="teacher"
+                                    value={teacherID}
+                                    SelectDisplayProps={{style: {fontSize: 20}}}
+                                    disabled={role !== "admin"}
+                                    onChange={e=>setTeacherID(e.target.value)}
+                                >
+                                    {Object.getOwnPropertyNames(teacherMap).map(id => 
+                                        <MenuItem value={id}>{teacherMap[id].lastName}, {teacherMap[id].firstName}</MenuItem>
+                                    )}
+                                </Select>
+                            </span>
+                        </Tooltip>
                     </div>
                     :<h2>Taught by: {teacherMap!==undefined && 
                         (teacherMap[teacherID].lastName+", "+teacherMap[teacherID].firstName)}</h2>}
