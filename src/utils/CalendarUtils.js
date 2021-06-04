@@ -1,5 +1,5 @@
 const getCalendarEvents = (setEvents) => {
-  fetch("http://localhost:8000/events")
+  fetch("/events")
     .then((res) => res.json())
     .then((res) => {
       res = res.sort((a, b) => convertDate(a.date) - convertDate(b.date));

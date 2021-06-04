@@ -27,14 +27,14 @@ function PersonCard({personType,person,reload,classList, accessCode}){
     const phone = number;
 
     if(personType==="teacher"){
-      fetch("http://localhost:8000/teachers", {
+      fetch("/teachers", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
       })
       .then(()=>{reload()})
     } else{
-      fetch("http://localhost:8000/students", {
+      fetch("/students", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({id,firstName,lastName,birthday,classes,address,phone})
@@ -46,13 +46,13 @@ function PersonCard({personType,person,reload,classList, accessCode}){
 
   const removePerson=(()=>{
     if(personType==="teacher"){
-      fetch("http://localhost:8000/teachers?id="+person.id, {
+      fetch("/teachers?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})
     }
     else{
-      fetch("http://localhost:8000/students?id="+person.id, {
+      fetch("/students?id="+person.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       }).then(()=>{reload()})

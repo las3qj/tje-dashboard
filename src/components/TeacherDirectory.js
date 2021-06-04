@@ -22,11 +22,11 @@ function TeacherDirectory() {
     console.log(teachers)
 
     const getTeachers = (() => {
-        fetch("http://localhost:8000/classes")
+        fetch("/classes")
             .then((res) => res.json())
             .then((res) => setClassList(res))
 
-        fetch("http://localhost:8000/teachers")
+        fetch("/teachers")
             .then((resp) => {
                 return resp.json();
             })

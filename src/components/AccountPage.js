@@ -19,7 +19,7 @@ function AccountPage() {
 
   const saveAccessCode = () => {
     axios
-      .put("http://localhost:8000/users", {
+      .put("/users", {
         user: user.uid,
         accessCode: newAccessCode,
       })
@@ -32,7 +32,7 @@ function AccountPage() {
   const handleDelete = async () => {
     if (!window.confirm("Delete Account?")) return null;
     await user.delete()
-    await axios.delete("http://localhost:8000/users", {data: {user: user.uid}})
+    await axios.delete("/users", {data: {user: user.uid}})
     history.push("/")
   }
 

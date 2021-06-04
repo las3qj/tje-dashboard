@@ -45,9 +45,7 @@ function ClassPage() {
 
     useEffect(() => {
         if(changes) {
-            const url = new URL("http://localhost:8000/class-page");
-            url.searchParams.append("id", classID);
-            fetch(url).then(resp => resp.json()).then(res => {
+            fetch("/class-page?id=" + classID).then(resp => resp.json()).then(res => {
                 console.log(res);
                 setMyClass(res.myClass);
                 setStudentMap(res.studentMap);
@@ -59,16 +57,14 @@ function ClassPage() {
     const handlePutNewStudent = (studentID) => {
         const newClass = {...myClass};
         newClass.students.push({studentID, grade: "Outstanding"});
-        const url = "http://localhost:8000/class-page/add-student";
-        axios.put(url, {id: classID, student: {studentID, grade: "Outstanding"}}).then(resp => {
+        axios.put("/class-page/add-student", {id: classID, student: {studentID, grade: "Outstanding"}}).then(resp => {
             setChanges(true);
         })
         setMyClass(newClass);
     }
 
     const handlePutStudentGrade = (student) => {
-        const url = "http://localhost:8000/class-page/change-student-grade";
-        axios.put(url, {id: classID, student}).then(resp => {
+        axios.put("/class-page/change-student-grade", {id: classID, student}).then(resp => {
             setChanges(true);
         });
         const newClass = {...myClass};
@@ -78,8 +74,7 @@ function ClassPage() {
     }
 
     const handleDeleteStudent = (studentID) => {
-        const url = "http://localhost:8000/class-page/delete-student";
-        axios.put(url, {id: classID, studentID}).then(resp => {
+        axios.put("/class-page/delete-student", {id: classID, studentID}).then(resp => {
             setChanges(true);
         });
         const newClass = {...myClass};
@@ -89,8 +84,7 @@ function ClassPage() {
     }
 
     const handlePutClassInfo = ({name, teacherID}) => {
-        const url = "http://localhost:8000/class-page/change-class-info";
-        axios.put(url, {id: classID, name, teacherID}).then(resp => {
+        axios.put("/class-page/change-class-info", {id: classID, name, teacherID}).then(resp => {
             setChanges(true);
         });
         const newClass = {...myClass, name, teacherID};

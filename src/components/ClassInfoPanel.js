@@ -53,9 +53,7 @@ function ClassInfoPanel({myClass, handlePut}) {
     const styles = useStyles();
 
     useEffect(() => {
-        console.log("teachermap");
-        const url = new URL("http://localhost:8000/teachers/map");
-        fetch(url).then(resp => resp.json()).then(res => {
+        fetch("/teachers/map").then(resp => resp.json()).then(res => {
             console.log(res);
             setTeacherMap(res);
         });

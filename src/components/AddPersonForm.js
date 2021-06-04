@@ -25,9 +25,8 @@ export default function AddPersonForm(props) {
     }, [])
 
     const fetchClasses = () => {
-        const url = new URL("http://localhost:8000/classes");
         const axios = require('axios');
-        axios.get(url)
+        axios.get("/classes")
             .then(response => {
                 console.log(response.data);
                 setAllClasses(response.data)
@@ -42,10 +41,10 @@ export default function AddPersonForm(props) {
         const axios = require('axios');
         let url = ""
         if (props.personType === "student") {
-            url = 'http://localhost:8000/students'
+            url = '/students'
         }
         else {
-            url = 'http://localhost:8000/teachers'
+            url = '/teachers'
         }
         axios.post(url, {
             firstName,

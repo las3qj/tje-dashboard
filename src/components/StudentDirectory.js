@@ -37,7 +37,7 @@ export default function StudentDirectory() {
     document.body.style = 'background:"white";';
 
     useEffect(() => {
-        fetch("http://localhost:8000/classes")
+        fetch("/classes")
             .then((res) => res.json())
             .then((res) => setClassList(res))
 
@@ -57,14 +57,13 @@ export default function StudentDirectory() {
     };
 
     const fetchStudents = () => {
-        const url = new URL("http://localhost:8000/students");
-        const axios = require('axios');
-        axios.get(url)
-            .then(response => {
-                setStudents(response.data)
-            }, error => {
-                console.log(error);
-            });
+        fetch("/students")
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((obj) => {
+                setStudents(obj);
+            })
     }
 
     const sortLastNameDown = () => {
