@@ -12,7 +12,7 @@ function AddClassDialog({teacherMap, handlePost}) {
 
   return (
     <div>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" disabled={role==="none"} onClick={() => setOpen(true)}>
         Add new class
       </Button>
       <Dialog open={open} onClose={handleClose}>
