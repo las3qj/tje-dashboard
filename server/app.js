@@ -12,11 +12,11 @@ const port = 8000;
 const get = async (collection, id) => {
     const ref = db.collection(collection).doc(id);
     const doc = await ref.get();
-    if(!doc.exists) {
+    if (!doc.exists) {
         console.log('no such doc');
         return undefined;
     }
-    return {...doc.data()};
+    return { ...doc.data() };
 }
 
 // getAll method
@@ -37,7 +37,7 @@ const getMap = async (collection) => {
     const snapshot = await db.collection(collection).get();
     const map = {};
     snapshot.forEach(doc => {
-        const each = {...doc.data()};
+        const each = { ...doc.data() };
         map[doc.id] = each;
     });
     return map;
@@ -101,25 +101,25 @@ app.get("/user", async (req, res) => {
         const teacher = await db.collection("teacher").doc(accessCode).get();
         const admin = await db.collection("admin").doc(accessCode).get();
         if (admin.exists) {
-        res
-            .json({
-            role: "admin",
-            id: accessCode,
-            firstName: admin.data().firstName,
-            lastName: admin.data().lastName,
-            })
-            .end();
+            res
+                .json({
+                    role: "admin",
+                    id: accessCode,
+                    firstName: admin.data().firstName,
+                    lastName: admin.data().lastName,
+                })
+                .end();
         } else if (teacher.exists) {
-        res
-            .json({
-            role: "teacher",
-            id: accessCode,
-            firstName: teacher.data().firstName,
-            lastName: teacher.data().lastName,
-            })
-            .end();
+            res
+                .json({
+                    role: "teacher",
+                    id: accessCode,
+                    firstName: teacher.data().firstName,
+                    lastName: teacher.data().lastName,
+                })
+                .end();
         } else {
-        res.send({ role: "none" }).end();
+            res.send({ role: "none" }).end();
         }
     }
 });
@@ -147,12 +147,11 @@ app.get("/user/check", async (req, res) => {
 app.post('/teachers', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const classes = req.body.classes;
     const birthday = req.body.birthday;
     const address = req.body.address;
     const phone = req.body.phone
     try {
-        db.collection("teacher").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+        db.collection("teacher").add({ firstName, lastName, birthday, address, phone }).then(resp => res.sendStatus(200).end());
     } catch (error) {
         console.log(error)
         res.sendStatus(500).end()
@@ -162,11 +161,10 @@ app.post('/teachers', (req, res) => {
 app.post('/students', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const classes = req.body.classes;
     const birthday = req.body.birthday;
     const address = req.body.address;
     const phone = req.body.phone
-    db.collection("student").add({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
+    db.collection("student").add({ firstName, lastName, birthday, address, phone }).then(resp => res.sendStatus(200).end());
 })
 
 app.post('/classes', (req, res) => {
@@ -188,7 +186,7 @@ app.post("/users", async (req, res) => {
     const email = req.body.email
     const accessCode = req.body.accessCode;
     try {
-        await db.collection("user").doc(uid).set({accessCode, email})
+        await db.collection("user").doc(uid).set({ accessCode, email })
         res.sendStatus(200).end()
     } catch (error) {
         console.log(error)
@@ -242,7 +240,7 @@ app.put('/teachers', (req, res) => {
     const birthday = req.body.birthday;
     const phone = req.body.phone;
     try {
-        db.collection("teacher").doc(id).set({firstName, lastName, classes, birthday, address, phone}).then(resp => res.sendStatus(200).end());
+        db.collection("teacher").doc(id).set({ firstName, lastName, classes, birthday, address, phone }).then(resp => res.sendStatus(200).end());
     } catch (error) {
         console.log(error)
         res.sendStatus(500).end()
@@ -258,7 +256,7 @@ app.put('/students', (req, res) => {
     const birthday = req.body.birthday;
     const phone = req.body.phone;
     try {
-        db.collection("student").doc(id).set({firstName, lastName, classes, birthday, address, phone}, { merge: true }).then(resp => res.sendStatus(200).end());
+        db.collection("student").doc(id).set({ firstName, lastName, classes, birthday, address, phone }, { merge: true }).then(resp => res.sendStatus(200).end());
     } catch (error) {
         console.log(error)
         res.sendStatus(500).end()
@@ -289,25 +287,25 @@ app.put('/events', (req, res) => {
 app.put('/users', (req, res) => {
     const user = req.body.user;
     const accessCode = req.body.accessCode;
-    db.collection("user").doc(user).set({ accessCode }, {merge: true}).then(resp => res.sendStatus(200).end());
+    db.collection("user").doc(user).set({ accessCode }, { merge: true }).then(resp => res.sendStatus(200).end());
 })
 
 // composite routes
 
 app.get('/class-dash', async (req, res) => {
     const [classes, studentMap, teacherMap] = await Promise.all([getAll('class'), getMap('student'), getMap('teacher')]);
-    res.json({classes, studentMap, teacherMap});
+    res.json({ classes, studentMap, teacherMap });
 
 })
 
 app.get('/class-page', async (req, res) => {
     const id = req.query.id;
     const [myClass, studentMap] = await Promise.all([get('class', id), getMap('student')]);
-    res.json({myClass, studentMap});
+    res.json({ myClass, studentMap });
 })
 
 app.put('/class-page/add-student', async (req, res) => {
-    const id = req.body.id; 
+    const id = req.body.id;
     const student = req.body.student;
     const newClass = await get('class', id);
     newClass.students.push(student);
@@ -315,8 +313,8 @@ app.put('/class-page/add-student', async (req, res) => {
     const newStudent = await get('student', student.studentID);
     newStudent.classes.push(id);
 
-    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
-        db.collection('student').doc(student.studentID).set(newStudent)]);
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass),
+    db.collection('student').doc(student.studentID).set(newStudent)]);
     res.sendStatus(200).end();
 })
 
@@ -330,8 +328,8 @@ app.put('/class-page/delete-student', async (req, res) => {
     const newStudent = await get('student', studentID);
     const index2 = newStudent.classes.findIndex(cID => cID === id);
     newStudent.classes.splice(index2, 1);
-    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass), 
-        db.collection('student').doc(studentID).set(newStudent)]);
+    const [resp1, resp2] = await Promise.all([db.collection('class').doc(id).set(newClass),
+    db.collection('student').doc(studentID).set(newStudent)]);
     res.sendStatus(200).end();
 })
 

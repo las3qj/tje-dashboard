@@ -17,25 +17,8 @@ export default function AddPersonForm(props) {
     const [lastName, setLastName] = useState("")
     const [birthday, setBirthday] = useState("")
     const [address, setAddress] = useState("")
-    const [homeroom, setHomeroom] = useState([""])
     const [phone, setPhone] = useState("")
-    const [allClasses, setAllClasses] = useState([])
-    useEffect(() => {
-        fetchClasses()
-    }, [])
 
-    const fetchClasses = () => {
-        const axios = require('axios');
-        axios.get("/classes")
-            .then(response => {
-                console.log(response.data);
-                setAllClasses(response.data)
-            }, error => {
-                console.log(error);
-            });
-
-
-    }
     const handleSubmit = () => {
         console.log("form submitted")
         const axios = require('axios');
@@ -49,13 +32,17 @@ export default function AddPersonForm(props) {
         axios.post(url, {
             firstName,
             lastName,
-            classes: homeroom,
             birthday,
             address,
             phone
         })
             .then((response) => {
                 props.reload();
+                setFirstName("")
+                setLastName("")
+                setBirthday("")
+                setAddress("")
+                setPhone("")
 
             }, (error) => {
                 console.log(error);
@@ -66,7 +53,7 @@ export default function AddPersonForm(props) {
     return (
         <Popup
             trigger={<Button className="button"> Add a {props.personType} </Button>}
-            contentStyle={{height: "450px",width: "700px"}}
+            contentStyle={{ height: "450px", width: "700px" }}
 
             modal
             nested
@@ -74,52 +61,42 @@ export default function AddPersonForm(props) {
             {close => (
                 <div className="modal">
                     <IconButton className="close" onClick={close}>
-                        <CloseIcon/>
-                     </IconButton>
-                     <FormControl style={{paddingLeft:"2vw"}}>
-                    <div className="header"> 
-                        <h1>Add a {props.personType}.</h1>
-                    </div>
-                    <div className="content">
+                        <CloseIcon />
+                    </IconButton>
+                    <FormControl style={{ paddingLeft: "2vw" }}>
+                        <div className="header">
+                            <h1>Add a {props.personType}.</h1>
+                        </div>
+                        <div className="content">
 
-                        <TextField id="my-input" style={{paddingRight:40}}value={firstName} label="First Name" onChange={(e) => { setFirstName(e.target.value) }} />
-                        <TextField id="my-input" value={lastName} label="Last Name" onChange={(e) => { setLastName(e.target.value) }} />
-                        <br/>
-                        <br/>
-                        <TextField id="my-input" style={{paddingRight:40}} value={birthday} label="Birthday" onChange={(e) => { setBirthday(e.target.value) }} />
-                        <TextField id="my-input" style={{paddingRight:40}} value={address} label="Address" onChange={(e) => { setAddress(e.target.value) }} />
-                        <TextField id="my-input" style={{paddingRight:40}} value={phone} label="Home Phone" onChange={(e) => { setPhone(e.target.value) }} />
-                        <br/>
-                        <br/>
-                        <Autocomplete
-                            id="combo-box-demo"
-                            options={allClasses}
-                            getOptionLabel={(option) => option.name}
-                            style={{ width: 300 }}
-                            onChange={(e, v) => {
-                                console.log(v)
-                                setHomeroom(v.id)
-                            }}
-                            renderInput={(params) => <TextField {...params} label={props.personType==="teacher"?"Class":"Homeroom"} variant="outlined" />}
-                        />
-                        <br/>
-                        <br/>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ width: "7em" ,backgroundColor:"#2E3B55"}}
-                            className="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSubmit()
-                                close();
-                            }}
-                        >
-                            Submit
+                            <TextField id="my-input" style={{ paddingRight: 40 }} value={firstName} label="First Name" onChange={(e) => { setFirstName(e.target.value) }} />
+                            <TextField id="my-input" value={lastName} label="Last Name" onChange={(e) => { setLastName(e.target.value) }} />
+                            <br />
+                            <br />
+                            <TextField id="my-input" style={{ paddingRight: 40 }} value={birthday} label="Birthday" onChange={(e) => { setBirthday(e.target.value) }} />
+                            <TextField id="my-input" style={{ paddingRight: 40 }} value={address} label="Address" onChange={(e) => { setAddress(e.target.value) }} />
+                            <TextField id="my-input" style={{ paddingRight: 40 }} value={phone} label="Home Phone" onChange={(e) => { setPhone(e.target.value) }} />
+                            <br />
+                            <br />
+
+
+                            <br />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ width: "7em", backgroundColor: "#2E3B55" }}
+                                className="button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleSubmit()
+                                    close();
+                                }}
+                            >
+                                Submit
                              </Button>
 
 
-                    </div>
+                        </div>
                     </FormControl>
                 </div>
             )}

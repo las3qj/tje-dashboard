@@ -11,7 +11,7 @@ function PersonCard({personType,person,reload,classList, accessCode}){
 
   const [fName,setFName] = useState(person.firstName);
   const [lName,setLName] = useState(person.lastName);
-  const dob = person.birthday;
+  const [dob,setDOB] = useState(person.birthday);
   const [addr,setAddr] = useState(person.address);
   const [number,setNumber] = useState(person.phone);
   const { role, isLoggedIn } = useContext(UserContext);
@@ -145,8 +145,23 @@ function PersonCard({personType,person,reload,classList, accessCode}){
             </Grid>)}
 
             {role === "admin" && (
-              <Grid item xs={1} style={{paddingLeft:"6%"}}> 
-                {dob}
+              <Grid item xs={1} style={!edit?{paddingLeft:"5%"}:{paddingLeft:"3%"}}> 
+                {edit ? (
+                <div>
+                  <TextField
+                    onChange={(evt) => {
+                      setDOB(evt.target.value);
+                    }}
+                    id="outlined-basic"
+                    label="D.O.B."
+                    size="small"
+                    variant="outlined"
+                    defaultValue={dob}
+                  />
+                </div>
+              ) : (
+                <p style={{ textAlign: "center", fontSize: 18 }}>{dob}</p>
+              )}
               </Grid>
             )}
 
