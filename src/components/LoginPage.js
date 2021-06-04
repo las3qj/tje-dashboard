@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import Footer from "./Footer"
 
 const LoginPage = () => {
   document.body.style='background:"white";';
@@ -127,6 +128,7 @@ const LoginPage = () => {
         </Button>
       </form>
       </div>
+      <Footer/>
     </div>
   );
 };
